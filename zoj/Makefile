@@ -8,9 +8,9 @@ BIN     += $(patsubst %.cpp, %.cout, $(SRCC))
 all:${BIN}
 
 %.out:%.c
-	gcc -o a a.cpp -DDEBUG -g -Wall
+	gcc -o $@ $^ -DDEBUG -g -Wall
 
 %.cout:%.cpp
-	g++ -o a a.cpp -DDEBUG -g -Wall
+	g++ -o $@ $^ -DDEBUG -g -Wall
 clean:
 	rm *.cout *.out

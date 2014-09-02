@@ -45,26 +45,28 @@ int  main(void)
       for(int currCase = 1; currCase <= cases; currCase++){
             CLR(rangeTable);
             CIN >> line;
+            
+            int stop  = -1;
             for(int currLine = 1; currLine <= line; currLine++){
                 CIN >> start >> end;
                 rangeTable[start] = rangeTable[start] < end ? end : rangeTable[start];
+                stop = stop < end ? end : stop;
             }
-            int start = 1;      /*range wait to be used */
-            int blank = 1;      /*blank range start pos*/
+
+            int blank = 1;       
             int ans   = 0;
-            end = line;
-            while(blank <= end){
-                int choose;
-                int mark = -1;
-                for(; start <= blank; start++){
-                        if(rangeTable[start] >= blank && rangeTable[start]>= mark){
-                                    choose = start;
-                                    mark   = rangeTable[start];
+            while(blank <= stop){
+
+                int mark = blank;
+                for(int idx = 1; idx <= blank; idx++){
+                        if(rangeTable[idx] >= mark){
+                                    mark   = rangeTable[idx];
                         }
                 }
-                start = choose + 1;
                 blank = mark + 1;
+                ans++;
             }
+
             COUT << ans << "\n";
       }
     return 0;
