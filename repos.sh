@@ -40,9 +40,6 @@ case "$1" in
     "pushtag" )
         git push git@github.com:${2}/${3}.git --tag
         ;;
-    "clean")
-        sed -i 's/\(<pwd>\)\(.*\)\(<\/pwd>\)/\1??\3/' mikurobot.xml
-        ;;
     * ) 
         echo "Help"
         echo "./repos.sh record         => record patch"

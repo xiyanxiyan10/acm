@@ -24,39 +24,6 @@ ofstream out;
 
 #define CLR(vec)  memset(vec, 0, sizeof(vec))  
 
-char matchComplete(string str){
-    char ret;
-    if(str.size() < 4)
-            ret = '!';
-    if(0 == str.find("190"))
-            ret = '?';
-    else
-            ret = '!';
-    return ret;
-}
-
-char matchFail(string str){
-    char ret;
-    if(str.size() < 3)
-            ret = '!';
-    if('9' == str[0] && '4' == str[str.size() - 1])
-            ret = '*';
-    else
-            ret = '!';
-    return ret;   
-}
-
-char matchNeg(string str){
-    char ret;
-    if(str.size() < 3)
-            ret = '!';
-    if('5' == str[str.size() - 1] && '3' == str[str.size() - 2])
-            ret = '-';
-    else
-            ret = '!';
-    return ret;   
-}
-
 int  main(void)
 {
 #ifdef DEBUG
@@ -73,25 +40,17 @@ int  main(void)
       string str;
       CIN >> cases;
       while(cases--){
-            char ans;
             CIN >> str;
-            do{
-                ans = matchFail(str);
-                if(ans != '!')
-                    break;
-
-                ans = matchComplete(str);
-                if(ans != '!')
-                    break;
-
-            
-                ans = matchNeg(str);
-                if(ans != '!')
-                    break;
-
-                ans = '+';
-            
-            }while(0);
+            int len = str.size();
+            char ans;
+            if(len <= 2)
+                    ans = '+';
+            else if('5' == str[len - 1] && '3' == str[len - 2])
+                    ans = '-';
+            else if('9' == str[0] && '4' == str[len - 1])
+                    ans = '*';
+            else
+                    ans = '?';
             COUT << ans << endl;
       }
 
