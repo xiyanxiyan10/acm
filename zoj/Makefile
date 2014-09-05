@@ -8,7 +8,7 @@ BIN     += $(patsubst %.cpp, %.cout, $(SRCC))
 all:${BIN}
 
 %.out:%.c
-	gcc -o $@ $^ -DDEBUG -g -Wall
+	gcc -o $@ $^ -DDEBUG -g -Wall -lm
 
 %.cout:%.cpp
 	g++ -o $@ $^ -DDEBUG -g -Wall
