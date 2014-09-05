@@ -6,52 +6,52 @@
 #define CLR(vec) memset(vec, 0, sizeof(vec))
 #define MAXN 40
 
+typedef unsigned long long int ll;
+
 char buf[MAXN];
 
 int main(void)
 {
     int tot_case, curr_case;
-    long long int  num;
-    long long int ans;
-    double tmp;
+    ll base, sum, num, ans;
 
 #ifdef DEBUG
     freopen("./in", "r", stdin);
     freopen("./out", "w",  stdout);
+    printf("Output\n");
 #endif
     scanf("%d", &tot_case);
-    curr_case = 0;
+    curr_case = 1;
     while(curr_case <= tot_case){
             CLR(buf);
             scanf("%s", buf);
 #ifdef DEBUG
             fprintf(stderr, "str == %s in case %d\n", buf, curr_case);
 #endif
-
+            if('\n' == buf[0])
+                    continue;
+                
             if(buf[0] == '-'){
-                num = 0 - atoll(buf + 1);       
+                num = atoll(buf + 1);       
             }else{
                 num = atoll(buf);
             }
 #ifdef DEBUG
            fprintf(stderr, "num == %lld in case %d\n", num, curr_case);
 #endif
-            do{
-                tmp = (0.0 + sqrt(9.0 + 4.0*(4.0 + 2.0*num)) + 3.0)/2.0;
-                ans = (long long int)floor(tmp + 0.5);
-                if(ans == tmp)
-                        break;
+            for(base = 1, sum = 1; num >  sum; base++, sum += base);
 
-                tmp = (0.0 - sqrt(9.0 + 4.0*(4.0 + 2.0*num)) + 3.0)/2.0;
-                ans = (long long int)floor(tmp + 0.5);
-                if(ans == tmp)
-                        break;
-            }while(0);
+#ifdef DEBUG
+           fprintf(stderr, "base == %lld\n", base);
+#endif
+            for(; (sum - num) & ((ll)0x1);  base++, sum += base);
+
+            ans = base;
+            
             printf("%lld\n", ans);
-            curr_case++;
             if(curr_case != tot_case)
-                printf("\n");
-
+                  printf("\n");
+            curr_case++;
     }
     return 0;
 }
