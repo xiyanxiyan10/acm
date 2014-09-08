@@ -65,7 +65,9 @@ int  main(void)
 			workTot   += workCurr;		
 			workCurr  *= n;
 			height    /= (n + 1); 
+#ifdef DEBUG
 			dep++;
+#endif
 		}
 #ifdef DEBUG
 		cout << "dep = " << dep << endl;
