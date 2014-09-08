@@ -5,7 +5,6 @@
 
 ##UNSOLVED
 <ol>
-<li>107.cpp</li>
 <li>846.cpp</li>
 </ol>
 
@@ -17,7 +16,8 @@
 <li>uva 621</li>
 <li>uva 10025</li>
 <li>uva 10970</li>
-<li>573</li>
+<li>uva 107</li>
+<li>uva 573</li>
 </ol>
 
 

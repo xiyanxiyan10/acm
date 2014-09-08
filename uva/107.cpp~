@@ -25,8 +25,6 @@ ofstream out;
 #endif
 
 
-#define DEQ(x, y) ( (x + DBL_EPSILON) > y && (x - DBL_EPSILON) < y)
-
 int  main(void)
 {
 #ifdef DEBUG
@@ -40,41 +38,24 @@ int  main(void)
       CIN.open("in", ios::in);
 #endif
 
-      int height, work;
+      double height, work;
       int heightTot, unwork;
       while(CIN >> height >> work && height && work){
-      		int n = 1;
-		while( !DEQ(log((double)n)/log((double)n + 1.0), log((double)work)/log((double)height)))
+      		double n = 1;
+		while( abs(log(n)/log(n + 1.0)  - log(work)/log(height)) <= 1e-9)
 			n++;
 #ifdef DEBUG
 		cout << "n = " << n << endl;
 #endif
+		int dep = (int)floor(log(height)/log(n + 1) + 0.5);
 
-		int heightTot = 0;
-		int workTot   = 0;
-	        int workCurr  = 1;	
-#ifdef DEBUG
-		int dep = 1;
-#endif
-		while(workCurr <= work){
+		if(1 == n)
+			unwork = dep;
+		else
+			unwork = (int)floor( ( 1 - pow(n, dep))/(1 - n) + 0.5);
 
-#ifdef DEBUG
-			cout << "workCurr = " << workCurr << "work = " << work << endl;
-#endif
-			heightTot += workCurr*height;
-			workTot   += workCurr;		
-			workCurr  *= n;
-			height    /= (n + 1); 
-#ifdef DEBUG
-			dep++;
-#endif
-		}
-#ifdef DEBUG
-		cout << "dep = " << dep << endl;
-#endif
-		unwork = workTot - work;
+		heightTot = (int)floor( ( 1 - pow(n/(n+1), dep + 1))*(n + 1)*height + 0.5);
 		COUT << unwork << " " << heightTot << endl;
-
       }
     return 0;
 }

@@ -47,10 +47,11 @@ int  main(void)
       		idx = 1;
 	        height = 1;
 		range = 1;
-		while(1){
-			if(range >= len) 
-				break;
-			if(idx &0x1){
+		while(range < len){
+#ifdef DEBUG
+			cout << " idx = " << idx << " range = " << range << " height = " << height << endl;
+#endif
+			if(idx & 0x1){
 				range += height;
 			}else{
 				height++;
