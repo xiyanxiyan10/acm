@@ -39,27 +39,23 @@ int  main(void)
       CIN.close();
       CIN.open("in", ios::in);
 #endif
-      ll cases, idx, height, range, len, start, end;
+      ll cases, ans, height, len, start, end;
       CIN >> cases;
       while(cases--){
       		CIN >> start >> end;
 		len = end - start;
-      		idx = 1;
+      		ans = 0;
 	        height = 1;
-		range = 1;
-		while(range < len){
-#ifdef DEBUG
-			cout << " idx = " << idx << " range = " << range << " height = " << height << endl;
-#endif
-			if(idx & 0x1){
-				range += height;
-			}else{
+		bool flag = 0;
+		while(len > 0){
+		        len -= height;
+
+			if(flag)
 				height++;
-				range += height;
-			}
-			idx++;
+                        flag = !flag;
+			ans++;
 		}
-		COUT << idx << endl;	
+		COUT << ans << endl;	
       }
     return 0;
 }
