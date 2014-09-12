@@ -6,8 +6,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <algorithm>
-#include <cmath>
-#include <cfloat>
 
 using namespace std;
 
@@ -25,6 +23,7 @@ ofstream out;
 #endif
 
 
+
 int  main(void)
 {
 #ifdef DEBUG
@@ -37,14 +36,16 @@ int  main(void)
       CIN.close();
       CIN.open("in", ios::in);
 #endif
-      int cases = 1;
-      long long int a, b;
-      long long int ans;
-      while(CIN >> a >> b && a && b){
-	      ans = 0;
-	      ans = (a(a - 1)*b*(b - 1)) >> 2;
-      		COUT << "Case "<< cases++ << ": ";
-		COUT << ans << endl;
+      int cases, a, b, c, ans;
+      CIN >> cases;
+      for(int currCase = 1; currCase <= cases; currCase++){
+            CIN >> a >> b >> c;
+            ans = 0;
+            for(int x = 1; a*x < c; x++){
+                if(0 == (c - a*x)%b)
+                        ans++;
+            }
+            COUT << ans << "\n";
       }
     return 0;
 }
