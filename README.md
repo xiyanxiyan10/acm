@@ -5,7 +5,6 @@
 
 ##UNSOLVED
 <ol>
-<li>best coder #9 1002</li>
 <li>uva 11044</li>
 </ol>
 
@@ -16,26 +15,27 @@
 ##SOLVED
 ##uva
 <ol>
-<li>uva 846</li>
-<li>uva 621</li>
-<li>uva 10025</li>
-<li>uva 10970</li>
-<li>uva 107</li>
-<li>uva 573</li>
-<li>uva 10499</li>
-<li>uva 10790</li>
+<li>846</li>
+<li>621</li>
+<li>10025</li>
+<li>10970</li>
+<li>107</li>
+<li>573</li>
+<li>10499</li>
+<li>10790</li>
 </ol>
 
 
 ##zoj
 <ol>
-<li>zoj 3197</li>
+<li>3197</li>
 </ol>
 
 
-#bestcoder
+#hdu
 <ol>
-<li>#9 1001</li>
+<li>4993</li>
+<li>4994</li>
 </ol>
 
 
