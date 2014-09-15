@@ -1,7 +1,5 @@
 ##ACM RECORD
-
-
-#record solved and unsolved problem
+Record solved and unsolved acm problem in this project
 
 ##UNSOLVED
 <ol>
@@ -10,11 +8,8 @@
 </ol>
 
 
-
-
-
 ##SOLVED
-##uva
+#uva
 <ol>
 <li>846</li>
 <li>621</li>
@@ -27,7 +22,7 @@
 </ol>
 
 
-##zoj
+#zoj
 <ol>
 <li>3197</li>
 </ol>
@@ -40,5 +35,3 @@
 </ol>
 
 
-
-##MORE
