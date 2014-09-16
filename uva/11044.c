@@ -19,12 +19,11 @@ int main(void)
         while(cases--){
             scanf("%d%d", &row, &col);   
                 ans = 0;
-                --row;
-                --col;
-                ans += row/3 + (row%3 ? 1 : 0);
-                ans += col/3 + (col%3 ? 1 : 0);
-                if( (row%3) && (col%3))
-                    ++ans;
+                row -= 2;
+                col -= 2;
+                row = row/3 + (row%3 ? 1 : 0);
+                col = col/3 + (col%3 ? 1 : 0);
+                ans = row*col;
                 printf("%d\n", ans);
         }
     return 0;
