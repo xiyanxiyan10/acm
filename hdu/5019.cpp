@@ -26,8 +26,11 @@ ofstream out;
 #define COUT cout
 #endif
 
-long long int x, y, idx, tmp, val, curr, last, cnt, ans;
+typedef long long int ll;
+
+ll x, y, idx, tmp, val, last;
 int cases;
+vector<ll> store;
 
 int  main(void)
 {
@@ -44,22 +47,28 @@ int  main(void)
       CIN >> cases;
       for(int caseCurr = 1; caseCurr <= cases; caseCurr++){
             CIN >> x >> y >> idx;
-
-            ans = -1;
-            cnt = 0;
-            last = x;
-            last = y < last ? y : last;
-            for(curr = last; curr >= 1; curr--){
-                    if((x%curr) == 0 && (y%curr == 0)){
-                            cnt++;
-                        if(cnt == idx){
-                            ans = curr;
-                            break;
+            store.clear();
+            while(y){
+                tmp = x%y;
+                x   = y;
+                y   = tmp;
+            }
+            last = (ll)(sqrt((1.0)*x) + 0.5);
+            for(val = 1; val <= last; val++){
+                    if(0 == x%val){
+                            store.push_back(val);
+                            if(val*val != x){
+                                store.push_back(x/val);
                         }
                     }
             }
-            COUT << ans << endl;
-      }
+            if(idx > store.size()){
+                    COUT << "-1" << endl;
+            }else{
+                sort(store.begin(), store.end());
+                COUT << store[store.size() - idx] << endl;
+            }
+        }
     return 0;
 }
 
