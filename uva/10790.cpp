@@ -42,7 +42,7 @@ int  main(void)
       long long int ans;
       while(CIN >> a >> b && a && b){
 	      ans = 0;
-	      ans = (a(a - 1)*b*(b - 1)) >> 2;
+	      ans = (a*(a - 1)*b*(b - 1)) >> 2;
       		COUT << "Case "<< cases++ << ": ";
 		COUT << ans << endl;
       }
