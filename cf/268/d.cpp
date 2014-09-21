@@ -24,7 +24,8 @@ ofstream out;
 #define COUT cout
 #endif
 
-#define MAXN 1000000200
+#define MAXN 20
+//#define MAXN 1000000200
 
 int valTable[MAXN];
 int idxTable[MAXN];
