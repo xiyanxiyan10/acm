@@ -22,36 +22,54 @@ ofstream out;
 #define COUT cout
 #endif
 
-
+#define CLR(vec) memset(vec, 0, sizeof(vec))
 #define MAXN 20
 
 int dp[MAXN][MAXN];
 int record[1<<MAXN];
-int curr  [1<< MAXN];
+int curr  [1<<MAXN];
 
-#define CLR(vec) memset(vec, 0, sizeof(vec))
+int cset(int val){
+    int cnt = 0;
+    while(val){
+        val &= (val - 1);
+        cnt++;
+    }
+    return cnt;   
+}
+
 
 void init_dp(void){
-    int i, j;
+    int i, j, k;
     CLR(dp);
     CLR(record);
     CLR(curr);
 
     dp[1][1] = 1;
-    record[1] = 1;
+    curr[1] = 1;
 
-    for(i = 0; i < 18; i++){
-            memcpy(curr, record, sizeof(curr)); 
-
-            for(j = 0; j < (1 << i); j++) if(curr[j]){
-                int tot = 0;
-                int tmp[20];
-            
-            
+    for(i = 1; i < 18; i++){
+            memmove(record, curr, sizeof(curr)); 
+            for(j = 0; j < (1 << i); j++) if(record[j]){
+                    for(k = 0; k <= i; k++){
+                                int tot = 0;
+                                int tmp[20];
+                        for(int idx = 0; idx < i; idx++) if(record[j] & (1 << idx))
+                                    tmp[tot++] = idx;
+                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] >= k)
+                                    tmp[idx]++;
+                        tmp[tot++] = k;
+                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] > k)
+                                    tmp[idx] = k; 
+                        int st = 0;
+                        for(int idx = 0; idx < tot; idx++)
+                                    st |= ( 1 << idx);
+                        curr[st] += record[j];
+                    }
             }
-            dp[i + 1][count[]]
-    }    
-
+        for(k = 0; k < (1<< (1 +i)); k++)    
+            dp[i][cset(k)] = curr[k];
+    } 
 }
 
 
@@ -68,9 +86,11 @@ int  main(void)
       COUT << "Out Put" << "\n";
       CIN.close();
       CIN.open("in", ios::in);
-#endif
+#endif  
+      init_dp();
       int cases;
       CIN >> cases;
+
       for(int currCase = 1; currCase <= cases; currCase++){
             
 
