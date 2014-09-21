@@ -4,6 +4,9 @@ Record solved and unsolved acm problem in this project
 ##UNSOLVED
 <ol>
 <li>hdu 4996</li>
+<li>codeforces 268 c</li>
+<li>codeforces 268 d</li>
+<li>codeforces 268 e</li>
 </ol>
 
 
