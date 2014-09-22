@@ -38,7 +38,6 @@ int cset(int val){
     return cnt;   
 }
 
-
 void init_dp(void){
     int i, j, k;
 
