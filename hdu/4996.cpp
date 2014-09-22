@@ -25,54 +25,56 @@ ofstream out;
 #define CLR(vec) memset(vec, 0, sizeof(vec))
 #define MAXN 20
 
-int dp[MAXN][MAXN];
-int record[1<<MAXN];
-int curr  [1<<MAXN];
+
+typedef long long int ll;
+
+
+ll dp[MAXN][MAXN];
+ll record[1<<MAXN];
+ll curr  [1<<MAXN];
 
 int cset(int val){
     int cnt = 0;
-    while(val){
-        val &= (val - 1);
-        cnt++;
-    }
+    for(int idx = 0; idx < MAXN; idx++) if(val &(1 << idx))
+            cnt++;
     return cnt;   
 }
 
 void init_dp(void){
-    int i, j, k;
-
+    int len, val;
+    CLR(dp);
+    CLR(record);
+    CLR(curr);
     dp[1][1] = 1;
     curr[1] = 1;
-    for(i = 1; i < 18; i++){
-            for(int idx = 0; idx < ( 1 << i); idx++){
-                record[idx] = curr[idx];
-                curr[idx]   = 0;
-            }
-            for(j = 0; j < (1 << i); j++) if(record[j]){
-                    for(k = 0; k <= i; k++){
+    for(len = 1; len < 18; len++){
+            for(int status = 0; status < ( 1 << len); status++)
+                record[status] = curr[status];
+            for(int status = 0; status < ( 1 << (len + 1)); status++)
+                curr[status] = 0;
+            for(int oldstatus = 0; oldstatus < (1 << len); oldstatus++) if(record[oldstatus]){
+                    for(val = 0; val <= len; val++){
                         int tot = 0;
                         int tmp[20];
-                        for(int idx = 0; idx < i; idx++) if(j & (1 << idx))
+                        for(int idx = 0; idx < len; idx++) if(oldstatus & (1 << idx))
                                     tmp[tot++] = idx;
-                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] >= k)
+                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] >= val)
                                     tmp[idx]++;
-                        tmp[tot++] = k;
-                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] > k){
-                                    tmp[idx] = k; 
+                        tmp[tot++] = val;
+                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] > val){
+                                    tmp[idx] = val; 
                                     break;
                         }
-                        int st = 0;
+                        int newstatus = 0;
                         for(int idx = 0; idx < tot; idx++)
-                                    st |= ( 1 << tmp[idx]);
-                        curr[st] += record[j];
+                                    newstatus |= ( 1 << tmp[idx]);
+                        curr[newstatus] += record[oldstatus];
                     }
             }
-        for(int idx = 0; idx < (1<< (1 + i)); idx++)    
-            dp[i + 1][cset(idx)] += curr[idx];
+        for(int status = 0; status < ( 1 << (1 + len)); status++)    
+            dp[1 + len][cset(status)] += curr[status];
     } 
 }
-
-
 
 
 int  main(void)
@@ -91,7 +93,7 @@ int  main(void)
       int cases, n, k;
       CIN >> cases;
       for(int currCase = 1; currCase <= cases; currCase++){
-            CIN >>  n >> k;
+            CIN >> n >> k;
             COUT  << dp[n][k] << endl;
 
       }

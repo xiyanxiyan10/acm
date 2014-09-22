@@ -62,7 +62,7 @@ int  main(void)
                         }
                     }
             }
-            if(idx > store.size()){
+            if(idx > (ll)store.size()){
                     COUT << "-1" << endl;
             }else{
                 sort(store.begin(), store.end());

@@ -3,10 +3,12 @@ Record solved and unsolved acm problem in this project
 
 ##UNSOLVED
 <ol>
-<li>hdu 4996</li>
 <li>codeforces 268 c</li>
 <li>codeforces 268 d</li>
 <li>codeforces 268 e</li>
+<li>hdu 4995</li>
+<li>hdu 5020</li>
+<li>hdu 5021</li>
 </ol>
 
 
@@ -21,7 +23,7 @@ Record solved and unsolved acm problem in this project
 <li>573</li>
 <li>10499</li>
 <li>10790</li>
-<li>uva 11044</li>
+<li>11044</li>
 </ol>
 
 
@@ -35,6 +37,7 @@ Record solved and unsolved acm problem in this project
 <ol>
 <li>4993</li>
 <li>4994</li>
+<li>4996</li>
 <li>5019</li>
 </ol>
 
