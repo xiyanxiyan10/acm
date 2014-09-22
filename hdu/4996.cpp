@@ -66,13 +66,10 @@ void init_dp(void){
                         for(int idx = 0; idx < tot; idx++)
                                     st |= ( 1 << tmp[idx]);
                         curr[st] += record[j];
-#ifdef DEBUG
-            //            cout << st << " += "  << record[j] << endl;
-#endif
                     }
             }
-        for(k = 0; k < (1<< (1 + i)); k++)    
-            dp[i + 1][cset(k)] += curr[k];
+        for(int idx = 0; idx < (1<< (1 + i)); idx++)    
+            dp[i + 1][cset(idx)] += curr[idx];
     } 
 }
 
