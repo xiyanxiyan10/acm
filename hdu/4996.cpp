@@ -41,34 +41,38 @@ int cset(int val){
 
 void init_dp(void){
     int i, j, k;
-    CLR(dp);
-    CLR(record);
-    CLR(curr);
 
     dp[1][1] = 1;
     curr[1] = 1;
-
     for(i = 1; i < 18; i++){
-            memmove(record, curr, sizeof(curr)); 
+            for(int idx = 0; idx < ( 1 << i); idx++){
+                record[idx] = curr[idx];
+                curr[idx]   = 0;
+            }
             for(j = 0; j < (1 << i); j++) if(record[j]){
                     for(k = 0; k <= i; k++){
-                                int tot = 0;
-                                int tmp[20];
-                        for(int idx = 0; idx < i; idx++) if(record[j] & (1 << idx))
+                        int tot = 0;
+                        int tmp[20];
+                        for(int idx = 0; idx < i; idx++) if(j & (1 << idx))
                                     tmp[tot++] = idx;
                         for(int idx = 0; idx < tot; idx++) if(tmp[idx] >= k)
                                     tmp[idx]++;
                         tmp[tot++] = k;
-                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] > k)
+                        for(int idx = 0; idx < tot; idx++) if(tmp[idx] > k){
                                     tmp[idx] = k; 
+                                    break;
+                        }
                         int st = 0;
                         for(int idx = 0; idx < tot; idx++)
-                                    st |= ( 1 << idx);
+                                    st |= ( 1 << tmp[idx]);
                         curr[st] += record[j];
+#ifdef DEBUG
+            //            cout << st << " += "  << record[j] << endl;
+#endif
                     }
             }
-        for(k = 0; k < (1<< (1 +i)); k++)    
-            dp[i][cset(k)] = curr[k];
+        for(k = 0; k < (1<< (1 + i)); k++)    
+            dp[i + 1][cset(k)] += curr[k];
     } 
 }
 
@@ -88,11 +92,11 @@ int  main(void)
       CIN.open("in", ios::in);
 #endif  
       init_dp();
-      int cases;
+      int cases, n, k;
       CIN >> cases;
-
       for(int currCase = 1; currCase <= cases; currCase++){
-            
+            CIN >>  n >> k;
+            COUT  << dp[n][k] << endl;
 
       }
     return 0;
