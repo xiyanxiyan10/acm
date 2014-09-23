@@ -45,10 +45,10 @@ void sort_byid(struct point *tb, int n){
     for(int i = 1; i < n; i++){
             struct point tmp = tb[i];  
             int j;
-            for(j = i - 1; j > 0 && tb[j].id > tmp.id; j++){
+            for(j = i - 1; j > 0 && tb[j].id > tmp.id; j--){
                            tb[j + 1] = tb[j];
             }
-            tb[j] = tmp;
+            tb[j + 1] = tmp;
     }
 }
 
@@ -57,10 +57,10 @@ void sort_bypos(struct point *tb, int n){
     for(int i = 1; i < n; i++){
             struct point tmp = tb[i];  
             int j;
-            for(j = i - 1; j > 0 && tb[j].pos > tmp.pos; j++){
+            for(j = i - 1; j > 0 && tb[j].pos > tmp.pos; j--){
                            tb[j + 1] = tb[j];
             }
-            tb[j] = tmp;
+            tb[j + 1] = tmp;
     }
 }
 
@@ -69,36 +69,37 @@ void build_one_knn(struct point *tb, int idx, int n, int k)
 {
     int lidx = idx - 1;
     int ridx = idx + 1;
-    int *cntp = &tb[idx].cnt;
+    int cnt  = 0;
     int pos  = tb[idx].pos;
-    while(*cntp < k){
+    while(cnt < k){
         do{
             if(lidx < 0){
-                tb[idx].knn[*cntp++] = tb[ridx].id;
+                tb[idx].knn[cnt++] = tb[ridx].id;
                 ridx++;       
                 break;
            }
 
             if(ridx >= n){
-                tb[idx].knn[*cntp++] =  tb[lidx].id;
+                tb[idx].knn[cnt++] =  tb[lidx].id;
                 lidx--;
                 break;
             }
 
-            int flag = (tb[idx].pos - pos) - (pos - tb[idx].pos);
+            int flag = (tb[ridx].pos - pos) - (pos - tb[lidx].pos);
                 
             if(flag < 0){
-                tb[idx].knn[*cntp++] =  tb[ridx].id;
+                tb[idx].knn[cnt++] =  tb[ridx].id;
                 ridx++;       
                 break;
             }else{
-                tb[idx].knn[*cntp++] =  tb[lidx].id;
+                tb[idx].knn[cnt++] =  tb[lidx].id;
                 lidx--;
                 break;
             }
 
         }while(0);
     }
+    tb[idx].cnt = cnt;
 }
 
 void build_knn(int n, int k)
@@ -108,9 +109,21 @@ void build_knn(int n, int k)
             table[i].id = i;
     }
     /*sort by pos*/
+    sort_bypos(table, n);
     for(int i = 0; i < n; i++)
             build_one_knn(table, i, n, k);
     /*sort by id*/
+    sort_byid(table, n);
+#ifdef DEBUG
+    for(int i = 0; i < n; i++){
+        printf("%d ->", table[i].id);
+        for(int j = 0; j < table[i].cnt; j++){
+            printf("%d ", table[i].knn[j]);
+        }
+        printf("\n");
+    }
+#endif
+
 }
 
 
@@ -119,24 +132,16 @@ int  main(void)
 #ifdef DEBUG
       freopen("in", "r", stdin);
       freopen("out","w", stdout);
-      strinag buffer;
-      CIN.open("in", ios::in);
-      COUT.open("out", ios::out);
-      while(getline(CIN, buffer))
-            COUT << buffer << "\n";
-      COUT << "Out Put" << "\n";
-      CIN.close();
-      CIN.open("in", ios::in);
 #endif
       int cases;
       int n, m, k;
       scanf("%d", &cases);
       for(int currCase = 1; currCase <= cases; currCase++){
                 CLR(table);
-                CIN >> n >> m >> k;
+                scanf("%d%d%d", &n, &m, &k);
                 double ans = 0.0;
                 build_knn(n, k);    
-                while(k--){
+                while(m--){
                     double tmp = 0.0;
                     int qidx;           
                     scanf("%d", &qidx);
@@ -148,6 +153,9 @@ int  main(void)
                             cnt++;
                     }     
                     tmp /= cnt;
+#ifdef DEBUG
+                    printf("[%d]query: %d -> %lf\n", m, qidx, tmp);
+#endif
                     ans += tmp;
                     table[qidx].val = tmp;
                 }
