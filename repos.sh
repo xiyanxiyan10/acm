@@ -48,6 +48,8 @@ case "$1" in
     "clean" )
         rm *.out
         rm tags
+        find ./ -name *.out|xargs rm
+        find ./ -name *.cout|xargs rm
         ;;
     "review")
         cscope -bqR
