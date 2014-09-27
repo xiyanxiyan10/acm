@@ -1,5 +1,10 @@
 #!/bin/sh
-xmlf=mikurobot.xml
+#  @brief tiny tool used to manger project 
+#  @file repos.sh
+#  @author xiyanxiyan10
+#  @CreatedTime 2014/09/27
+#  @LastChanged 2014/09/27
+
 case "$1" in
     "record" )
         git commit -a
@@ -41,8 +46,12 @@ case "$1" in
         git push git@github.com:${2}/${3}.git --tag
         ;;
     "clean" )
-        find ./ -name *.out|xargs rm
-        find ./ -name *.cout|xargs rm
+        rm *.out
+        rm tags
+        ;;
+    "review")
+        cscope -bqR
+        ctags -R *
         ;;
     * ) 
         echo "Help"
@@ -59,6 +68,7 @@ case "$1" in
         echo "./repos.sh show_remote    => show remote"
         echo "./repos.sh tag            => tag version"
         echo "./repos.sh pushtag        => push tag"
-        echo "./repos.sh clean          => clean project"
+        echo "./repos.sh clean          => clean project"      
+        echo "./repos.sh review         => review project"
         ;;
     esac

@@ -1,5 +1,8 @@
-##ACM RECORD
+#ACM RECORD
+
+##WAHT IS IT?
 Record solved and unsolved acm problem in this project
+
 
 ##UNSOLVED
 <ol>
@@ -11,9 +14,8 @@ Record solved and unsolved acm problem in this project
 <li>hdu 5021</li>
 </ol>
 
-
 ##SOLVED
-#uva
+####uva
 <ol>
 <li>846</li>
 <li>621</li>
@@ -26,14 +28,12 @@ Record solved and unsolved acm problem in this project
 <li>11044</li>
 </ol>
 
-
-#zoj
+####zoj
 <ol>
 <li>3197</li>
 </ol>
 
-
-#hdu
+####hdu
 <ol>
 <li>4993</li>
 <li>4994</li>
@@ -42,3 +42,5 @@ Record solved and unsolved acm problem in this project
 </ol>
 
 
+#License
+MIT
