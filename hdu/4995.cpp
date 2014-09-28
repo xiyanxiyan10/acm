@@ -33,27 +33,13 @@ ofstream out;
 struct point{
     int id;
     int pos;
-    double val;
-    int knn[MAXK];    
-    int cnt;
-};
+}table[MAXN];
 
-struct point table[MAXN];
+double val[MAXN];       /*val  of the id*/
+int knn[MAXN][MAXK];    /*nearest k pos for id*/
 
 
-void sort_byid(struct point *tb, int n){
-    for(int i = 1; i < n; i++){
-            struct point tmp = tb[i];  
-            int j;
-            for(j = i - 1; j > 0 && tb[j].id > tmp.id; j--){
-                           tb[j + 1] = tb[j];
-            }
-            tb[j + 1] = tmp;
-    }
-}
-
-
-void sort_bypos(struct point *tb, int n){
+static void inline sort_bypos(struct point *tb, int n){
     for(int i = 1; i < n; i++){
             struct point tmp = tb[i];  
             int j;
@@ -65,7 +51,7 @@ void sort_bypos(struct point *tb, int n){
 }
 
 
-void build_one_knn(struct point *tb, int idx, int n, int k)
+static void inline build_one_knn(struct point *tb, int idx, int n, int k)
 {
     int lidx = idx - 1;
     int ridx = idx + 1;
@@ -73,14 +59,14 @@ void build_one_knn(struct point *tb, int idx, int n, int k)
     int pos  = tb[idx].pos;
     while(cnt < k){
         do{
-            if(lidx < 0){
-                tb[idx].knn[cnt++] = tb[ridx].id;
+            if(lidx < 1){
+                knn[idx][cnt] = tb[ridx].id;
                 ridx++;       
                 break;
            }
 
-            if(ridx >= n){
-                tb[idx].knn[cnt++] =  tb[lidx].id;
+            if(ridx > n){
+                knn[idx][cnt] =  tb[lidx].id;
                 lidx--;
                 break;
             }
@@ -88,42 +74,30 @@ void build_one_knn(struct point *tb, int idx, int n, int k)
             int flag = (tb[ridx].pos - pos) - (pos - tb[lidx].pos);
                 
             if(flag < 0){
-                tb[idx].knn[cnt++] =  tb[ridx].id;
+                knn[idx][cnt] =  tb[ridx].id;
                 ridx++;       
                 break;
             }else{
-                tb[idx].knn[cnt++] =  tb[lidx].id;
+                knn[idx][cnt] =  tb[lidx].id;
                 lidx--;
                 break;
             }
 
         }while(0);
+        cnt++;
     }
-    tb[idx].cnt = cnt;
 }
 
-void build_knn(int n, int k)
+static void inline build_knn(int n, int k)
 {
-    for(int i = 0; i < n; i++){
-            scanf("%d%lf", &table[i].pos, &table[i].val);
+    for(int i = 1; i <= n; i++){
+            scanf("%d%lf", &table[i].pos, &val[i]);
             table[i].id = i;
     }
     /*sort by pos*/
-    sort_bypos(table, n);
-    for(int i = 0; i < n; i++)
+    sort_bypos(table + 1, n);
+    for(int i = 1; i <= n; i++)
             build_one_knn(table, i, n, k);
-    /*sort by id*/
-    sort_byid(table, n);
-#ifdef DEBUG
-    for(int i = 0; i < n; i++){
-        printf("%d ->", table[i].id);
-        for(int j = 0; j < table[i].cnt; j++){
-            printf("%d ", table[i].knn[j]);
-        }
-        printf("\n");
-    }
-#endif
-
 }
 
 
@@ -138,6 +112,8 @@ int  main(void)
       scanf("%d", &cases);
       for(int currCase = 1; currCase <= cases; currCase++){
                 CLR(table);
+                CLR(knn);
+                CLR(val);
                 scanf("%d%d%d", &n, &m, &k);
                 double ans = 0.0;
                 build_knn(n, k);    
@@ -145,19 +121,14 @@ int  main(void)
                     double tmp = 0.0;
                     int qidx;           
                     scanf("%d", &qidx);
-                    qidx--;
                     int cnt = 0;
-                    for(int i  = 0; i < table[qidx].cnt; i++){
-                            int j = table[qidx].knn[i];
-                            tmp += table[j].val;
+                    while(0 != knn[qidx][cnt]){
+                            tmp += val[knn[qidx][cnt]];
                             cnt++;
-                    }     
+                    }
                     tmp /= cnt;
-#ifdef DEBUG
-                    printf("[%d]query: %d -> %lf\n", m, qidx, tmp);
-#endif
                     ans += tmp;
-                    table[qidx].val = tmp;
+                    val[qidx] = tmp;
                 }
                 printf("%.6lf\n", ans);
       }

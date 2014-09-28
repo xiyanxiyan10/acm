@@ -43,4 +43,4 @@ Record solved and unsolved acm problem in this project
 
 
 #License
-MIT
+GPL
