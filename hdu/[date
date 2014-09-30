@@ -57,35 +57,30 @@ static void inline build_one_knn(struct point *tb, int idx, int n, int k)
     int ridx = idx + 1;
     int cnt  = 0;
     int pos  = tb[idx].pos;
-
     while(cnt < k){
         do{
-            if(lidx < 0){
-                knn[idx][cnt] = tb[ridx++].id;
+            if(lidx < 1){
+                knn[idx][cnt] = tb[ridx].id;
+                ridx++;       
                 break;
-            }
+           }
 
-            if(ridx >= n){
-                knn[idx][cnt] =  tb[lidx--].id;
+            if(ridx > n){
+                knn[idx][cnt] =  tb[lidx].id;
+                lidx--;
                 break;
             }
 
             int flag = (tb[ridx].pos - pos) - (pos - tb[lidx].pos);
                 
             if(flag < 0){
-                knn[idx][cnt] =  tb[ridx++].id;
+                knn[idx][cnt] =  tb[ridx].id;
+                ridx++;       
                 break;
-            }
-            
-            if(flag > 0){
-                knn[idx][cnt] =  tb[lidx--].id;
-                break;
-            }
-
-            if(tb[ridx].id < tb[lidx].id){
-                knn[idx][cnt] = tb[ridx++].id;
             }else{
-                knn[idx][cnt] =  tb[lidx--].id;
+                knn[idx][cnt] =  tb[lidx].id;
+                lidx--;
+                break;
             }
 
         }while(0);
@@ -95,18 +90,14 @@ static void inline build_one_knn(struct point *tb, int idx, int n, int k)
 
 static void inline build_knn(int n, int k)
 {
-    struct point element;
-    for(int i = 0; i < n; i++){
-            scanf("%d%lf", &(element.pos), &val[i]);
-            element.id = i + 1;         /*Notice:element.id = id + 1*/
-            int j;                      /*insert sort here by id*/
-            for(j = i - 1; j >= 0 && table[j].pos > element.pos; j--){
-                            table[j + 1] = table[j];
-            }
-            table[j + 1] = element;
+    for(int i = 1; i <= n; i++){
+            scanf("%d%lf", &table[i].pos, &val[i]);
+            table[i].id = i;
     }
-    for(int idx = 0; idx < n; idx++)
-            build_one_knn(table, idx, n, k);
+    /*sort by pos*/
+    sort_bypos(table + 1, n);
+    for(int i = 1; i <= n; i++)
+            build_one_knn(table, i, n, k);
 }
 
 
@@ -132,7 +123,7 @@ int  main(void)
                     scanf("%d", &qidx);
                     int cnt = 0;
                     while(0 != knn[qidx][cnt]){
-                            tmp += val[knn[qidx][cnt] - 1];
+                            tmp += val[knn[qidx][cnt]];
                             cnt++;
                     }
                     tmp /= cnt;
