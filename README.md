@@ -1,10 +1,10 @@
 #ACM RECORD
 
 ##WAHT IS IT?
-Record solved and unsolved acm problem in this project
+记录ACM以解决问题和未解决问题
 
 
-##UNSOLVED
+###正在进行
 <ol>
 <li>codeforces 268 c</li>
 <li>codeforces 268 d</li>
@@ -14,8 +14,8 @@ Record solved and unsolved acm problem in this project
 <li>hdu 5021</li>
 </ol>
 
-##SOLVED
-####uva
+###已解决
+uva
 <ol>
 <li>846</li>
 <li>621</li>
@@ -28,12 +28,12 @@ Record solved and unsolved acm problem in this project
 <li>11044</li>
 </ol>
 
-####zoj
+zoj
 <ol>
 <li>3197</li>
 </ol>
 
-####hdu
+hdu
 <ol>
 <li>4993</li>
 <li>4994</li>
