@@ -4,19 +4,16 @@
 记录ACM以解决问题和未解决问题
 
 
-
 ##FUN
 <ol>
-<li>codeforce， topcoder， bestcoder比赛的题目需完成</li>
-<li>其余全力刷codeforce</li>
+<li>主要是uva, codeforces， topcoder， bestcoder题目解答</li>
 </ol>
 
 
 ###正在进行
 <ol>
-<li>codeforces 268 c</li>
-<li>codeforces 268 d</li>
-<li>codeforces 268 e</li>
+<li>codeforces 268 div2 d</li>
+<li>codeforces 268 div2 e</li>
 <li>hdu 4995</li>
 <li>hdu 5020</li>
 <li>hdu 5021</li>
@@ -47,6 +44,18 @@ hdu
 <li>4994</li>
 <li>4996</li>
 <li>5019</li>
+</ol>
+
+codeforces
+<ol>
+<li>268 div2 A</li>
+<li>268 div2 B</li>
+<li>268 div2 c</li>
+</ol>
+
+
+topcoder
+<ol>
 </ol>
 
 
