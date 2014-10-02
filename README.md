@@ -4,6 +4,14 @@
 记录ACM以解决问题和未解决问题
 
 
+
+##FUN
+<ol>
+<li>codeforce， topcoder， bestcoder比赛的题目需完成</li>
+<li>其余全力刷uva</li>
+</ol>
+
+
 ###正在进行
 <ol>
 <li>codeforces 268 c</li>
