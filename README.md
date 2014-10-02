@@ -8,7 +8,7 @@
 ##FUN
 <ol>
 <li>codeforce， topcoder， bestcoder比赛的题目需完成</li>
-<li>其余全力刷uva</li>
+<li>其余全力刷codeforce</li>
 </ol>
 
 
