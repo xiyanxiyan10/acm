@@ -22,33 +22,6 @@ ofstream out;
 #define COUT cout
 #endif
 
-
-#define MAXCOL 22
-#define MAXROW 22
-#define MAXPOS (MAXCOL * MAXROW) 
-
-#define CLR(vec) memset(vec, 0, sizeof(vec))
-
-vector<int> table[MAXPOS];
-
-int visit[MAXPOS];
-
-
-void dfs(int pos, int startPos){
-    if()
-
-
-}
-
-
-int checkPos(int pos){
-    CLR(visit);
-    
-}
-
-
-/**多源最短路径思路 + 闭包传递？*/
-
 int  main(void)
 {
 #ifdef DEBUG
@@ -65,43 +38,33 @@ int  main(void)
       char tmp;
       CIN >>  row >> col;
 
-      /* build graph*/
-      for(int i = 0 ; i < row; i++){
+      string str;
+      str.clear();
+      for(int i = 1 ; i <= row; i++){
             CIN >> tmp;
-            if( '>' == tmp){
-                for(int j = 0; j + 1 < col; j++){
-                        table[row*i + j].push_back(row*i + j + 1);
-                }
-            }else{
-                for(int j = 1; j < col; j++){
-                        table[row*i + j].push_back(row*i + j - 1);
-                }
+            if(i == 1){
+                str += tmp;
+            }
+
+            if(i == row){
+                str += tmp;
+            }
+      }
+      for(int i = 1 ; i <= col; i++){
+            CIN >> tmp;
+            if(i == 1){
+                str += tmp;
+            }
+
+            if(i == row){
+                str += tmp;
             }
       }
 
+      if(str == "<>v^" || str == "><^v")
+            COUT << "YES" << endl;
 
-      for(int j = 0 ; j < col; j++){
-            CIN >> tmp;
-            if( 'v' == tmp){
-                for(int i = 0; i + 1 < row; i++){
-                        table[row*i + j].push_back(row*(i + 1) + j);
-                }
-            }else{
-                for(int i = 1; i < row; i++){
-                        table[row*i + j].push_back(row*(i - 1) + j);
-                }
-            }
-      }
-    
-      int success = 0;
-      int totPos = (row - 1)*(col - 1);
-      for(int pos = 0; pos < totPos; pos++){
-            if(checkPos(pos) < 0){
-                        success = -1;
-                        break;
-            }
-      }
-      COUT << (success ? "YES" : "NO") << endl;
+            COUT << "NO" << endl;
     return 0;
 }
 
