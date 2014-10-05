@@ -36,49 +36,19 @@
 <ol>
 <li>codeforces 268 div2 d</li>
 <li>codeforces 268 div2 e</li>
+<li>hdu 5059</li>
+<li>hdu 5060</li>
+<li>hdu 5061</li>
+<li>hdu 5062</li>
 <li>hdu 4995</li>
 <li>hdu 5020</li>
 <li>hdu 5021</li>
+<li>Bayan_2015 b</li>
+<li>Bayan_2015 c</li>
+<li>Bayan_2015 d</li>
+<li>Bayan_2015 e</li>
 </ol>
 
-###已解决
-uva
-<ol>
-<li>846</li>
-<li>621</li>
-<li>10025</li>
-<li>10970</li>
-<li>107</li>
-<li>573</li>
-<li>10499</li>
-<li>10790</li>
-<li>11044</li>
-</ol>
-
-zoj
-<ol>
-<li>3197</li>
-</ol>
-
-hdu
-<ol>
-<li>4993</li>
-<li>4994</li>
-<li>4996</li>
-<li>5019</li>
-</ol>
-
-codeforces
-<ol>
-<li>268 div2 A</li>
-<li>268 div2 B</li>
-<li>268 div2 c</li>
-</ol>
-
-
-topcoder
-<ol>
-</ol>
 
 
 #License
