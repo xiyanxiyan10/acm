@@ -43,10 +43,10 @@
 <li>hdu 4995</li>
 <li>hdu 5020</li>
 <li>hdu 5021</li>
-<li>Bayan_2015 b</li>
-<li>Bayan_2015 c</li>
-<li>Bayan_2015 d</li>
-<li>Bayan_2015 e</li>
+<li>Bayan2015 b</li>
+<li>Bayan2015 c</li>
+<li>Bayan2015 d</li>
+<li>Bayan2015 e</li>
 </ol>
 
 
