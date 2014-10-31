@@ -15,13 +15,12 @@
 typedef long long int ll;
 
 
-int org[MAXN], ans[MAXN];
+ll org[MAXN], ans[MAXN];
 
 #define CLR(vec) memset(vec, 0, sizeof(vec))
 
 int main()
 {
-    int cases;
     int i;
     int k;
     int cnt;
@@ -33,25 +32,19 @@ int main()
 #endif
     while(EOF != scanf("%d", &k)){
         cnt = 0;
-        cases = 0;
         CLR(org);
         CLR(ans);
-        while( scanf("%d%c", &org[cnt++], &ch) == 2 && ch != '\n');
+        while( scanf("%lld%c", &org[cnt++], &ch) == 2 && ch != '\n');
     
         for(i = 0; i < cnt; i++)
-            ans[i + 1] = org[i] + org[i]*k;
-        
-        if(cases) 
-            printf("\n");
+            ans[i + 1] = org[i] + ans[i]*k;
 
         printf("q(x):");
         for(i = 1; i < cnt; i++)
-            printf(" %d", ans[i]);
-        printf("\n");
+            printf(" %lld", ans[i]);
     
-        printf("r = %d\n", ans[cnt]);
+        printf("\nr = %lld\n\n", ans[cnt]);
      
-        cases++;
     }
     return 0;
 }
