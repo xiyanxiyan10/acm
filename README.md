@@ -34,6 +34,7 @@
 
 ###正在进行
 <ol>
+<li>uva 10719</li>
 <li>codeforces 268 div2 d</li>
 <li>codeforces 268 div2 e</li>
 <li>hdu 5059</li>
