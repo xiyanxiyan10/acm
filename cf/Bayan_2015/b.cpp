@@ -1,3 +1,14 @@
+/*
+ * @brief bayan_2015 b
+ * @file b.cpp
+ * @author xiyan
+ * @CreatedTime 2014/11/04
+ * @LastChanged 2014/11/04
+ * @note
+ *      Comprehensive questions
+ *
+ */
+
 #include <iostream>
 #include <fstream>
 #include <vector>
