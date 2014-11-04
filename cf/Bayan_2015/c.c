@@ -22,13 +22,11 @@ int area;                       /*area brush covered*/
 int row, col;                   /*brush size*/
 int row1, row2, col1, col2;     /*brush pos*/  
 int m, n;                       /*frame size*/
-int success;                    /*find answer, and terminal dfs*/
 
 int check_valid(int row1, int row2, int col1, int col2){ 
     
     int i, j;
 
-    /*move out*/
     if(row1 < 0 || row2 >= m || col1 < 0|| col2 >= n)
                 return -1;
     for(i = row1; i < row2; i++)
@@ -63,16 +61,13 @@ int dfs(int row1, int row2, int col1, int col2, int left){
     int rht_status;
     int down_status;
 
-    if(success)
-            return 0;
-
     if(!left){
-            success = 1;
             return 0;
     }
 
     rht_status = check_right(row1, row2, col1, col2);
     down_status = check_down(row1, row2, col1, col2);
+
     if(!(rht_status ^ down_status))
             return -1;
     if(rht_status){
@@ -85,6 +80,7 @@ int dfs(int row1, int row2, int col1, int col2, int left){
 
     if( check_valid(row1, row2, col1, col2) < 0) 
             return -1;
+
     left-= area;
     return dfs(row1, row2, col1, col2, left);
 }
