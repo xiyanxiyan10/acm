@@ -35,35 +35,25 @@ int  main(void)
       CIN.open("in", ios::in);
 #endif
       int row, col;
-      char tmp;
+      string ans;
+      ans.clear();
+
+      string row_str, col_str;
       CIN >>  row >> col;
+      CIN >> row_str >> col_str;
 
-      string str;
-      str.clear();
-      for(int i = 1 ; i <= row; i++){
-            CIN >> tmp;
-            if(i == 1){
-                str += tmp;
-            }
+      ans += row_str[0];
+      ans += col_str[col - 1];
+      ans += row_str[row - 1];
+      ans += col_str[0];
+#ifdef DEBUG
+     cout << ans << endl;
+#endif
 
-            if(i == row){
-                str += tmp;
-            }
-      }
-      for(int i = 1 ; i <= col; i++){
-            CIN >> tmp;
-            if(i == 1){
-                str += tmp;
-            }
 
-            if(i == row){
-                str += tmp;
-            }
-      }
-
-      if(str == "<>v^" || str == "><^v")
+      if(ans == ">v<^" || ans == "<^>v")
             COUT << "YES" << endl;
-
+      else
             COUT << "NO" << endl;
     return 0;
 }

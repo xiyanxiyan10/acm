@@ -26,7 +26,6 @@
 #MORE
 <ol>
 <li>将正在进行的题目刷完</li>
-<li>将在tmp目录下的2014/10/05-19时的bestcoder合并到hdu</li>
 <li>编写并查集， LIS， LCS 后缀数组模版</li>
 <li>追加白书上读到的优秀模板</li>
 <li>简化模板</li>
@@ -43,7 +42,6 @@
 <li>hdu 4995</li>
 <li>hdu 5020</li>
 <li>hdu 5021</li>
-<li>Bayan2015 b</li>
 <li>Bayan2015 c</li>
 <li>Bayan2015 d</li>
 <li>Bayan2015 e</li>
