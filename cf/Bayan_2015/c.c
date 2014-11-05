@@ -14,11 +14,12 @@
 
 #include <stdio.h>
 
-#define MAXN 1000
+#define MAXN 1100
 
 #define CLR(vec) memset(vec, 0, sizeof(vec))
 
-int table[MAXN][MAXN];         /*1. altered 0. not*/
+int table[MAXN][MAXN];          /*1. altered 0. not*/
+char buf[MAXN];                 /*quick read support*/
 
 int area;                       /*area brush covered*/
 int row, col;                   /*brush size*/
@@ -109,9 +110,9 @@ int main()
     getchar();
 
     for(i = 0; i < m; i++){
+            gets(buf);
             for(j = 0; j < n; j++){
-                    scanf("%c", &tmp);
-                    if(tmp == 'X'){
+                    if(buf[j] == 'X'){
                             table[i][j] = 1;
                             if(start_find == 0){
                                     start_find = 1;
@@ -124,7 +125,6 @@ int main()
                     }
                    
             }
-        getchar();
     }
 #ifdef DEBUG
     for(i = 0; i < m; i++){
