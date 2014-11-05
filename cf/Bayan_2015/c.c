@@ -68,30 +68,30 @@ int dfs(int row1, int row2, int col1, int col2, int left){
     int rht_status;
     int down_status;
 
-    if(!left){
+    while(1){
+
+        if(!left){
             return 0;
-    }
+        }
 
-    rht_status = check_right(row1, row2, col1, col2);
-    down_status = check_down(row1, row2, col1, col2);
+        rht_status = check_right(row1, row2, col1, col2);
+        down_status = check_down(row1, row2, col1, col2);
 #ifdef DEBUG
-    printf("row1:%d, row2:%d, col1:%d, col2:%d, rht_status:%d, down_status:%d, left:%d\n", row1, row2, col1, col2, rht_status, down_status, left);
+        printf("row1:%d, row2:%d, col1:%d, col2:%d, rht_status:%d, down_status:%d, left:%d\n", row1, row2, col1, col2, rht_status, down_status, left);
 #endif
-
-
-    if(rht_status == down_status)
+        if(rht_status == down_status)
             return -1;
 
-    if(0 == rht_status){
+        if(0 == rht_status){
             col1++;
             col2++;
             left -= row;
-    }else{
+        }else{
             row1++;
             row2++;
             left -= col;
+        }
     }
-    return dfs(row1, row2, col1, col2, left);
 }
 
 
