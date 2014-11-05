@@ -1,7 +1,21 @@
-4 6
-<><>
-v^v^v^
-
-
-Out Put
-YES
+XX..
+XX..
+XXXX
+XXXX
+start_row: 0; start_col:0
+row:1 , col:1, row1:0, row2:0, col1:0, col2:0->>>>
+row1:0, row2:0, col1:0, col2:0, rht_status:0, down_status:0, left:11
+row:1 , col:2, row1:0, row2:0, col1:0, col2:1->>>>
+row1:0, row2:0, col1:0, col2:1, rht_status:-1, down_status:0, left:10
+row1:1, row2:1, col1:0, col2:1, rht_status:-1, down_status:0, left:8
+row1:2, row2:2, col1:0, col2:1, rht_status:0, down_status:0, left:6
+row:2 , col:1, row1:0, row2:1, col1:0, col2:0->>>>
+row1:0, row2:1, col1:0, col2:0, rht_status:0, down_status:0, left:10
+row:3 , col:1, row1:0, row2:2, col1:0, col2:0->>>>
+row1:0, row2:2, col1:0, col2:0, rht_status:0, down_status:0, left:9
+row:2 , col:2, row1:0, row2:1, col1:0, col2:1->>>>
+row1:0, row2:1, col1:0, col2:1, rht_status:-1, down_status:0, left:8
+row1:1, row2:2, col1:0, col2:1, rht_status:-1, down_status:0, left:6
+row1:2, row2:3, col1:0, col2:1, rht_status:0, down_status:-1, left:4
+row1:2, row2:3, col1:1, col2:2, rht_status:0, down_status:-1, left:2
+4
