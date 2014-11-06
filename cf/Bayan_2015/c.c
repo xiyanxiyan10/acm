@@ -46,22 +46,23 @@ int dfs(int row_pos, int col_pos, int left){
             return 0;
         }
         
-        for(col_move = 0;  CHECK_MV(row_pos, col_pos , row, col_move +  col); col_move++)
-                    ;
+	col_move = 0;
+	for(i = 1; CHECK_MV(row_pos, col_pos , row, i +  col); i++){
+		col_move++;
+	}
 #ifdef DEBUG
     printf("--------------------------------------------------\n");
 #endif
-        for(row_move = 0;  CHECK_MV(row_pos, col_pos, row_move + row, col); row_move++)
-                    ;
-
-        row_move--;
-        col_move--;
+    	row_move = 0;
+        for(i = 1;  CHECK_MV(row_pos, col_pos, i + row, col); i++){
+         	row_move++;           
+	}
 
 #ifdef DEBUG
     printf("row_pos:%d, col_pos:%d, col_move:%d, row_move:%d, left:%d\n", row_pos, col_pos, col_move, row_move, left);
 #endif
 
-        if( !col_move &&!row_move)
+        if( !col_move && !row_move)
             return -1;
         if( col_move && row_move)
             return -1;
