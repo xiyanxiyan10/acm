@@ -42,54 +42,64 @@ int check_valid(int row1, int row2, int col1, int col2){
 
 
 int dfs(int row1, int row2, int col1, int col2, int left){
-    int rht_status;
-    int down_status;
+    int rht_move;
+    int down_move;
     int i, j;
+    int stop;
 
     while(1){
 
         if(!left){
             return 0;
         }
-
-        i = col2 +1;            /*check right*/
-        if(i >= n){
-            rht_status = -1;
-        }else{
-            rht_status = 0;
-            for(j = row1; j <= row2; j++)
+        
+        stop = 0;
+        rht_move = 0;                           /*greedy check right*/
+        for(i = col2 + 1; i < n; i++){
+            for(j = row1; j <= row2; j++){
+#ifdef DEBUG
+    printf("check [%d][%d]\n", j, i);
+#endif
                 if(!table[j][i]){
-                    rht_status = -1;
+                    stop = 1;
                     break;
                 }
+            }
+            if(stop)
+                break;
+            rht_move++;
         }
 
-        i = row2 +1;            /*check down*/
-        if(i >= n){
-            down_status = -1;
-        }else{
-            down_status = 0;
-            for(j = col1; j <= col2; j++)
+        stop = 0;
+        down_move = 0;                          /*greddy check down*/
+        for(i = row2 + 1; i < m; i++){
+            for(j = col1; j <= col2; j++){
                 if(!table[i][j]){
-                    down_status = -1;
+                    stop =1;
                     break;
                 }
+            }
+            if(stop)
+                break;
+            down_move++;
         }
 
 #ifdef DEBUG
-        printf("row1:%d, row2:%d, col1:%d, col2:%d, rht_status:%d, down_status:%d, left:%d\n", row1, row2, col1, col2, rht_status, down_status, left);
+        printf("row1:%d, row2:%d, col1:%d, col2:%d, rht_move:%d, down_move:%d, left:%d\n", row1, row2, col1, col2, rht_move, down_move, left);
 #endif
-        if(rht_status == down_status)
+        if( !rht_move &&!down_move)
+            return -1;
+        if( rht_move && down_move)
             return -1;
 
-        if(0 == rht_status){
-            col1++;
-            col2++;
-            left -= row;
+        if(rht_move){
+            col1 += rht_move;
+            col2 += rht_move;
+            left -= row*rht_move;
         }else{
-            row1++;
-            row2++;
-            left -= col;
+            row1 += down_move;
+            row2 += down_move;
+            left -= col*down_move;
         }
     }
 }
@@ -100,7 +110,6 @@ int main()
     int start_find = 0;
     int tot_alters = 0;
     int i, j;
-    char tmp;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
