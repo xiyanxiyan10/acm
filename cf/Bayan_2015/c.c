@@ -3,11 +3,11 @@
  * @file c.c
  * @author xiyan
  * @CreatedTime 2014/11/04
- * @LastChanged 2014/11/04
+ * @LastChanged 2014/11/06
  * @note
- *      type: dfs, brute, greedy
+ *      type: dfs, brute, greedy, dp
  *
- * @TODO TL
+ * @TODO WRL
  *
  */
 
@@ -18,8 +18,11 @@
 
 #define CLR(vec) memset(vec, 0, sizeof(vec))
 
+#define CHECK_MV(x, y, d, r)    (x + d <= m && y + r <=n && (sum[x + d][ y + r] - sum[x + d][y] - sum[x][y + r] - sum[x][y] == d*r))
+
 int table[MAXN][MAXN];          /*1. altered 0. not*/
-char buf[MAXN];                 /*quick read support*/
+int sum[MAXN][MAXN];            /*used for dp*/
+char buf[MAXN];                 /*quick IO*/
 
 int area;                       /*area brush covered*/
 int row, col;                   /*brush size*/
@@ -41,11 +44,9 @@ int check_valid(int row1, int row2, int col1, int col2){
 }
 
 
-int dfs(int row1, int row2, int col1, int col2, int left){
+int dfs(int row1, int col1, int left){
     int rht_move;
     int down_move;
-    int i, j;
-    int stop;
 
     while(1){
 
@@ -53,40 +54,16 @@ int dfs(int row1, int row2, int col1, int col2, int left){
             return 0;
         }
         
-        stop = 0;
-        rht_move = 0;                           /*greedy check right*/
-        for(i = col2 + 1; i < n; i++){
-            for(j = row1; j <= row2; j++){
-#ifdef DEBUG
-    printf("check [%d][%d]\n", j, i);
-#endif
-                if(!table[j][i]){
-                    stop = 1;
-                    break;
-                }
-            }
-            if(stop)
-                break;
-            rht_move++;
+        for(rht_move = 0;  CHECK_MV(row1, col1 , row, rht_move +  col); rht_move++){
+            ;
         }
 
-        stop = 0;
-        down_move = 0;                          /*greddy check down*/
-        for(i = row2 + 1; i < m; i++){
-            for(j = col1; j <= col2; j++){
-                if(!table[i][j]){
-                    stop =1;
-                    break;
-                }
-            }
-            if(stop)
-                break;
-            down_move++;
-        }
-
+        for(down_move = 0; CHECK_MV(row1, col1, down_move + row, col); down_move++)
+            ;
 #ifdef DEBUG
-        printf("row1:%d, row2:%d, col1:%d, col2:%d, rht_move:%d, down_move:%d, left:%d\n", row1, row2, col1, col2, rht_move, down_move, left);
+    printf("row1:%d, col1:%d, rht_move:%d, down_move:%d, left:%d\n", row1, col1, rht_move, down_move, left);
 #endif
+
         if( !rht_move &&!down_move)
             return -1;
         if( rht_move && down_move)
@@ -94,11 +71,9 @@ int dfs(int row1, int row2, int col1, int col2, int left){
 
         if(rht_move){
             col1 += rht_move;
-            col2 += rht_move;
             left -= row*rht_move;
         }else{
             row1 += down_move;
-            row2 += down_move;
             left -= col*down_move;
         }
     }
@@ -132,13 +107,18 @@ int main()
                     }else{
                             table[i][j] = 0;
                     }
-                   
+                    sum[i + 1][j + 1] =  sum[i][j + 1] + sum[i + 1][j] - sum[i][j] + (table[i][j]? 1 : 0); /*dp here*/ 
             }
     }
 #ifdef DEBUG
     for(i = 0; i < m; i++){
         for(j = 0; j < n; j++)
             printf("%c", table[i][j] ? 'X': '.');
+        printf("\n");
+    }
+    for(i = 0; i < m + 1; i++){
+        for(j = 0; j < n + 1; j++)
+            printf("%d ", sum[i][j]);
         printf("\n");
     }
 #endif
@@ -165,7 +145,7 @@ int main()
     printf("row:%d , col:%d, row1:%d, row2:%d, col1:%d, col2:%d->>>>\n", row, col, row1, row2, col1, col2);
 #endif
 
-            if( 0 == dfs(row1, row2, col1, col2, tot_alters - area)){
+            if( 0 == dfs(start_row, start_col, tot_alters - area)){
                 printf("%d\n", area);
                 return 0;
             }
