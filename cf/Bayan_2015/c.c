@@ -7,7 +7,7 @@
  * @note
  *      type: dfs, brute, greedy, dp
  *
- * @TODO WRL
+ * @TODO TL
  *
  */
 
@@ -15,10 +15,6 @@
 #include <stdio.h>
 
 #define MAXN 1100
-
-#define CLR(vec) memset(vec, 0, sizeof(vec))
-
-#define CHECK_MV(x, y, d, r)    (x + d <= m && y + r <=n && (sum[x + d][ y + r] - sum[x + d][y] - sum[x][y + r] - sum[x][y] == d*r))
 
 int table[MAXN][MAXN];          /*1. altered 0. not*/
 int sum[MAXN][MAXN];            /*used for dp*/
@@ -29,6 +25,10 @@ int row, col;                   /*brush size*/
 int row1, row2, col1, col2;     /*brush pos*/  
 int m, n;                       /*frame size*/
 int start_row, start_col;       /*start pos*/
+
+#define CLR(vec) memset(vec, 0, sizeof(vec))
+
+#define CHECK_MV(x, y, d, r)    ( (x + d <= m) && (y + r <= n) && (sum[x + d][ y + r] - sum[x + d][y] - sum[x][y + r] + sum[x][y] == (d)*(r)))
 
 int check_valid(int row1, int row2, int col1, int col2){ 
     
@@ -45,8 +45,8 @@ int check_valid(int row1, int row2, int col1, int col2){
 
 
 int dfs(int row1, int col1, int left){
-    int rht_move;
-    int down_move;
+    int col_move;
+    int row_move;
 
     while(1){
 
@@ -54,27 +54,32 @@ int dfs(int row1, int col1, int left){
             return 0;
         }
         
-        for(rht_move = 0;  CHECK_MV(row1, col1 , row, rht_move +  col); rht_move++){
-            ;
-        }
-
-        for(down_move = 0; CHECK_MV(row1, col1, down_move + row, col); down_move++)
-            ;
+        for(col_move = 0;  CHECK_MV(row1, col1 , row, col_move +  col); col_move++)
+                    ;
 #ifdef DEBUG
-    printf("row1:%d, col1:%d, rht_move:%d, down_move:%d, left:%d\n", row1, col1, rht_move, down_move, left);
+    printf("###############################\n");
+#endif
+        for(row_move = 0;  CHECK_MV(row1, col1, row_move + row, col); row_move++)
+                    ;
+
+        row_move--;
+        col_move--;
+
+#ifdef DEBUG
+    printf("row1:%d, col1:%d, col_move:%d, row_move:%d, left:%d\n", row1, col1, col_move, row_move, left);
 #endif
 
-        if( !rht_move &&!down_move)
+        if( !col_move &&!row_move)
             return -1;
-        if( rht_move && down_move)
+        if( col_move && row_move)
             return -1;
 
-        if(rht_move){
-            col1 += rht_move;
-            left -= row*rht_move;
+        if(col_move){
+            col1 += col_move;
+            left -= row*col_move;
         }else{
-            row1 += down_move;
-            left -= col*down_move;
+            row1 += row_move;
+            left -= col*row_move;
         }
     }
 }
