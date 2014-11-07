@@ -7,7 +7,6 @@
  * @note
  *      type: dfs, brute, greedy, dp
  *
- * @TODO TL
  *
  */
 
