@@ -25,24 +25,31 @@ int row, col;                   /*brush size*/
 int row_pos, col_pos;	                /*brush pos*/  
 int m, n;                       /*frame size*/
 int start_row, start_col;       /*start pos*/
+int max_row, max_col;     
+int cnt, tot;
+
 
 #define CLR(vec) memset(vec, 0, sizeof(vec))
+#define min(x,y) ((x) < (y) ? (x) : (y))
 
 #define CHECK_MV(x, y, d, r)    ( (x + d <= m) && (y + r <= n) && \
 		(sum[x + d][ y + r] - sum[x + d][y] - sum[x][y + r] + sum[x][y] == (d)*(r)))
 
 
-int dfs(int row_pos, int col_pos, int left){
+int dfs(int row_pos, int col_pos){
     int col_move;
     int row_move;
+    int i;
 
     if(0 == CHECK_MV(row_pos, col_pos, row, col)){
     	return -1;	
     }
 
+    cnt = row * col;
+
     while(1){
 
-        if(!left){
+        if(tot == cnt){
             return 0;
         }
         
@@ -59,7 +66,7 @@ int dfs(int row_pos, int col_pos, int left){
 	}
 
 #ifdef DEBUG
-    printf("row_pos:%d, col_pos:%d, col_move:%d, row_move:%d, left:%d\n", row_pos, col_pos, col_move, row_move, left);
+    printf("row_pos:%d, col_pos:%d, col_move:%d, row_move:%d, tot:%d\n", row_pos, col_pos, col_move, row_move, cnt);
 #endif
 
         if( !col_move && !row_move)
@@ -69,10 +76,10 @@ int dfs(int row_pos, int col_pos, int left){
 
         if(col_move){
             col_pos += col_move;
-            left -= row*col_move;
+            cnt += row*col_move;
         }else{
             row_pos += row_move;
-            left -= col*row_move;
+            cnt += col*row_move;
         }
     }
 }
@@ -81,8 +88,8 @@ int dfs(int row_pos, int col_pos, int left){
 int main()
 {
     int start_find = 0;
-    int tot_alters = 0;
     int i, j;
+    tot = 0;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
@@ -101,7 +108,7 @@ int main()
                                     start_row = i;
                                     start_col = j;
                             }
-                            tot_alters++;
+                            tot++;
                     }else{
                             table[i][j] = 0;
                     }
@@ -122,26 +129,29 @@ int main()
     }
 #endif
 
+    for(max_row = 0 ; (start_row + max_row <= m) && table[start_row + max_row][start_col]; max_row++)
+                                ;
+    for(max_col = 0 ; (start_col + max_col <= n) && table[start_row][start_col + max_col]; max_col++) 
+                                ;
+
 #ifdef  DEBUG
-    printf("start_row: %d; start_col:%d\n", start_row, start_col);
-#endif
-    for(area = 1; area <= tot_alters; area++)
-        for(row = 1; row <= m - start_row; row++){
-                if(area%row)
-                        continue;
-
-                col = area/row;
-
-#ifdef DEBUG
-    printf("row:%d , col:%d, row_pos:%d, col_pos:%d, ->>>>\n", row, col, row_pos, col_pos);
+    printf("start_row: %d; start_col:%d, max_row: %d; max_col: %d\n", start_row, start_col, max_row, max_col);
 #endif
 
-            if( 0 == dfs(start_row, start_col, tot_alters - area)){
-                printf("%d\n", area);
-                return 0;
-            }
-        }
-    printf("-1\n");
+    area = 0x7fffffff;
+
+    for(col = max_col, row = 1; row <= max_row; row++)
+        if( 0 == dfs(start_row, start_col))
+                    area = min(area, row*col);
+
+    for(row = max_row, col = 1; col <= max_col; col++)
+            if( 0 == dfs(start_row, start_col))
+                    area = min(area, row*col);
+
+    if(area == 0x7fffffff)
+            printf("-1\n");
+    else
+            printf("%d\n", area);
     return 0;
 }
 
