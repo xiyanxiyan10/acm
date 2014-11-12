@@ -1,3 +1,16 @@
+/*
+ * @brief hdu 5059
+ * @file 5059.c
+ * @author xiyan
+ * @CreatedTime 2014/11/12
+ * @LastChanged 2014/11/12
+ * @note
+ *      type: string convert
+ *
+ *
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 
