@@ -34,16 +34,8 @@
 
 ###正在进行
 <ol>
-<li>codeforces 268 div2 d</li>
-<li>codeforces 268 div2 e</li>
-<li>Bayan2015 d</li>
-<li>Bayan2015 e</li>
 <li>hdu 5060</li>
 <li>hdu 5061</li>
-<li>hdu 5062</li>
-<li>hdu 4995</li>
-<li>hdu 5020</li>
-<li>hdu 5021</li>
 </ol>
 
 
