@@ -5,7 +5,6 @@
  * @created 2014/11/14 13:39
  * @edited  2014/11/14 13:39
  * @type greedy
- * @TODO test
  *
  */
 #include <stdio.h>
@@ -25,7 +24,7 @@ int main(void){
     char *lft;        /*ptr to left*/
     char *rht;        /*ptr to right*/
     char *idx;        /*ptr to start pos*/
-    char *curr;       /*ptr to char with to convert*/
+    char *curr;       /*ptr to char wait to convert*/
     int  dir;         /*convert str in right half or left half?*/
     int midl, midr;
     int ans;            
@@ -73,7 +72,8 @@ int main(void){
                 updown_mv += min(abs(*lft - *rht), abs(MAXC - abs(*lft - *rht)));
         }
 #ifdef DEBUG
-        printf("rht_max = %d, lft_max = %d, updown_max = %d, lft = %p, rht = %p, idx = %p\n", rht_max, lft_max, updown_mv, lft, rht, idx);
+        printf("rht_max = %d, lft_max = %d, updown_max = %d, lft = %p, rht = %p, idx = %p\n",\
+                rht_max, lft_max, updown_mv, lft, rht, idx);
 #endif
         lft++;
         rht--;
@@ -94,7 +94,8 @@ int main(void){
             break;
         }
         
-        ans = (lft_max < rht_max ? (lft_max << 1) +  rht_max : (rht_max << 1) + lft_max) + updown_mv;
+        ans = (lft_max < rht_max ? (lft_max << 1) +  \
+                rht_max : (rht_max << 1) + lft_max) + updown_mv;
     
     }while(0);
     
