@@ -14,7 +14,8 @@
 #define MAXC 26
 
 #define max(a, b)  ((a) > (b) ? (a) : (b))
-#define abs(a)     ((a) > 0   ? (a) : (0 - a))
+#define min(a, b)  ((a) > (b) ? (b) : (a)) 
+#define abs(a)     ((a) >  0  ? (a) : (0 - (a)))
 
 int n, p;
 char str[MAXN];
@@ -27,6 +28,7 @@ int main(void){
     char *curr;       /*ptr to char with to convert*/
     int  dir;         /*convert str in right half or left half?*/
     int midl, midr;
+    int ans;            
 
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
@@ -34,18 +36,24 @@ int main(void){
 #endif
 
     scanf("%d%d%s", &n, &p, str);
-    midl = n >> 1;
-    midr = n&0x1? midl : midr + 1;
 
-    if(p == midl || p == midr){ /*pos in mid, so left half is the same with right half*/
-        dir = 0;                /*default left*/
+    p--;                        /*p start from 0 now*/
+    midr = n >> 1;
+
+    if(n&0x1){
+        dir = p > midr ? 1: 0;
     }else{
-        dir > midr ? 1: 0;      
+        midl = midr - 1;
+        dir = p >= midr ? 1 : 0;
     }
+
+#ifdef DEBUG
+    printf("pos at %s\n", dir ? "right" : "left");
+#endif
     
     lft = str;
     rht = str + n - 1;
-    idx = str + p - 1;          /*p start from 1*/
+    idx = str + p;                  
 
     lft_max = -1;
     rht_max = -1;
@@ -62,12 +70,36 @@ int main(void){
                     lft_mv = idx - curr;
                     lft_max = max(lft_max, lft_mv);
                 }
-                updown_mv += max(abs(*lft - *rht), abs(MAXC - abs(*lft - *rht)));
+                updown_mv += min(abs(*lft - *rht), abs(MAXC - abs(*lft - *rht)));
         }
+#ifdef DEBUG
+        printf("rht_max = %d, lft_max = %d, updown_max = %d, lft = %p, rht = %p, idx = %p\n", rht_max, lft_max, updown_mv, lft, rht, idx);
+#endif
         lft++;
         rht--;
     }
-    printf("%d\b", (lft_max < rht_max ? (lft_max << 1) + rht_max : (rht_max << 1) + lft_max) + updown_mv);
+    do{         /**analysis all cases here*/
+        if(-1 == lft_max && -1 == rht_max){
+                    ans = 0;
+                    break;
+        }
+
+        if(-1 == lft_max){
+            ans = rht_max + updown_mv;
+            break;
+        }
+
+        if(-1 == rht_max){
+            ans = lft_max + updown_mv;
+            break;
+        }
+        
+        ans = (lft_max < rht_max ? (lft_max << 1) +  rht_max : (rht_max << 1) + lft_max) + updown_mv;
+    
+    }while(0);
+    
+    printf("%d\n", ans); 
+            
     return 0;
 }
 
