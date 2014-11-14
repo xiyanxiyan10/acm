@@ -1,5 +1,6 @@
 /**
  * @brief Codeforces Round #277 (Div. 2) b
+ * @file b.c
  * @author 面码
  * @created 2014/11/13 14:01
  * @edited  2014/11/13 14:01

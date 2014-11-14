@@ -1,6 +1,7 @@
 /**
  * @brief Codeforces Round #277 (Div. 2) a
- * @author xiyan
+ * @file a.c
+ * @author 面码
  * @created 2014/11/13 11:23
  * @edited  2014/11/13 11:24
  * @type math 
