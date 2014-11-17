@@ -1,6 +1,6 @@
 /**
  * @brief Codeforces Round #277 (Div. 2) d
- * @file c.c
+ * @file d.cpp
  * @author 面码
  * @created 2014/11/17 15:00
  * @edited  2014/11/17 15:00
@@ -32,17 +32,18 @@ vector<int> tree[MAXN];
  * @brief dfs and try to add new node
  * @param[in] root start pos;
  * @param[in] base  edge start pos
- * @param[in] curr    edge end pos
+ * @param[in] curr  edge end pos
  * @note 
- *          every tree root hold min val and min index
  *
  */
 int dfs(int root, int base, int curr){
     int ans, to;
-    
-    /*in case of conflict*/
-    if( (val[curr] - val[root] >= d) || ( val[curr] == val[root] && root > curr))   
+    /*make sure root with min val, and min idx if there is a node with the same val in case of conflict*/
+
+    if(base)
+    if((val[curr] - val[root] > d) || val[curr] <  val[root] || ( val[curr] == val[root] && curr < root))   
             return 0;
+
     ans = 1;
     for(int i = 0; i < tree[curr].size(); i++){
         to = tree[curr][i];
