@@ -4,8 +4,7 @@
  * @author 面码
  * @created 2014/11/18 17:22
  * @edited  2014/11/18 17:22
- * @type enumeric
- * @TODO test
+ * @type greedy
  *
  */
 #include <stdio.h>
@@ -19,72 +18,45 @@
 int n, m;
 int girls[MAXN];
 int boys[MAXN];
-int *an;            /*an hold the sammler list*/
-int *am;            /*am hold the bigger list*/
 int tot;
-
-static inline void swap(int *a, int i, int j){
-        int tmp;
-        tmp  = a[j];
-        a[j] = a[i];
-        a[i] = tmp;
-}
-
-void solve(int spos, int epos){
-    int i;
-    int cnt;
-    if(spos == epos){
-        cnt = 0;
-#ifdef DEBUG
-        for(i = 0; i < m; i++){
-            printf("%d ", am[i]);
-        }
-        printf("\n");
-#endif
-        for(i = 0; i < n; i++)
-            if(abs(am[i] - an[i]) <= 1)
-                cnt++;
-        tot = max(tot, cnt);
-    }else{
-        for(i = spos; i <= epos; i++){
-                swap(am, spos, i);
-                solve(spos + 1, epos);
-                swap(am, spos, i);
-        }
-    }
-}
 
 int main()
 {
-    int i;
+    int i, val;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
 #endif
     scanf("%d", &n);
-    for(i = 0; i < n; i++)
-        scanf("%d", &boys[i]);
+    for(i = 0; i < n; i++){
+        scanf("%d", &val);
+        ++boys[val];
+    }
 
     scanf("%d", &m);
-    for(i = 0; i < m; i++)
-        scanf("%d", &girls[i]);
-
-    /*n store the smaller one*/
-    if(n < m){
-        an = boys;
-        am = girls;
-    }else{
-        n = n^m;
-        m = n^m;
-        n = n^m;
-        an = girls;
-        am = boys;
+    for(i = 0; i < m; i++){
+        scanf("%d", &val);
+        ++girls[val];
     }
-#ifdef DEBUG
-    printf("n = %d, m = %d\n", n, m);
-#endif
+
+    /*greedy here， we must see the problem from boys or girls, this is very important*/
+    tot = 0;
+    for(i = 1; i <= 100; i++){
+        val = min(boys[i], girls[i - 1]);
+        tot             += val;
+        boys[i]         -= val;
+        girls[i - 1]    -= val;
+
+        val = min(boys[i], girls[i]);
+        tot             += val;
+        boys[i]         -= val;
+        girls[i]        -= val;
     
-    solve(0, m - 1);
+        val = min(boys[i], girls[i + 1]);
+        tot             += val;
+        boys[i]         -= val;
+        girls[i + 1]    -= val;
+    }
 
     printf("%d\n", tot);
     return 0;
