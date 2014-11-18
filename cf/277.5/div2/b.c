@@ -5,6 +5,7 @@
  * @created 2014/11/18 17:22
  * @edited  2014/11/18 17:22
  * @type enumeric
+ * @TODO test
  *
  */
 #include <stdio.h>
@@ -68,7 +69,7 @@ int main()
     }else{
         n = n^m;
         m = n^m;
-        m = n^m;
+        n = n^m;
 
         an = girls;
         am = boys;
