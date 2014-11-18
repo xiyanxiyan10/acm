@@ -1,5 +1,5 @@
 /**
- * @brief Codeforces Round #277.5 (Div. 2) c
+ * @brief Codeforces Round #277.5 (Div. 2) a
  * @file a.c
  * @author 面码
  * @created 2014/11/18 16:37
