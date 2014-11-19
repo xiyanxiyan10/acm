@@ -31,10 +31,10 @@ int main()
 #endif
     scanf("%d%d", &m, &s);
 
-    for(base = 9, len = 0; s && len <= m; ++i){
+    for(base = 9, len = 0; s && len <= m && base > 0; base--){
         if(s >= base){
             cnt  = s/base;
-            s   =  s%base;
+            s    = s%base;
         }
         while(cnt--)
             buf[len++] = i + '0';
@@ -43,10 +43,8 @@ int main()
         printf("-1 -1\n");
         return 0;
     }else{
-        while(len <= m){
-            buf[len] = '0';
-            ++len;
-        }
+        while(len <= m)
+            buf[len++] = '0';
     }
 
     printf("%s ", buf);
@@ -54,7 +52,7 @@ int main()
     j = len -1;
 
     while(i < j){
-        tmp    = buf[j];
+        tmp    = buf[i];
         buf[i] = buf[j];
         buf[j] = tmp;
 
@@ -63,6 +61,5 @@ int main()
     }
     
     printf("%s\n", buf);
-
     return 0;
 }
