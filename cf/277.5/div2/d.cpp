@@ -4,7 +4,8 @@
  * @author 面码
  * @created 2014/11/19 17:07
  * @edited  2014/11/19 17:07
- * @type dfs
+ * @type dfs brute
+ * @TODO test
  */
 #include <cstdio>
 #include <cstring>
@@ -24,6 +25,7 @@ using namespace std;
 int ans;
 int n, m;
 int color[MAXN];
+int count[MAXN];
 
 vector<int>tree[MAXN];
 stack<int> st;
@@ -45,7 +47,7 @@ void dfs(int root){
             to = tree[from][idx];
                 if(WHITE != color[to]){
                     if(BLACK == color[to])
-                        ++ans;
+                        count[to]++;
                     return;
                 }else{
                     color[to] = GRAY;
@@ -71,7 +73,11 @@ int main()
     ans = 0;
     for(i = 0; i < n; i++){
         CLR(color);
+        CLR(count);
         dfs(i);
+        for(j = 0; j < n; j++)
+            if(count[j])
+                ans += (count[j] * count[j] - 1) >> 1;
     }
     printf("%d\n", ans);
     return 0;
