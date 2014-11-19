@@ -2,8 +2,8 @@
  * @brief Codeforces Round #277.5 (Div. 2) c
  * @file c.c
  * @author 面码
- * @created 2014/11/18 17:22
- * @edited  2014/11/18 17:22
+ * @created 2014/11/19 13:33
+ * @edited  2014/11/19 13:33
  * @type greedy
  */
 #include <stdio.h>
