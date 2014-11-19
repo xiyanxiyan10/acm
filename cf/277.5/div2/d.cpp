@@ -46,9 +46,12 @@ void dfs(int root){
         for(idx = 0; idx < tree[from].size(); idx++){
             to = tree[from][idx];
                 if(WHITE != color[to]){
-                    if(BLACK == color[to])
+                    if(BLACK == color[to]){
                         count[to]++;
-                    return;
+#ifdef DEBUG
+                        printf("Get black in %d\n", to);
+#endif
+                    }
                 }else{
                     color[to] = GRAY;
                     st.push(to);
@@ -60,7 +63,7 @@ void dfs(int root){
 
 int main()
 {
-    int i, j, k;
+    int i, j, k, tmp;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
@@ -71,13 +74,14 @@ int main()
         tree[j].push_back(k);
     }
     ans = 0;
-    for(i = 0; i < n; i++){
+    for(i = 1; i <= n; i++){
         CLR(color);
         CLR(count);
         dfs(i);
-        for(j = 0; j < n; j++)
-            if(count[j])
-                ans += (count[j] * count[j] - 1) >> 1;
+        for(j = 1; j <= n; j++)
+            if(count[j]){
+                ans++;
+            }
     }
     printf("%d\n", ans);
     return 0;
