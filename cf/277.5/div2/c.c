@@ -15,51 +15,74 @@
 #define min(a, b)  ((a) > (b) ? (b) : (a)) 
 #define abs(a)     ((a) >  0  ? (a) : (0 - (a)))
 
-char buf[MAXN];
+char buf_max[MAXN];
+char buf_min[MAXN];
 
-int m, s;
+int m, s, sum;
 int min_val;
 
 int main()
 {
-    int i, j, len, base, cnt;
+    int i, j, base, cnt;
     char tmp;
-    char buf[MAXN];
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
 #endif
     scanf("%d%d", &m, &s);
-
-    for(base = 9, len = 0; s && len <= m && base > 0; base--){
-        if(s >= base){
-            cnt  = s/base;
-            s    = s%base;
+    if( 0 == s){
+        if(1 == m){
+            printf("0 0\n");
+            return 0;
+        }else{
+            printf("-1 -1\n");
+            return 0;
         }
-        while(cnt--)
-            buf[len++] = i + '0';
-    }
-    if(len > m){
-        printf("-1 -1\n");
-        return 0;
     }else{
-        while(len <= m)
-            buf[len++] = '0';
+        if(9*m < s){
+            printf("-1 -1\n");
+            return 0;
+        }
     }
 
-    printf("%s ", buf);
-    i = 0;
-    j = len -1;
+    /*here must have an answer*/
 
-    while(i < j){
-        tmp    = buf[i];
-        buf[i] = buf[j];
-        buf[j] = tmp;
+    /*max num*/
+    sum = s;
+    for(base = 9, i = 0; sum > 0 && i <= m && base > 0; base--){
+        if(sum >= base){
+            cnt    = sum/base;
+            sum    = sum%base;
+        }else
+            continue;
 
-        i++;
-        j--;
+        while(cnt--)
+            buf_max[i++] = base + '0';
     }
+
+    while(i < m)
+        buf_max[i++] = '0';
+
+    /*min num*/
+    sum = s;
+    for(base = 9, i = m - 1; sum > 0 && i >= 0 && base > 0; base--){
+        if(sum >= base){
+            cnt  = sum/base;
+            sum  = sum%base;
+        }else
+            continue;
+
+        while(cnt--)
+            buf_min[i--] = base + '0';
+    }
+    if(0 == buf_min[0]){
+            buf_min[0] = '1';
+            buf_min[i + 1]--;
+    }
+    while(i > 0)
+            buf_min[i++] = '0';
     
-    printf("%s\n", buf);
+    /*output answer*/
+    printf("%s %s\n", buf_min, buf_max);
     return 0;
 }
