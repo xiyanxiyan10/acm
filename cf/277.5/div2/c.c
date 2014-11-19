@@ -80,7 +80,7 @@ int main()
             buf_min[i + 1]--;
     }
     while(i > 0)
-            buf_min[i++] = '0';
+            buf_min[i--] = '0';
     
     /*output answer*/
     printf("%s %s\n", buf_min, buf_max);
