@@ -25,6 +25,7 @@ int ans;
 int n, m;
 
 vector<int>tree[MAXN];
+int table[MAXN][MAXN];  /*flag there is a way from m to n*/
 
 int main()
 {
@@ -37,6 +38,7 @@ int main()
     for(i = 0; i < m; i++){
         scanf("%d%d", &j, &k);
         tree[j].push_back(k);
+        table[j][k] = 1;
     }
     ans = 0;
     for( i = 1; i <= n; i++)
@@ -45,7 +47,7 @@ int main()
                 continue;
             cnt = 0;
             for(k = 0; k < tree[i].size(); k++){
-                    if(tree[i][k] == j)
+                    if(table[tree[i][k]][j])
                         cnt++;
             }
             ans += cnt ? (cnt * (cnt - 1))>>1 : 0;
