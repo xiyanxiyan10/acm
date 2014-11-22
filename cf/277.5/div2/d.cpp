@@ -2,10 +2,10 @@
  * @brief Codeforces Round #277.5 (Div. 2) d
  * @file d.cpp
  * @author 面码
- * @created 2014/11/19 18:32
- * @edited  2014/11/19 18:32
+ * @created 2014/11/22 11:23
+ * @edited  2014/11/22 11:23
  * @type brute
- * #TODO 题意理解错误，更改部分待完成
+ * @note 
  */
 #include <cstdio>
 #include <cstring>
@@ -29,28 +29,28 @@ int table[MAXN][MAXN];  /*flag there is a way from m to n*/
 
 int main()
 {
-    int i, j, k, cnt;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
 #endif
     scanf("%d%d", &n, &m);
-    for(i = 0; i < m; i++){
-        scanf("%d%d", &j, &k);
-        tree[j].push_back(k);
-        table[j][k] = 1;
+    for(int i = 0; i < m; i++){
+        int from, to;
+        scanf("%d%d", &from, &to);
+        tree[from].push_back(to);
+        table[from][to] = 1;
     }
     ans = 0;
-    for( i = 1; i <= n; i++)
-        for( j = 1; j <= n; j++){
-            if( i == j)
+    for( int from = 1; from <= n; from++)
+        for( int to = 1; to <= n; to++){
+            if( from == to)
                 continue;
-            cnt = 0;
-            for(k = 0; k < tree[i].size(); k++){
-                    if(table[tree[i][k]][j])
+            int cnt = 0;
+            for(int i = 0; i < tree[from].size(); i++){
+                    if(table[tree[from][i]][to])
                         cnt++;
             }
-            ans += cnt ? (cnt * (cnt - 1))>>1 : 0;
+            ans += cnt >= 2? (cnt * (cnt - 1))>>1 : 0;
         }
     printf("%d\n", ans);
     return 0;
