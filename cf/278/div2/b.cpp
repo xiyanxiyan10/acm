@@ -45,18 +45,16 @@ int main()
         printf("YES\n");
         printf("1\n1\n3\n3\n");
     }
-    for(int a = 0; a <= 500; a++)
-        for(int b = a; b <= 2000; b++)
-            for(int c = 0; c <= 2000 - b; c++){
-                int d = 3*a;
-                int cost;
-                if(4*a != b + c)
-                    continue;
+    int a, b, c, d;
+    for(a = 0; a <= 500; a++)
+        for( d = 3*a, b = 0; b <= 4*a; b++){
+                c = a + d - b;
                 anstable[a]++;
                 anstable[b]++;
                 anstable[c]++;
                 anstable[d]++;
                 
+                int cost = 0;
                 if(anstable[a] >= table[a]){
                     cost += table[a];
                     anstable[a] -= table[a];
