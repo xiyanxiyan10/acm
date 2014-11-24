@@ -19,7 +19,7 @@
 
 using namespace std;
 
-#define MAXN 1500
+#define MAXN 2000
 
 #define max(a, b)  ((a) > (b) ? (a) : (b))
 #define min(a, b)  ((a) > (b) ? (b) : (a)) 
@@ -27,8 +27,8 @@ using namespace std;
 
 int tmp;
 int n;
-int table[1500];
-int anstable[1500];
+int table[MAXN + 50];
+int anstable[MAXN + 50];
 
 int main()
 {
