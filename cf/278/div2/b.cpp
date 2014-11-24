@@ -92,9 +92,9 @@ int main()
                         anstable[c]--;
                     }
 
-                    while(anstable[c]){
-                        printf("%d\n", c);
-                        anstable[c]--;
+                    while(anstable[d]){
+                        printf("%d\n", d);
+                        anstable[d]--;
                     }
                     return 0;
                 }else{
