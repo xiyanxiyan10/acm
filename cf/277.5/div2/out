@@ -1,1 +1,35 @@
-8
+idx 1
+frust 1.000000
+picture 3
+prev 0
+val 0.333333
+
+idx 2
+frust 2.414214
+picture 7
+prev 1
+val 0.344888
+
+idx 3
+frust 3.414214
+picture 16
+prev 2
+val 0.213388
+
+idx 4
+frust 3.414214
+picture 26
+prev 3
+val 0.131316
+
+idx 5
+frust 4.414214
+picture 33
+prev 4
+val 0.133764
+
+1
+2
+3
+4
+5
