@@ -38,6 +38,7 @@ struct path_item path[MAXN];
 
 int ans;
 int n;
+int l;
 
 void print_path(int idx){
     if(0 != dp[idx].prev)
@@ -51,28 +52,40 @@ int main()
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
 #endif
-    scanf("%d", &n);
-    printf("%d\n", ans);
+    scanf("%d%d", &n, &l);
+    CLR(dp);
+    CLR(path);
     for(int i = 1; i <= n; i++)
         scanf("%d%d", &path[i].distance, &path[i].picture);
     for(int i = 1; i <= n; i++){
-        double max_val = 0.0;
         double curr_val;
-        double frust;
-        int picture;
-        int    max_idx;
+        double curr_frust;
+        int    curr_picture;
+        double min_frust;
+        int    min_picture;
+        int    min_idx = -1;
+        double min_val = 10000000000.0;
         for(int j = 0; j < i; j++){
-                frust = dp[j].frust +  sqrt((double)abs(path[i].distance - path[j].distance));
-                picture = dp[j].picture + path[j].picture;
-                curr_val = frust/picture;
-                if(curr_val > max_val){
-                    max_val = curr_val;
-                    max_idx = j;
+                curr_frust = dp[j].frust +  sqrt((double)abs(path[i].distance - path[j].distance - l));
+                curr_picture = dp[j].picture + path[i].picture;
+                curr_val = curr_frust/curr_picture;
+                if(curr_val < min_val){
+                    min_val = curr_val;
+                    min_idx = j;
+                    min_frust = curr_frust;
+                    min_picture = curr_picture;
                 }   
-                dp[i].frust = frust;
-                dp[i].picture = picture;
-                dp[i].prev = j;
         }
+        dp[i].frust = min_frust;
+        dp[i].picture = min_picture;
+        dp[i].prev = min_idx < 0 ? 0 : min_idx;
+#ifdef DEBUG
+        printf("idx %d\n", i);
+        printf("frust %lf\n",  dp[i].frust);
+        printf("picture %d\n", dp[i].picture);
+        printf("prev %d\n",    dp[i].prev);
+        printf("val %ld\n",    dp[i].frust/dp[i].picture);
+#endif
     }
     print_path(n);
     return 0;
