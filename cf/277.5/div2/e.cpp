@@ -84,7 +84,7 @@ int main()
         printf("frust %lf\n",  dp[i].frust);
         printf("picture %d\n", dp[i].picture);
         printf("prev %d\n",    dp[i].prev);
-        printf("val %ld\n",    dp[i].frust/dp[i].picture);
+        printf("val %lf\n",    dp[i].frust/dp[i].picture);
 #endif
     }
     print_path(n);
