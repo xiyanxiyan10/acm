@@ -2,10 +2,10 @@
  * @brief Codeforces Round #278 (Div. 2) d
  * @file d.c
  * @author 面码
- * @created 2014/11/25 15:49
- * @edited  2014/11/25 15:49
+ * @created 2014/11/25 17:32
+ * @edited  2014/11/25 17:32
  * @type dp
- * @TODO TL
+ * @TODO TL in test 11
  *
  */
 #include <stdio.h>
@@ -26,7 +26,7 @@ int n, s, l;
 
 int main()
 {
-    int i, j, k, min_cnt, max_num, min_num;
+    int i, j, min_cnt, max_num, min_num;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
@@ -41,15 +41,18 @@ int main()
             continue;
         }
         min_cnt = MAXN;
-        for(j = 0; j + l <= i; j++){    /*use record*/
+        min_num = MAXS;
+        max_num = -1;
+
+        for(j = i - l + 2; j <= i; j++){
+            max_num = max(max_num, in[j]);
+            min_num = min(min_num, in[j]);
+        }
+        for(j = i - l; j >= 0; j--){    /*use record*/
+            max_num = max(max_num, in[j + 1]);
+            min_num = min(min_num, in[j + 1]);
             if(dp[j] < 0)
-                    continue;
-            max_num = -1;
-            min_num = MAXS;
-            for(k = j + 1; k <= i; k++){
-                    max_num = max(max_num, in[k]);
-                    min_num = min(min_num, in[k]);
-            }
+                continue;
             if(max_num - min_num > s)
                 continue;
             min_cnt = min(min_cnt, dp[j] + 1);

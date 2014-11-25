@@ -2,10 +2,9 @@
  * @brief Codeforces Round #278 (Div. 2) c
  * @file c.c
  * @author 面码
- * @created 2014/11/25 9:57
- * @edited  2014/11/25 9:57
+ * @created 2014/11/25 14:15
+ * @edited  2014/11/25 14:15
  * @type brute
- * @TODO wr in test11
  *
  */
 #include <stdio.h>
@@ -32,18 +31,23 @@ int main()
     scanf("%d%d%d", &hpM, &atkM, &defM);  
     scanf("%d%d%d", &hp,  &atk,  &def);  
     min_cost = 0x7fffffff;
-    for(hpC = 0; hpC <= 100; hpC++)
-        for(atkC = 0; atkC <= 100; atkC++)
-            for(defC = 0; defC <= 100; defC++){
+    for(atkC = 0; atkC <= 200; atkC++)
+            for(defC = 0; defC <= 200; defC++){
                 decY = atkM - (defY + defC);
                 decM = (atkY + atkC) - defM;
+    
                 if(decM <= 0)           /*can't kill monster*/
                     continue;
 
                 if(decY > 0){
                     round =  hpM/decM + (hpM%decM ? 1: 0);
-                    if(hpY  + hpC - decY*round <= 0)
-                            continue;
+                    hpC = hpY - decY*round;
+                    if(hpC <= 0)
+                        hpC = abs(hpC) + 1;
+                    else
+                        hpC = 0;
+                }else{
+                        hpC = 0;            /*need not buy hp*/
                 }
                 curr_cost = hp*hpC + atk*atkC + def*defC;
                 min_cost = min(curr_cost, min_cost);
