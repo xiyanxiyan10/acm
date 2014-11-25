@@ -40,14 +40,14 @@ int main()
             continue;
         }
         min_cnt = MAXN;
-        for(j = 0; j + l <= i; j++){    /*use rcord*/
+        for(j = 0; j + l <= i; j++){    /*use record*/
             if(dp[j] < 0)
                     continue;
             max_num = -1;
             min_num = MAXS;
             for(k = j + 1; k <= i; k++){
-                    max_num = max(max_num, dp[k]);
-                    min_num = min(min_num, dp[k]);
+                    max_num = max(max_num, in[k]);
+                    min_num = min(min_num, in[k]);
             }
             if(max_num - min_num > s)
                 continue;
