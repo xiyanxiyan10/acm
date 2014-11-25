@@ -5,7 +5,7 @@
  * @created 2014/11/25 9:57
  * @edited  2014/11/25 9:57
  * @type brute
- * @TODO wr
+ * @TODO wr in test11
  *
  */
 #include <stdio.h>
@@ -23,6 +23,7 @@ int main()
 {
     int min_cost, curr_cost;
     int decY, decM;
+    int round;
 #ifdef DEBUG
     freopen("./in",  "r", stdin);
     freopen("./out", "w", stdout);
@@ -34,14 +35,15 @@ int main()
     for(hpC = 0; hpC <= 100; hpC++)
         for(atkC = 0; atkC <= 100; atkC++)
             for(defC = 0; defC <= 100; defC++){
-                decY = atkM - (defY + def*defC);
-                decM = (atkY + atk*atkC) - defM;
+                decY = atkM - (defY + defC);
+                decM = (atkY + atkC) - defM;
                 if(decM <= 0)           /*can't kill monster*/
                     continue;
 
                 if(decY > 0){
-                    if ( (hpY + hp*hpC) * decM <  hpM * decY )
-                                continue;
+                    round =  hpM/decM + (hpM%decM ? 1: 0);
+                    if(hpY  + hpC - decY*round <= 0)
+                            continue;
                 }
                 curr_cost = hp*hpC + atk*atkC + def*defC;
                 min_cost = min(curr_cost, min_cost);
