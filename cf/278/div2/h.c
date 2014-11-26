@@ -22,6 +22,7 @@
 
 int in[MAXN];
 int dp[MAXN];
+int dpl[MAXN];
 int n, s, l;
 
 int main()
