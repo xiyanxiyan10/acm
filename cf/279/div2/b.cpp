@@ -3,13 +3,9 @@
  * @file b.cpp
  * @author 面码
  * @created 2014/11/27 15:29
- * @edited  2014/11/27 15:29
+ * @edited  2014/11/27 20:40
  * @type 
  * @note
- *      1. build 0 <- ? -> a <- ? -> b ->0
- *      2. get ans
- *
- * @TODO wait to test
  */
 #include <cstdio>
 #include <stack>
