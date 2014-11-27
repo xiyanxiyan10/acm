@@ -14,6 +14,7 @@
 #include <cstdio>
 #include <stack>
 #include <cstring>
+#include <set>
 
 using namespace std;
 
@@ -25,10 +26,11 @@ using namespace std;
 #define MAXN 1000010
 
 int n;
+/*stand from left to right*/
+set <int> store;
+int ans[MAXN];
 int cnt;
 
-/*stand from left to right*/
-int ans[MAXN];
 int lft[MAXN];
 int rht[MAXN];
 
@@ -42,9 +44,10 @@ int main(void){
 #endif
     scanf("%d", &n);
     for(i = 0; i < n ; i++){
-        scanf("%d%d", left, right);
+        scanf("%d%d", &left, &right);
         lft[right] = left;
         rht[left]  = right;
+        store.insert(right);
     }
 
     /*2 need spicial solve*/
@@ -54,17 +57,14 @@ int main(void){
     }
 
     /*get header*/
-    right = rht[0];     
-    while(right != 0)
+    cnt = 0;
+    right = rht[0];    
+    
+    while(right){
         ans[cnt++] = right;
+        right = rht[right];
+    }
     
-    /*output header*/
-    printf("%d ", lft[ans[cnt]]);
-    
-    for(i = 0; i < cnt - 1; i++)
-        printf("%d ", rht[ans[cnt]]);
-    
-    printf("%d ", rht[ans[cnt]]);
     
     return 0;
 }
