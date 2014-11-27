@@ -26,7 +26,7 @@ set<int> lft_store;
 set<int> rht_store;
 
 int n;
-int lft[MAXN];
+//int lft[MAXN];
 int rht[MAXN];
 
 int i;
@@ -40,7 +40,7 @@ int main(void){
     scanf("%d", &n);
     for(i = 0; i < n ; i++){
         scanf("%d%d", &left, &right);
-        lft[right] = left;
+        //lft[right] = left;
         rht[left]  = right;
         if(left)
         lft_store.insert(left);
