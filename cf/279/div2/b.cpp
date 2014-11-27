@@ -26,7 +26,8 @@ using namespace std;
 
 #define MAXN 1000010
 
-set<int> store;
+set<int> lft_store;
+set<int> rht_store;
 
 int n;
 int lft[MAXN];
@@ -46,24 +47,36 @@ int main(void){
         lft[right] = left;
         rht[left]  = right;
         if(left)
-            store.insert(left);
+        lft_store.insert(left);
+        if(right)
+        rht_store.insert(right);
     }
 
-    for(set<int>::iterator iter = store.begin(); iter != store.end(); iter++){
-        if(!lft[*iter]){
-            curr = *iter;
-            break;
-        }
+    for(set<int>::iterator iter = rht_store.begin(); iter != rht_store.end(); iter++){
+#ifdef DEBUG
+        printf("match = %d\n", *iter);
+#endif
+        lft_store.erase(*iter);
     }
+
+    /*Get queue head*/
+    curr = *lft_store.begin();
     right = rht[0];
 
+#ifdef DEBUG
+    printf("curr = %d, rht = %d\n", curr, right);
+#endif
     do{
-        /*TODO howto output?*/
-        printf("%d", curr);
-        right = rht[right];
+        printf("%d ", curr);
+        tmp = rht[curr];
         curr = right;
         right = tmp;
+#ifdef DEBUG
+    //printf("curr = %d, rht = %d\n", curr, right);
+#endif
     }while(right);
+
+    printf("%d\n", curr);
 
     return 0;
 }
