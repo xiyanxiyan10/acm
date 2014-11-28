@@ -84,11 +84,13 @@ int main(void){
                 continue;
 
         tmp = val%rht;
-        if(!tmp)
-            if(record[pos] && pos != 0 && pos != size - 1){
+        if(!tmp){
+            if(record[pos] && pos != 0 && pos != size - 1)
                 idx = pos;
-                break;
-            }
+        }else{
+            if(pos == size - 1)
+                idx = -1;
+        }
     }
 
     if(idx > 0){
