@@ -3,9 +3,9 @@
  * @file c.cpp
  * @author 面码
  * @created 2014/11/28 17:06
- * @edited  2014/11/28 17:06
+ * @edited  2014/11/28 18:24
  * @type math
- * @TODO check all rht big num
+ * @TODO test
  * @note
  */
 #include <fstream>
@@ -32,9 +32,9 @@ ofstrream out;
 #endif
 
 int num[MAXN];           /*store big num */
-int lft_record[MAXN];    /*division pos record*/
-int rht_record[MAXN];    /*division pos record*/
+int record[MAXN];        /*division pos record*/
 
+int idx;
 int i;
 int lft, rht;
 int size;
@@ -62,6 +62,8 @@ int main(void){
     for(int i = 0; i < size; i++)
             num[i] = str[i] - '0';
     
+    idx = -1;
+
     /*calculate all lft big num division */
     val = 0;
     for(int pos = 0; pos < size; pos++){ 
@@ -71,13 +73,29 @@ int main(void){
 
         tmp = val%lft;
         if(!tmp)
-            lft_record[pos + 1] = 1;        /*record lft string len*/
+            record[pos] = 1;                /*record lft string pos*/
     }
 
+    val = 0;
     /*calculate all rht big num division*/
-    for(int pos = 1; pos < size; pos++){ 
-           
+    for(int pos = size - 1; pos >= 0; pos--){ 
+        val = val*10 + num[pos];
+        if(val < rht)                       /*too small, go on*/
+                continue;
 
+        tmp = val%rht;
+        if(!tmp)
+            if(record[pos] && pos != 0 && pos != size - 1){
+                idx = pos;
+                break;
+            }
+    }
+
+    if(idx > 0){
+        cout << "YES\n";
+        COUT << str.substr(0, idx + 1) << " " << str.substr(idx + 1);
+    }else{
+        COUT << "NO\n";
     }
     return 0;
 }
