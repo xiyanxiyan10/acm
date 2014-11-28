@@ -23,7 +23,7 @@ using namespace std;
 
 #ifdef DEBUG
 ifstream in;
-ofstrream out;
+ofstream out;
 #define CIN in
 #define COUT out
 #else
@@ -54,7 +54,7 @@ int main(void){
     size = str.size();
 
     /*check str*/
-    if('0' != str[0] && size < 2){
+    if('0' == str[0] || size < 2){
         COUT << "NO\n";
         return 0;
     }
@@ -72,20 +72,31 @@ int main(void){
                 continue;
 
         tmp = val%lft;
-        if(!tmp)
+        if(!tmp){
+	       /*ignore rht str start with 0*/
+	       if(pos < size - 1 && 0 == num[pos + 1])
+		       		continue;
+#ifdef DEBUG
+		COUT << "lft: " << pos << "->" << num[pos] << "\n";
+#endif
             record[pos] = 1;                /*record lft string pos*/
+	 }
     }
+    record[size - 1] = 0;		    /*we clear 0 end here*/
 
     val = 0;
     /*calculate all rht big num division*/
-    for(int pos = size - 1; pos >= 0; pos--){ 
+    for(int pos = 0; pos < size; pos++){ 
         val = val*10 + num[pos];
         if(val < rht)                       /*too small, go on*/
                 continue;
 
         tmp = val%rht;
         if(!tmp){
-            if(record[pos] && pos != 0 && pos != size - 1)
+#ifdef DEBUG
+		COUT << "rht: " << pos << "->" << num[pos] << "\n";
+#endif
+            if(record[pos])
                 idx = pos;
         }else{
             if(pos == size - 1)
