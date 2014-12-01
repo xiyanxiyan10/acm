@@ -1,11 +1,10 @@
 /**
  * @brief Codeforces Round #279 (Div. 2) c
  * @file c.cpp
- * @author 面码
+ * @author mianma
  * @created 2014/11/28 17:06
- * @edited  2014/11/28 18:24
+ * @edited  2014/12/1  18:23
  * @type math
- * @TODO test
  * @note
  */
 #include <fstream>
@@ -31,85 +30,59 @@ ofstream out;
 #define COUT cout
 #endif
 
-int num[MAXN];           /*store big num */
-int record[MAXN];        /*division pos record*/
+int lft_record[MAXN];    /*division pos record*/
+int rht_record[MAXN];    /*division pos record*/
 
-int idx;
 int i;
 int lft, rht;
-int size;
-int val;
+int n;
 int base;
-int tmp;
 string str;
 
 int main(void){
+    ios_base::sync_with_stdio(0);
 #ifdef DEBUG
     CIN.open("./in",  ios::in);
     COUT.open("./out",  ios::out);
 #endif
+
     CIN >> str;
     CIN >> lft >> rht;
 
-    size = str.size();
+    n = str.size();
 
     /*check str*/
-    if('0' == str[0] || size < 2){
+    if('0' == str[0] || n < 2){
         COUT << "NO\n";
         return 0;
     }
 
-    for(int i = 0; i < size; i++)
-            num[i] = str[i] - '0';
+    lft_record[0] = 0;
+    for(int i = 1; i < n; i++)
+        lft_record[i] = ((str[i - 1] - '1' + 1) + lft_record[i - 1] * 10)%lft;
     
-    idx = -1;
+    rht_record[n + 1] = 0;
+    base = 1;
+    /*(x1 + x2)%y = (x1%y + x2%y)%y,  x%y = x%y%y%y%y*/
+    for( int i = n; i > 1; i--){
+        rht_record[i] = ((str[i - 1] - '1' + 1)*base + rht_record[i + 1])%rht;
+        base = (10 * base)%rht; 
+    }
 
-    /*calculate all lft big num division */
-    val = 0;
-    for(int pos = 0; pos < size; pos++){ 
-        val = val*10 + num[pos];
-        if(val < lft)                       /*too small, go on*/
+    for(int i = 1; i < n; i++){
+        if(lft_record[i] || rht_record[i + 1]||'0' == str[i])
                 continue;
 
-        tmp = val%lft;
-        if(!tmp){
-	       /*ignore rht str start with 0*/
-	       if(pos < size - 1 && 0 == num[pos + 1])
-		       		continue;
-#ifdef DEBUG
-		COUT << "lft: " << pos << "->" << num[pos] << "\n";
-#endif
-            record[pos] = 1;                /*record lft string pos*/
-	 }
+        COUT << "YES\n";
+        for(int idx = 1; idx <= i; idx++)
+                COUT << str[idx - 1];
+        COUT << "\n";
+        for(int idx = i + 1; idx <= n; idx++)
+                COUT << str[idx - 1];
+        COUT << "\n";
+        return 0;
     }
-    record[size - 1] = 0;		    /*we clear 0 end here*/
-
-    val = 0;
-    /*calculate all rht big num division*/
-    for(int pos = 0; pos < size; pos++){ 
-        val = val*10 + num[pos];
-        if(val < rht)                       /*too small, go on*/
-                continue;
-
-        tmp = val%rht;
-        if(!tmp){
-#ifdef DEBUG
-		COUT << "rht: " << pos << "->" << num[pos] << "\n";
-#endif
-            if(record[pos])
-                idx = pos;
-        }else{
-            if(pos == size - 1)
-                idx = -1;
-        }
-    }
-
-    if(idx > 0){
-        cout << "YES\n";
-        COUT << str.substr(0, idx + 1) << " " << str.substr(idx + 1);
-    }else{
-        COUT << "NO\n";
-    }
+    COUT << "NO\n";
     return 0;
 }
 
