@@ -4,7 +4,7 @@
  * @author 面码
  * @created 2014/12/04 17:49
  * @edited  2014/12/04 17:58
- * @type 
+ * @type  implementation
  *
  */
 #include <iostream>
