@@ -3,7 +3,7 @@
  * @file a.cpp
  * @author 面码
  * @created 2014/12/04 17:49
- * @edited  2014/12/04 17:49
+ * @edited  2014/12/04 17:58
  * @type 
  *
  */
@@ -79,9 +79,13 @@ int main(void){
     for(int i = 0; i < n; i++){
         num = event_table[i].num;
         team_curr = &team_table[event_table[i].idx];
+        if(team_curr->players[num] < 0)
+                continue;
         team_curr->players[num] += event_table[i].color;
+
         if(team_curr->players[num] > 1){
-            COUT << team_curr->name << " " << num << " " << event_table[i].timestamp << endl;
+            COUT << team_curr->name << " " << num << " " << event_table[i].timestamp << "\n";
+            team_curr->players[num] = -1;
         }
     }
     return 0;
