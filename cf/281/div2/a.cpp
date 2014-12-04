@@ -21,8 +21,6 @@ using namespace std;
 #define abs(a)     ((a) >  0  ? (a) : (0 - (a)))
 #define CLR(vec)   memset(vec, 0, sizeof(vec))
 
-typedef stack<int> bbq;
-
 #define MAXN 110
 
 struct team{
