@@ -65,16 +65,21 @@ int main(void){
         player_curr->points[player_curr->cnt++] = tmp;
         player_curr->tot + tmp;
     }
-    if(players[0].tot <  players[1].tot){
-        COUT << players[1].name << "\n";
+
+    struct player *lft, *rht;
+    lft = &players[0];
+    rht = &players[1];
+
+    if(lft->tot < rht->tot){
+        COUT << rht->name << "\n";
         return 0;
-    }else if(players[0].tot > players[1].tot){
-        COUT << players[0].name << "\n";
+    }else if(lft->tot > rht->tot){
+        COUT << lft->name << "\n";
         return 0;
     }
     
     int i;
-    for(i = 0; i < max(players[0].cnt, players[1].cnt); i++){
+    for(i = 0; i < max(playe.cnt, players[1].cnt); i++){
                 if(players[0].points[i] != players[1].points[i])
                             break;
     }
