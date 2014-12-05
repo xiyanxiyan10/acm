@@ -3,7 +3,7 @@
  * @file b.cpp
  * @author 面码
  * @created 2014/12/04 18:40
- * @edited  2014/12/04 18:40
+ * @edited  2014/12/05 9:37
  * @type  implementation
  *
  */
@@ -50,6 +50,7 @@ ofstream out;
 #endif
 
 int n, tmp;
+struct player * player_last;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -60,10 +61,10 @@ int main(void){
     CIN >> n;
     for(int i = 0; i < n; i++){
         CIN >> tmp;
-        struct player * player_curr  = tmp > 0 ? &players[0] : &players[1];
+        player_last  = tmp > 0 ? &players[0] : &players[1];
         tmp = abs(tmp);
-        player_curr->points[player_curr->cnt++] = tmp;
-        player_curr->tot + tmp;
+        player_last->tot += tmp;
+        player_last->points[player_last->cnt++] = tmp;
     }
 
     struct player *lft, *rht;
@@ -76,30 +77,27 @@ int main(void){
     }else if(lft->tot > rht->tot){
         COUT << lft->name << "\n";
         return 0;
+    }else{
+        ;
     }
     
     int i;
-    for(i = 0; i < max(playe.cnt, players[1].cnt); i++){
-                if(players[0].points[i] != players[1].points[i])
-                            break;
+    for(i = 0; i < max(lft->cnt, rht->cnt); i++){
+            if(lft->points[i] != rht->points[i])
+                    break;
     }
-    if(players[0].points[i] > players[1].points[i]){
-        COUT << players[0].name << "\n";
+
+    if(lft->points[i] > rht->points[i]){
+        COUT << lft->name << "\n";
         return 0;
     }
 
-    if(players[0].points[i] < players[1].points[i]){
-        COUT << players[1].name << "\n";
+    if(lft->points[i] < rht->points[i]){
+        COUT << rht->name << "\n";
         return 0;
     }
-
-    if(players[0].points[players[0].cnt - 1] > players[1].points[players[1].cnt - 1]){
-        COUT << players[0].name << "\n";
-        return 0;
-    }else{
-        COUT << players[1].name << "\n";
-        return 0;
-    }
+    
+    COUT << player_last->name << "\n";
     return 0;
 }
 
