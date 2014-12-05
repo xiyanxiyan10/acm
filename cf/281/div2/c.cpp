@@ -50,12 +50,12 @@ long long  int search_points(vector<int> & vec, int key){
     int rht = vec.size();
     while( lft < rht){
             mid  = ((rht - lft)>> 1) + lft;
-            if(vec[mid] < key)
-                    rht = mid;
-            else
+            if(vec[mid] <= key)
                     lft = mid + 1;
+            else
+                    rht = mid;
     }
-    return ( 2 * (ll )mid + 3 * ( vec.size() - (ll)mid ));
+    return ( 2 * (ll )rht + 3 * ( vec.size() - (ll)rht ));
 }
 
 int main(void){
