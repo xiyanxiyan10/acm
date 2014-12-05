@@ -3,8 +3,9 @@
  * @file b.cpp
  * @author 面码
  * @created 2014/12/05 11:54
- * @edited  2014/12/05 11:54
- * @type  binary_search
+ * @edited  2014/12/05 15:36
+ * @type  brute
+ * @think Consider brute at first
  *
  */
 #include <iostream>
@@ -29,9 +30,8 @@ using namespace std;
 
 typedef long long int ll;
 
-vector<int> n_vec, m_vec;
+int n_vec[MAXN], m_vec[MAXN];
 int tmp, m, n;
-int max_pos = -1;
 ll max_val, max_tmp, max_a, max_b, max_n, max_m;
 
 #ifdef DEBUG
@@ -44,20 +44,6 @@ ofstream out;
 #define COUT cout
 #endif
 
-long long  int search_points(vector<int> & vec, int key){
-    int mid;
-    int lft = 0;
-    int rht = vec.size();
-    while( lft < rht){
-            mid  = ((rht - lft)>> 1) + lft;
-            if(vec[mid] <= key)
-                    lft = mid + 1;
-            else
-                    rht = mid;
-    }
-    return ( 2 * (ll )rht + 3 * ( vec.size() - (ll)rht ));
-}
-
 int main(void){
     ios_base::sync_with_stdio(0);
 #ifdef DEBUG
@@ -65,42 +51,28 @@ int main(void){
     COUT.open("./out",  ios::out);
 #endif
     CIN >> n;
-    for(int i = 0; i < n; i++){
-        CIN >> tmp;
-        max_pos = max(tmp, max_pos);
-        n_vec.push_back(tmp);
-    }
-    sort(n_vec.begin(), n_vec.end());
-
+    for(int i = 0; i < n; ++i)  CIN >> n_vec[i];
     CIN >> m;
-    for(int i = 0; i < m; i++){
-        CIN >> tmp;
-        max_pos = max(tmp, max_pos);
-        m_vec.push_back(tmp);
-    }
-    sort(m_vec.begin(), m_vec.end());
+    for(int i = 0; i < m; ++i)  CIN >> m_vec[i];
+
+    sort(n_vec, n_vec + n);
+    sort(m_vec, m_vec + m);
     
-    max_n = search_points(n_vec, max_pos);
-    max_m = search_points(m_vec, max_pos);
-    max_val = max_n - max_m;
-    max_a = max_n;
-    max_b = max_m;
-    
-    for(int i = 0; i <= max_pos; i++){
-            max_n = search_points(n_vec, i);
-            max_m = search_points(m_vec, i);
-            max_tmp = max_n - max_m;
-            if(max_tmp > max_val){
-                max_a = max_n;
-                max_b = max_m;
-                max_val = max_tmp;
-            }else if(max_tmp == max_val && max_n  > max_a){
-                max_a = max_n;
-                max_b = max_m;
-                max_val = max_tmp;
-            }else{
-                ;
-            }
+    max_a = 2*n;
+    max_b = 2*m;
+    max_val = max_a - max_b;
+
+    for(int i = 0, j = 0; i < m; ++i){
+        if(i > 0 && n_vec[i] == n_vec[i - 1])   continue;
+        while(j < m && m_vec[j] < n_vec[i])     ++j;
+        max_n = 2*1LL*i + 3*1LL*(n - i);
+        max_m = 2*1LL*j + 3*1LL*(m - j);
+        max_tmp = max_n - max_m;
+        if( max_tmp > max_val || max_tmp == max_val && max_n > max_a){
+            max_a = max_n;
+            max_b = max_m;
+            max_val = max_tmp;
+        }
     }
     COUT << max_a << ":" << max_b << "\n";
     return 0;
