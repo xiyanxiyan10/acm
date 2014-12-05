@@ -1,6 +1,6 @@
 /**
- * @brief Codeforces Round #281 (Div. 2) b
- * @file b.cpp
+ * @brief Codeforces Round #281 (Div. 2) c
+ * @file c.cpp
  * @author 面码
  * @created 2014/12/05 11:54
  * @edited  2014/12/05 15:36
