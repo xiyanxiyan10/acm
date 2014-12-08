@@ -64,12 +64,14 @@ void brute(int row, int col, store &st, int cost){
     
     if( 0 == row%3)
         brute(row/3*2, col, st, cost);
+
+    if(row != col){
+        if(0 == col%2)
+            brute(row, col/2, st, cost);
     
-    if(0 == col%2)
-        brute(row, col/2, st, cost);
-    
-    if(0 == col%3)
-        brute(row, col/3*2, st, cost);
+        if(0 == col%3)
+            brute(row, col/3*2, st, cost);
+    }
 }
 
 int main(void){
