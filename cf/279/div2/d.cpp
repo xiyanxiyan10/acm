@@ -86,20 +86,27 @@ int main(void){
 #endif
     brute(rht_row, rht_col, rht, 0);
     store::iterator lft_iter = lft.begin();
-    store::iterator rht_iter;
-
+    store::iterator rht_iter = rht.begin();
     int min_cost = 0x7fffffff;
     int cost;
     lft_ans = lft.end();
-    for(; lft_iter != lft.end(); lft_iter++)
-            if( (rht_iter = rht.find(lft_iter->first)) != rht.end()){
-                cost = lft_iter->second.cost + rht_iter->second.cost;
-                if(cost < min_cost){
-                    min_cost = cost;
-                    lft_ans = lft_iter;
-                    rht_ans = rht_iter;
-                }
+    for(; lft_iter != lft.end(); lft_iter++){
+            while(rht_iter->first < lft_iter->first && rht_iter != rht.end())
+                rht_iter++;
+            if(rht_iter == rht.end())
+                    break;
+            if(rht_iter->first > lft_iter->first)
+                    continue;
+            cost = lft_iter->second.cost + rht_iter->second.cost;
+#ifdef DEBUG
+            //COUT << "check : " << rht_iter->first << "->" << cost << "\n";
+#endif
+            if(cost < min_cost){
+                min_cost = cost;
+                lft_ans = lft_iter;
+                rht_ans = rht_iter;
             }
+    }
 
     if(lft_ans == lft.end()){
         COUT << "-1\n";
