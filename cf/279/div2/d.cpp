@@ -2,8 +2,8 @@
  * @brief Codeforces Round #279 (Div. 2) c
  * @file c.cpp
  * @author 面码
- * @created 2014/11/28 16:39
- * @edited  2014/11/28 18:24
+ * @created 2014/11/28 17:14
+ * @edited  2014/11/28 17:14
  * @type brute
  * @note
  */
@@ -47,9 +47,10 @@ store lft, rht;
 
 int lft_row, rht_row, lft_col, rht_col;
 
-int cost = 0;
-
-void brute(int row, int col, store &st){
+void brute(int row, int col, store &st, int cost){
+#ifdef DEBUG
+    COUT <<  "row = " << row << "|" << "col = " << col << "|" << "cost = " << cost << "\n";
+#endif
     pair<ll, struct elem> tmp;
     tmp.first = row*col;
     tmp.second.row = row;
@@ -59,16 +60,16 @@ void brute(int row, int col, store &st){
 
     cost++;
     if(0 == row%2)
-        brute(row/2, col, st);
+        brute(row/2, col, st, cost);
     
     if( 0 == row%3)
-        brute(row/3*2, col, st);
+        brute(row/3*2, col, st, cost);
     
     if(0 == col%2)
-        brute(row, col/2, st);
+        brute(row, col/2, st, cost);
     
     if(0 == col%3)
-        brute(row, col/3*2, st);
+        brute(row, col/3*2, st, cost);
 }
 
 int main(void){
@@ -77,27 +78,28 @@ int main(void){
     CIN.open("./in",  ios::in);
     COUT.open("./out",  ios::out);
 #endif
-    CIN >> lft_row >> rht_col;
+    CIN >> lft_row >> lft_col;
     CIN >> rht_row >> rht_col;
-    brute(lft_row, lft_col, lft);
-    brute(rht_row, rht_col, rht);
-    
+    brute(lft_row, lft_col, lft, 0);
+#ifdef DEBUG
+    COUT << "\n\n";
+#endif
+    brute(rht_row, rht_col, rht, 0);
     store::iterator lft_iter = lft.begin();
-    store::iterator rht_iter = rht.begin();
+    store::iterator rht_iter;
+
     int min_cost = 0x7fffffff;
     int cost;
     lft_ans = lft.end();
     for(; lft_iter != lft.end(); lft_iter++)
-        for(; rht_iter != rht.end(); rht_iter++){
-            if(lft_iter->first != rht_iter->first)  
-                    continue;
-            cost = lft_iter->second.cost + rht_iter->second.cost;
-            if(cost < min_cost){
-                min_cost = cost;
-                lft_ans = lft_iter;
-                rht_ans = rht_iter;
+            if( (rht_iter = rht.find(lft_iter->first)) != rht.end()){
+                cost = lft_iter->second.cost + rht_iter->second.cost;
+                if(cost < min_cost){
+                    min_cost = cost;
+                    lft_ans = lft_iter;
+                    rht_ans = rht_iter;
+                }
             }
-        }
 
     if(lft_ans == lft.end()){
         COUT << "-1\n";
