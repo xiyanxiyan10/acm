@@ -5,7 +5,7 @@
  * @created 2014/11/28 17:14
  * @edited  2014/11/28 17:14
  * @type brute
- * @note
+ * @note TL
  */
 #include <fstream>
 #include <iostream>
