@@ -1,11 +1,10 @@
 /**
- * @brief Codeforces Round #279 (Div. 2) c
- * @file c.cpp
+ * @brief Codeforces Round #279 (Div. 2) d
+ * @file d.cpp
  * @author 面码
- * @created 2014/11/28 17:14
- * @edited  2014/11/28 17:14
- * @type brute
- * @note TL
+ * @created 2014/12/09 10:58
+ * @edited  2014/12/09 10:58
+ * @type math greedy
  */
 #include <fstream>
 #include <iostream>
@@ -34,45 +33,9 @@ ofstream out;
 
 typedef long long int ll;
 
-struct elem{
-    int row;
-    int col;
-    int cost;
-};
-
-typedef long long int ll;
-typedef map<ll, struct elem> store;
-store::iterator lft_ans, rht_ans;
-store lft, rht;
-
-int lft_row, rht_row, lft_col, rht_col;
-
-void brute(int row, int col, store &st, int cost){
-#ifdef DEBUG
-    COUT <<  "row = " << row << "|" << "col = " << col << "|" << "cost = " << cost << "\n";
-#endif
-    pair<ll, struct elem> tmp;
-    tmp.first = row*col;
-    tmp.second.row = row;
-    tmp.second.col = col;
-    tmp.second.cost = cost;
-    st.insert(tmp);     
-
-    cost++;
-    if(0 == row%2)
-        brute(row/2, col, st, cost);
-    
-    if( 0 == row%3)
-        brute(row/3*2, col, st, cost);
-
-    if(row != col){
-        if(0 == col%2)
-            brute(row, col/2, st, cost);
-    
-        if(0 == col%3)
-            brute(row, col/3*2, st, cost);
-    }
-}
+ll a, b, c, d;
+ll ans, a1, b1, c1, d1;
+ll c12, c13, c22, c23;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -80,43 +43,40 @@ int main(void){
     CIN.open("./in",  ios::in);
     COUT.open("./out",  ios::out);
 #endif
-    CIN >> lft_row >> lft_col;
-    CIN >> rht_row >> rht_col;
-    brute(lft_row, lft_col, lft, 0);
-#ifdef DEBUG
-    COUT << "\n\n";
-#endif
-    brute(rht_row, rht_col, rht, 0);
-    store::iterator lft_iter = lft.begin();
-    store::iterator rht_iter = rht.begin();
-    int min_cost = 0x7fffffff;
-    int cost;
-    lft_ans = lft.end();
-    for(; lft_iter != lft.end(); lft_iter++){
-            while(rht_iter->first < lft_iter->first && rht_iter != rht.end())
-                rht_iter++;
-            if(rht_iter == rht.end())
-                    break;
-            if(rht_iter->first > lft_iter->first)
-                    continue;
-            cost = lft_iter->second.cost + rht_iter->second.cost;
-#ifdef DEBUG
-            //COUT << "check : " << rht_iter->first << "->" << cost << "\n";
-#endif
-            if(cost < min_cost){
-                min_cost = cost;
-                lft_ans = lft_iter;
-                rht_ans = rht_iter;
-            }
-    }
+    CIN >> a >> b >> c >> d;
+    ans = 0;
 
-    if(lft_ans == lft.end()){
+    a1 = a, b1 = b, c1 = c, d1 = d;
+    c13 = 0; c23 = 0;
+    while(0 == a1%3 && a1) a1 /= 3, c13++;
+    while(0 == b1%3 && b1) b1 /= 3, c13++;
+    while(0 == c1%3 && c1) c1 /= 3, c23++;
+    while(0 == d1%3 && d1) d1 /= 3, c23++;
+
+    while(c13 > c23 && 0 == a%3 && a) c13--, a = a*2/3, ans++;
+    while(c13 > c23 && 0 == b%3 && b) c13--, b = b*2/3, ans++;
+    while(c13 < c23 && 0 == c%3 && c) c23--, c = c*2/3, ans++;
+    while(c13 < c23 && 0 == d%3 && d) c23--, d = d*2/3, ans++;
+
+    a1 = a, b1 = b, c1 = c, d1 = d;
+    c12 = 0; c22 = 0;
+    while(0 == a1%2 && a1) a1 /= 2, c12++;
+    while(0 == b1%2 && b1) b1 /= 2, c12++;
+    while(0 == c1%2 && c1) c1 /= 2, c22++;
+    while(0 == d1%2 && d1) d1 /= 2, c22++;
+
+    while(c12 > c22 && 0 == a%2 && a) c12--, a /= 2, ans++;
+    while(c12 > c22 && 0 == b%2 && b) c12--, b /= 2, ans++;
+    while(c12 < c22 && 0 == c%2 && c) c22--, c /= 2, ans++;
+    while(c12 < c22 && 0 == d%2 && d) c22--, d /= 2, ans++;
+
+    if(a *b != c*d){
         COUT << "-1\n";
-    }else{
-        COUT << min_cost << "\n";
-        COUT << lft_ans->second.row << " " << lft_ans->second.col << "\n";
-        COUT << rht_ans->second.row << " " << rht_ans->second.col << "\n";
+        return 0;
     }
+    COUT << ans << "\n";
+    COUT << a << " " << b << "\n";
+    COUT << c << " " << d << "\n";
     return 0;
 }
 
