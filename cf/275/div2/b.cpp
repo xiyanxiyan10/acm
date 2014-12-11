@@ -69,6 +69,7 @@ int main(void){
         else
             rht = mid;               /*may get an answer more better*/
     }
+    COUT << lft << endl;
     return 0;
 }
 
