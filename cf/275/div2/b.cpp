@@ -2,9 +2,9 @@
  * @brief Codeforces Round #275 (Div. 2) b
  * @file b.cpp
  * @author 面码
- * @created 2014/12/11 16:55
- * @edited  2014/12/11 16:55
- * @type  brute math
+ * @created 2014/12/11 18:09
+ * @edited  2014/12/11 18:09
+ * @type  math binary search
  * @TODO wait to test
  *
  */
@@ -35,13 +35,14 @@ ofstream out;
 #define COUT cout
 #endif
 
-/*calulate this from math*/
-#define MAXN 1010
+#define MAXN (3e13+10)
 
-int cnt1, cnt2, x, y, i, j;
-int need1, need2, need;
+typedef long long int ll;
 
-int st1, st2, st3;
+ll lft, rht, mid;
+ll cnt1, cnt2, x, y, z;
+ll i, j, k;
+ll need1, need2;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -50,31 +51,23 @@ int main(void){
     COUT.open("./out",  ios::out);
 #endif
     CIN >> cnt1 >> cnt2 >> x >> y;
-    double tmp = (double)cnt1 + (double)cnt2;
-    i = max( (int)floor((-1 + sqrt(4*tmp + 1))/2), 2);
+    z = x*y;
+    lft = 2; rht = MAXN;
+    while(lft <  rht){
+        mid = ((rht - lft)/2 + lft);
+                                      /*set problem*/
+        i = mid - mid/x;              /*elements'tot  which could only distribute to cnt1*/
+        j = mid - mid/y;              /*elements'tot  which could only distribute to cnt2*/
+        k = mid - mid/z;              /*elements'tot  which could distribute both cnt1 and cnt2*/
+        if(i < cnt1)
+            k = k - (cnt1 - i);
+        if(j < cnt2)
+            k = k - (cnt2 - j);
 
-    for(j = i; j < MAXN; j++){
-        int bmp = 0;
-        if(j%x)
-            bmp |= (1 << 0);
-        if(j%y)
-            bmp |= (1 << 1);
-        if(3 == bmp)     /*element can distribute into both*/
-            ++st3;
-        else if(1 == bmp)
-            ++st1;
-        else if(2 == bmp)
-            ++st2;
+        if(k < 0)
+            lft = mid + 1;           /*need mote element*/
         else
-            ;
-
-        need1 = cnt1 - st1;
-        need2 = cnt2 - st2;
-        need  = (need1 > 0 ? need1 : 0) + (need2 > 0 ? need2 : 0);
-        if(need > st3)
-                continue;
-        COUT << j << "\n";
-        return 0;
+            rht = mid;               /*may get an answer more better*/
     }
     return 0;
 }
