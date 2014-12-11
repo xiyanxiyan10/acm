@@ -35,7 +35,7 @@ ofstream out;
 #define COUT cout
 #endif
 
-#define MAXN (3e13+10)
+#define MAXN (2e9 + 10)
 
 typedef long long int ll;
 
