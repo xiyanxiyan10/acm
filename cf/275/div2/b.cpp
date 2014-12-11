@@ -56,11 +56,12 @@ int main(void){
     while(lft <  rht){
         mid = ((rht - lft)/2 + lft);
                                       /*set problem*/
-        i = mid - mid/x;              /*elements'tot  which could distribute to cnt1*/
-        j = mid - mid/y;              /*elements'tot  which could distribute to cnt2*/
-        k = mid - mid/z;              /*elements'tot  which could distribute both cnt1 and cnt2*/
-        i -= k;
-        j -= k;
+        i = mid/x;                    /*x division nums*/               
+        j = mid/y;                    /*y division nums*/
+        k = mid - i - j + mid/z;              
+        i = mid - i - k;
+        j = mid - j - k;
+
         if(i < cnt1)
             k = k - (cnt1 - i);
         if(j < cnt2)
