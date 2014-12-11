@@ -16,6 +16,7 @@
 #include <set>
 #include <cstring>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -37,10 +38,10 @@ ofstream out;
 /*calulate this from math*/
 #define MAXN 1010
 
-int cnt1, cnt2, x, y, i, j, num;
+int cnt1, cnt2, x, y, i, j;
 int need1, need2, need;
 
-stack<int> st1, st2, st3;
+int st1, st2, st3;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -54,35 +55,22 @@ int main(void){
 
     for(j = i; j < MAXN; j++){
         if(j%x && j%y){     /*element can distribute into both*/
-            st3.push(j);
+            ++st3;
             continue;
         }
 
         if(j%x)            /*element can only distribute to cnt1*/
-            st1.push(j);
+            ++st1;
         if(j%y)            /*element can only distribute to cnt2*/
-            st2.push(j);
-        need1 = cnt1 - st1.size();
-        need2 = cnt2 - st2.size();
+            ++st2;
+        need1 = cnt1 - st1;
+        need2 = cnt2 - st2;
         need  = (need1 > 0 ? need1 : 0) + (need2 > 0 ? need2 : 0);
-        if(need > st3.size())
+        if(need > st3)
                 continue;
-
-        for(; need1 < 0; need1++)
-                st1.pop();
-        for(; need1 > 0; need1--){
-                st1.push(st3.top());
-                st3.pop();
-        }
-
-        for(; need2 < 0; need2++)
-                st2.pop();
-        for(; need2 > 0; need2--){
-                st2.push(st3.top());
-                st3.pop();
-        }
+        COUT << j << "\n";
+        return 0;
     }
-    COUT << "-1\n";
     return 0;
 }
 
