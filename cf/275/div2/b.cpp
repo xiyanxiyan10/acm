@@ -54,15 +54,20 @@ int main(void){
     i = max( (int)floor((-1 + sqrt(4*tmp + 1))/2), 2);
 
     for(j = i; j < MAXN; j++){
-        if(j%x && j%y){     /*element can distribute into both*/
+        int bmp = 0;
+        if(j%x)
+            bmp |= (1 << 0);
+        if(j%y)
+            bmp |= (1 << 1);
+        if(3 == bmp)     /*element can distribute into both*/
             ++st3;
-            continue;
-        }
-
-        if(j%x)            /*element can only distribute to cnt1*/
+        else if(1 == bmp)
             ++st1;
-        if(j%y)            /*element can only distribute to cnt2*/
+        else if(2 == bmp)
             ++st2;
+        else
+            ;
+
         need1 = cnt1 - st1;
         need2 = cnt2 - st2;
         need  = (need1 > 0 ? need1 : 0) + (need2 > 0 ? need2 : 0);
