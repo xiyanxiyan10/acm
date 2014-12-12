@@ -2,10 +2,10 @@
  * @brief Codeforces Round #275 (Div. 2) b
  * @file b.cpp
  * @author 面码
- * @created 2014/12/11 18:09
- * @edited  2014/12/11 18:09
+ * @created 2014/12/12 9:44
+ * @edited  2014/12/12 9:44
  * @type  math binary search
- * @TODO wait to test
+ * 
  *
  */
 #include <iostream>
@@ -56,11 +56,15 @@ int main(void){
     while(lft <  rht){
         mid = ((rht - lft)/2 + lft);
                                       /*set problem*/
-        i = mid/x;                    /*x division nums*/               
-        j = mid/y;                    /*y division nums*/
-        k = mid - i - j + mid/z;              
-        i = mid - i - k;
-        j = mid - j - k;
+        i = mid - mid/x;                            
+        j = mid - mid/y;                    
+        k = mid -  mid/z;              
+        k = i + j - k;
+        i -= k;
+        j -= k;
+#ifdef DEBUG
+    COUT << i << " " << j << " " << k << "\n";
+#endif
 
         if(i < cnt1)
             k = k - (cnt1 - i);
