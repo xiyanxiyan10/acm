@@ -2,8 +2,8 @@
  * @brief Codeforces Round #282 (Div. 2) b
  * @file b.cpp
  * @author mianma
- * @created 2014/12/15 9:55
- * @edited  2014/12/15 9:55
+ * @created 2014/12/15 11:52
+ * @edited  2014/12/15 11:52
  * @type math
  * @note
  */
