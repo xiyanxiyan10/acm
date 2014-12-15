@@ -1,9 +1,9 @@
 /**
- * @brief Codeforces Round #280 (Div. 2) a
+ * @brief Codeforces Round #282 (Div. 2) a
  * @file a.cpp
  * @author mianma
- * @created 2014/12/02 10:43
- * @edited  2014/12/02 10:43
+ * @created 2014/12/15 9:55
+ * @edited  2014/12/15 9:55
  * @type math
  * @note
  */
