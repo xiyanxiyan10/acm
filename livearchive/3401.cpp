@@ -67,10 +67,9 @@ void brute(void){
         if(3 == i){ rot(up, tmp); rot(up, tmp); }
         if(4 == i){ rot(lft, tmp); rot(lft, tmp); rot(lft, tmp); rot(up, tmp); }
         if(5 == i){ rot(lft, tmp); rot(lft, tmp); rot(up, tmp); }
-        for(int j = 0; j < 3; j++){
-            memcpy(dice[view++], tmp, sizeof(tmp));
+        for(int j = 0; j < 4; j++, view++){
+            memcpy(dice[view], tmp, sizeof(tmp));
             rot(lft, tmp);
-            view++;
         }
     }
 }
@@ -125,6 +124,13 @@ int main(void){
     string color;
     /*init status table*/
     brute();
+#ifdef DEBUG
+    for(int i = 0; i < MAXB; i++){
+        for(int j = 0; j < MAXV; j++)
+                COUT << dice[i][j] << " ";
+        COUT << "\n";
+    }
+#endif
     while(CIN >> n && n){
     /*init color db*/
         db_init();
