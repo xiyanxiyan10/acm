@@ -97,7 +97,7 @@ void check_ans()
         CLR(counter);
         curr_max = -1;
         for(int j = 0; j < n; j++){
-            curr_max = max(curr_max, ++counter[dice[status[j]][i]]);
+            curr_max = max(curr_max, ++counter[table[j][dice[status[j]][i]]]);
         }
         tot += MAXV - curr_max;
     }
@@ -108,7 +108,7 @@ void dfs(int d){
     if(d == n )
         check_ans();
     else{
-        for(int i = 0; i <= 24; i++){
+        for(int i = 0; i < MAXB; i++){
             status[d] = i;
             dfs(d + 1);
         }
