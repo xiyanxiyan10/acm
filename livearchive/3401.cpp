@@ -92,14 +92,22 @@ void check_ans()
 {
     /*counter difference color*/
     int counter[MAXB];
-    int tot, curr_max;
+    int tot = 0;
     for(int i = 0; i < MAXV; i++){
         CLR(counter);
-        curr_max = -1;
+        int max_faces = 0;
         for(int j = 0; j < n; j++){
-            curr_max = max(curr_max, ++counter[table[j][dice[status[j]][i]]]);
+#ifdef DEBUG
+            if( table[j][dice[status[j]][i]] >= MAXB)
+                    COUT << "overflow\n"; 
+#endif
+            max_faces = max(max_faces, ++counter[table[j][dice[status[j]][i]]]);
         }
-        tot += MAXV - curr_max;
+        tot += n - max_faces;   
+#ifdef DEBUG
+        if(max_faces > n)
+            COUT << "error with:" << n << "<-> " <<max_faces << "\n";
+#endif
     }
     ans = min(tot, ans);
 }
@@ -139,6 +147,15 @@ int main(void){
                 CIN >> color;
                 table[i][j] = db_add(color);
             }
+#ifdef DEBUG
+    /*decode color*/
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < MAXV; j++){
+                COUT << db[table[i][j]] << " ";
+            }
+            COUT << "\n";
+        }
+#endif
         ans = n*MAXV;
         status[0] = 2;
         dfs(1);
