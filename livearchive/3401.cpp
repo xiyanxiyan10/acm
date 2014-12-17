@@ -55,7 +55,7 @@ int n;
 int ans;
 
 /*brute all status*/
-void brute(){
+void brute(void){
     int view = 0;
     int tmp[MAXV];
     int base[MAXV] = { 0, 1, 2, 3, 4, 5};
@@ -66,7 +66,7 @@ void brute(){
         if(2 == i){ ;}
         if(3 == i){ rot(up, tmp); rot(up, tmp); }
         if(4 == i){ rot(lft, tmp); rot(lft, tmp); rot(lft, tmp); rot(up, tmp); }
-        if(5 == i){ rot(lft, tmp); rot(up, tmp); }
+        if(5 == i){ rot(lft, tmp); rot(lft, tmp); rot(up, tmp); }
         for(int j = 0; j < 3; j++){
             memcpy(dice[view++], tmp, sizeof(tmp));
             rot(lft, tmp);
@@ -128,7 +128,7 @@ int main(void){
     while(CIN >> n && n){
     /*init color db*/
         db_init();
-        for(int i = 0; i < n; i ++)
+        for(int i = 0; i < n; i++)
             for(int j = 0; j < MAXV; j++){
                 CIN >> color;
                 table[i][j] = db_add(color);
