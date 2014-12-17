@@ -134,7 +134,7 @@ int main(void){
                 table[i][j] = db_add(color);
             }
         ans = n*MAXV;
-        status[0] = 0;
+        status[0] = 2;
         dfs(1);
     }
     return 0;
