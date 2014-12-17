@@ -136,6 +136,7 @@ int main(void){
         ans = n*MAXV;
         status[0] = 2;
         dfs(1);
+        COUT << ans << "\n";
     }
     return 0;
 }
