@@ -4,7 +4,7 @@
  * @author mianma
  * @created 2014/12/18 9:23
  * @edited  2014/12/18 9:23
- * @type 
+ * @type brute
  * @note
  */
 #include <fstream>
