@@ -33,9 +33,8 @@ ofstream out;
 
 int n;
 int table[MAXN];
-int record[MAXN];
-int tmp[MAXN];
 int ans = INF;
+int lft, rht;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -47,20 +46,14 @@ int main(void){
     for(int i = 0; i < n; i++){
         CIN >> table[i]; 
         if(i >= 1)
-            record[MAXN] = table[i]  - table[i - 1];
+            ans = min(ans, table[i]  - table[i - 1]);
     }
+
     for(int i = 0; i < n; i++){
-        memcpy(tmp, record, sizeof(record));
-        tmp[i] = INF;
-        if(0 == i){
-            tmp[i + 1] = INF;
-        }else if (n - 1 == i){
-            ;
-        }else{
-            tmp[i + 1] = table[i + 1] - table[i - 1];
+        if(0 == i|| n - 1 == i){
+            continue;
         }
-        for(int j = 0; j < n; j++)
-            ans = min(tmp[j], ans);
+        ans = min(ans, table[i + 1] - table[i - 1]);
     }
     return 0;
 }
