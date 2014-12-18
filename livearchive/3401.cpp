@@ -2,8 +2,8 @@
  * @brief live archive 3401
  * @file 3401.cpp
  * @author mianma
- * @created 2014/12/17 16:51
- * @edited  2014/12/17 16:51
+ * @created 2014/12/18 9:23
+ * @edited  2014/12/18 9:23
  * @type 
  * @note
  */
@@ -94,20 +94,13 @@ void check_ans()
     int counter[MAXB];
     int tot = 0;
     for(int i = 0; i < MAXV; i++){
-        CLR(counter);
+        CLR(counter);   
         int max_faces = 0;
         for(int j = 0; j < n; j++){
-#ifdef DEBUG
-            if( table[j][dice[status[j]][i]] >= MAXB)
-                    COUT << "overflow\n"; 
-#endif
-            max_faces = max(max_faces, ++counter[table[j][dice[status[j]][i]]]);
+            int tmp = ++counter[table[j][dice[status[j]][i]]];
+            max_faces = max(max_faces, tmp);
         }
         tot += n - max_faces;   
-#ifdef DEBUG
-        if(max_faces > n)
-            COUT << "error with:" << n << "<-> " <<max_faces << "\n";
-#endif
     }
     ans = min(tot, ans);
 }
