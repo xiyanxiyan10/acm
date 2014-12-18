@@ -29,12 +29,11 @@ ofstream out;
 #endif
 
 #define MAXN 105
-#define INF   1000100
+#define INF  1000100
 
 int n;
 int table[MAXN];
 int ans = INF;
-int lft, rht;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -45,16 +44,21 @@ int main(void){
     CIN >> n;
     for(int i = 0; i < n; i++){
         CIN >> table[i]; 
-        if(i >= 1)
-            ans = min(ans, table[i]  - table[i - 1]);
     }
 
-    for(int i = 0; i < n; i++){
-        if(0 == i|| n - 1 == i){
-            continue;
+    for(int i = 1; i < n - 1; i++){
+        int tmp = -1;
+        for(int j = 1; j < n; j++){
+            if(i == j)
+                continue;
+            else if(i + 1 == j)
+                tmp = max( tmp, table[j] - table[j - 2] );
+            else
+                tmp = max( tmp, table[j] - table[j - 1] );
         }
-        ans = min(ans, table[i + 1] - table[i - 1]);
+        ans = min(tmp, ans);
     }
+    COUT << ans << "\n";
     return 0;
 }
 
