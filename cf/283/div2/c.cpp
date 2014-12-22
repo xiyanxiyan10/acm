@@ -13,6 +13,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
+#include <vector>
 
 using namespace std;
 
@@ -31,54 +32,63 @@ ofstream out;
 #define COUT cout
 #endif
 
-#define MAXN 1010
+#define MAXN 110
 
 char table[MAXN][MAXN];     /*store input string*/
-int  record1[MAXN];	    /*record string idx which is the same with the prev one*/
-int  record2[MAXN];	    /*store record status wait to recover*/
+int record[MAXN][MAXN];     /*record row status */
 int n, m;
-
-int *curr = record1;
-int *old  = record2; 
 int ans = MAXN;
 
+#ifdef DEBUG
+vector<int> db;         /*record col selected*/
+#endif
 
 /**
  * @brute all possible answer
  * @param[in] tot how many col selected 
  * @param[in] free col group start  idx
+ * @param[in] old  record the char the same with the prev row
  *
  */
-void brute(int tot, int start){
-    int row, col, ch, i;
+void brute(int tot, int start, int *old, int old_cnt){
+    int row, col, missmatch;
+    int buf[MAXN];
+    int *curr = buf; 
     if(m == start){
+#ifdef DEBUG
+        printf("tot %d\n", tot);
+        printf("path: ");
+        for(int i = 0; i < db.size(); i++)
+            printf("%d->", db[i]);
+        printf("\n");
+#endif
 	ans = min(ans, m - tot);
 	return;
     }
 
     for(col = start; col < m; col++){
-	int fail = 0;
-	ch  = table[0][col];
-	memcpy(old, curr, n*sizeof(int));		/*save status*/
-	for(row = 1; row < n; row++){
-	    if( 0 == curr[row]){
-            	if(table[row][col] < ch){
-                    	fail = 1;
-			break;
-		}else if(table[row][col] > ch){
-		    	curr[row] = 1;
-		}else{
-		    	;
-		}
+	int curr_cnt  = 0;
+	missmatch = 0;
+	for(int i = 0; i < old_cnt; i++){
+	    row = old[i];
+            if(record[row][col] < 0){
+                    missmatch = 1;
+		    break;
+	    }else if(record[row][col] > 0){
+	            ;  
+	    }else{
+	        curr[curr_cnt++] = row;
 	    }
-            	ch = table[row][col];
-         }
-	if(1 != fail){
-        	brute(tot + 1, col + 1);
+        }
+	if(!missmatch){
+#ifdef DEBUG
+                db.push_back(col);
+#endif
+        	brute(tot + 1, col + 1, curr, curr_cnt);
+#ifdef DEBUG
+                db.erase(db.end() - 1);
+#endif  
 	}
-	int *swap = curr;				/*recover status*/
-	curr = old;
-	old = swap;
     }
 }
 
@@ -87,12 +97,18 @@ int main(void){
     freopen("./in", "r", stdin);
     freopen("./out", "w", stdout);
 #endif
-    int ch;
     scanf("%d%d", &n, &m);
-    /*faster IO*/
     for(int i = 0; i < n; i++)
     	scanf("%s", table[i]);
-    brute(0, 0);
+    for(int i = 1; i < n; i++)
+        for(int j = 0; j < m; j++)
+            record[i][j] = table[i][j] - table[i - 1][j];
+    int buf[MAXN];
+    int *old = buf;
+    int old_cnt = 0; 
+    for(int i = 1; i < n; i++)
+        old[old_cnt++] = i;
+    brute(0, 0, old, old_cnt);
     printf("%d\n", ans == MAXN ? m : ans);
     return 0;
 }
