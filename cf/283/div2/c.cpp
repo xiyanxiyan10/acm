@@ -2,12 +2,10 @@
  * @brief Codeforces Round #283 (Div. 2) c
  * @file c.cpp
  * @author mianma
- * @created 2014/12/22 13:05
- * @edited  2014/12/22 13:05
+ * @created 2014/12/22 13:32
+ * @edited  2014/12/22 13:32
  * @type greedy
  * @note
- * @TODO 
- * 	WR
  */
 #include <fstream>
 #include <iostream>
@@ -35,7 +33,7 @@ ofstream out;
 
 char table[MAXN][MAXN];     /*store input string*/
 int record[MAXN][MAXN];     /*record row status */
-int status1[MAXN];           /*curr row's substring is the same with the prev row*/
+int status1[MAXN];          /*curr row's substring is the same with the prev row*/
 int status2[MAXN];              
 int n, m;
 int ans = 0;
@@ -66,14 +64,19 @@ int main(void){
                         break;
                 }else
                     curr[row] = 0;
-            }  
+            }else
+                    curr[row] = 1;
         }
         if(!fail){
 #ifdef DEBUG
-            printf("col %d insert\n", col);
+        printf("col %d insert\n", col);
+        printf("bmp new:\n");
+        for(int j = 1; j < n; j++)
+            printf("%d ", curr[j]);
+        printf("\n");
 #endif
             int * tmp = curr;
-            old = curr;
+            curr = old;
             old = tmp;
             ++ans;
         }
