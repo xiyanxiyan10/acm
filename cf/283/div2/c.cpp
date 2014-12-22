@@ -2,9 +2,11 @@
  * @brief Codeforces Round #283 (Div. 2) c
  * @file c.cpp
  * @author mianma
- * @created 2014/12/22 13:32
- * @edited  2014/12/22 13:32
+ * @created 2014/12/22 13:38
+ * @edited  2014/12/22 13:38
  * @type greedy
+ * @time cost time O(m*n)
+ * @mem  cost mem  2*MAXN^2 + 2*MAXN
  * @note
  */
 #include <fstream>
