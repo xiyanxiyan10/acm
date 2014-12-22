@@ -2,13 +2,12 @@
  * @brief Codeforces Round #283 (Div. 2) c
  * @file c.cpp
  * @author mianma
- * @created 2014/12/21 14:17
- * @edited  2014/12/21 14:17
- * @type brute math backtracking
+ * @created 2014/12/22 13:05
+ * @edited  2014/12/22 13:05
+ * @type greedy
  * @note
- * 	c0 n + c1 n + c2n .. + cn n = 2^n
  * @TODO 
- * 	TL
+ * 	WR
  */
 #include <fstream>
 #include <iostream>
@@ -36,61 +35,12 @@ ofstream out;
 
 char table[MAXN][MAXN];     /*store input string*/
 int record[MAXN][MAXN];     /*record row status */
+int status1[MAXN];           /*curr row's substring is the same with the prev row*/
+int status2[MAXN];              
 int n, m;
-int ans = MAXN;
-
-#ifdef DEBUG
-vector<int> db;         /*record col selected*/
-#endif
-
-/**
- * @brute all possible answer
- * @param[in] tot how many col selected 
- * @param[in] free col group start  idx
- * @param[in] old  record the char the same with the prev row
- *
- */
-void brute(int tot, int start, int *old, int old_cnt){
-    int row, col, missmatch;
-    int buf[MAXN];
-    int *curr = buf; 
-    if(m == start){
-#ifdef DEBUG
-        printf("tot %d\n", tot);
-        printf("path: ");
-        for(int i = 0; i < db.size(); i++)
-            printf("%d->", db[i]);
-        printf("\n");
-#endif
-	ans = min(ans, m - tot);
-	return;
-    }
-
-    for(col = start; col < m; col++){
-	int curr_cnt  = 0;
-	missmatch = 0;
-	for(int i = 0; i < old_cnt; i++){
-	    row = old[i];
-            if(record[row][col] < 0){
-                    missmatch = 1;
-		    break;
-	    }else if(record[row][col] > 0){
-	            ;  
-	    }else{
-	        curr[curr_cnt++] = row;
-	    }
-        }
-	if(!missmatch){
-#ifdef DEBUG
-                db.push_back(col);
-#endif
-        	brute(tot + 1, col + 1, curr, curr_cnt);
-#ifdef DEBUG
-                db.erase(db.end() - 1);
-#endif  
-	}
-    }
-}
+int ans = 0;
+int *curr = status1;
+int *old  = status2;
 
 int main(void){
 #ifdef DEBUG
@@ -103,13 +53,32 @@ int main(void){
     for(int i = 1; i < n; i++)
         for(int j = 0; j < m; j++)
             record[i][j] = table[i][j] - table[i - 1][j];
-    int buf[MAXN];
-    int *old = buf;
-    int old_cnt = 0; 
-    for(int i = 1; i < n; i++)
-        old[old_cnt++] = i;
-    brute(0, 0, old, old_cnt);
-    printf("%d\n", ans == MAXN ? m : ans);
+
+    for(int col = 0; col < m; col++){
+        int fail = 0;
+        for(int row = 1; row < n; row++){
+            /*substring is the same with the prev row*/
+            if(0 == old[row]){
+                if(record[row][col] > 0)   
+                    curr[row] = 1;
+                else if(record[row][col] < 0){
+                        fail = 1;
+                        break;
+                }else
+                    curr[row] = 0;
+            }  
+        }
+        if(!fail){
+#ifdef DEBUG
+            printf("col %d insert\n", col);
+#endif
+            int * tmp = curr;
+            old = curr;
+            old = tmp;
+            ++ans;
+        }
+    }
+    printf("%d\n", m - ans);
     return 0;
 }
 
