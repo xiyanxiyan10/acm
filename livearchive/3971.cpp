@@ -57,6 +57,7 @@ void init_db(void){
         table[i].clear();
     cnt = 0;
 }
+
 /**
  * @brief  check if we can assemble  a computer 
  * @param[in] min quality of the computer
@@ -64,16 +65,17 @@ void init_db(void){
  */
 bool check_compent(int quality, int budget){
     int sum = 0, i, j;
-    for(i = 0; i < n; i++){
-        int price = MAXP + 10;
+    for(i = 0; i < cnt; i++){
         vector<struct compent> &objs = table[i];
+        int price = MAXP + 10;
         for(j = 0; j < objs.size(); j++){
             struct compent obj = objs[j];
             if(obj.quality < quality)
                     continue;
             else
-                price = min(obj.quality, price);
+                price = min(obj.price, price);
         }
+
         if(MAXP + 10 == price)
             return false;
         else
@@ -102,13 +104,18 @@ int main(void){
             table[get_id(type)].push_back(obj);
         }
         int lft = 0;
-        int rht = MAXQ + 1;
+        int rht = MAXQ;
+
         while(lft < rht){
-            int mid = (rht - lft)/2 + lft;
+            int mid = (rht - lft + 1)/2 + lft;
+#ifdef DEBUG
+            COUT << lft << "<->" << rht << "\n";
+            COUT << "mid:" << mid << "-> "<< (check_compent(mid, budget) ? "ture" : "false") << "\n";
+#endif
             if(check_compent(mid, budget)){
-                rht = mid + 1;
-            }else{
                 lft = mid;   
+            }else{
+                rht = mid - 1;
             }
         }
         COUT << lft << "\n";
