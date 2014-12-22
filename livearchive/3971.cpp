@@ -6,7 +6,10 @@
  * @edited  2014/12/22 16:23
  * @type binart_search
  * @note
+ * @cost time n*log(MAXQ)
+ * @cost mem  MAXN*sizeof(struct compent)
  */
+
 #include <fstream>
 #include <iostream>
 #include <string>
