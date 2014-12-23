@@ -2,9 +2,9 @@
  * @brief uva 11520
  * @file 11520.cpp
  * @author mianma
- * @created 2014/12/23 16:11
- * @edited  2014/12/23 16:11
- * @type binart_search
+ * @created 2014/12/23 16:35
+ * @edited  2014/12/23 16:35
+ * @type 
  * @note
  */
 
@@ -25,7 +25,6 @@ using namespace std;
 
 #define MAXN    10
 
-int   record[MAXN + 5][MAXN + 5];
 char  table[MAXN + 5][MAXN + 5];
 
 int n, cases;
@@ -38,28 +37,32 @@ int dir[4][2] = {
 }; 
 
 /*set char can't use*/
-static inline void bmp_set(int *bmp, const char &c){
-       *bmp |= (1 << (c  - 'A'));
+static inline void bmp_set(int *bmp, const char &ch){
+       *bmp |= (1 << (ch  - 'A'));
 }
 
 /*search the min char could use*/
 static inline int bmp_find(const int *bmp){
-    for(int ch = 0 ; ch < 'A' - 'Z'; ch++){
+    for(int ch = 'A' ; ch <= 'Z'; ch++){
         if(0 == (*bmp & (1 << (ch - 'A'))) )
-                return ( ch + 'A');
+                return ch;
     }
     return EOF;
 }
 
 /*mark all neighbour*/
-static inline int update_neighbour(const int &i, const int &j){
-    for(int k = 0; j < 4; k++){
+static inline int char_find(const int &i, const int &j){
+    int bmp = 0;
+    for(int k = 0; k < 4; k++){
             int x = i + dir[k][0];
             int y = j + dir[k][1];
             if(x >= n || x < 0 || y >= n || y < 0)
                     continue;
-            bmp_set(&record[i][j], table[x][y]);
+            if('.' == table[x][y])
+                    continue;
+            bmp_set(&bmp, table[x][y]);
     }
+    return bmp_find(&bmp);
 }
 
 int main(void){
@@ -69,27 +72,20 @@ int main(void){
 #endif
     scanf("%d", &cases);
     for(int idx = 1; idx <= cases; idx++){
-        CLR(record);
-        scanf("%d", n);
+        scanf("%d", &n);
         for(int i = 0; i < n; i++)
             scanf("%s", table[i]);
         for(int i  = 0; i < n; i++)
-            for(int j = 0; j < n; j++){
-                update_neighbour(i, j);
-            }
-
-        for(int i = 0; i < n; i++)
-            for(int j = 0; j < n; j++){
-                if('.' != table[i][j])
-                    continue;
-                int ch = bmp_find(&record[i][j]);
-                table[i][j] = ch;   
-                update_neighbour(i, j);
-            }
-         printf("Case %d:\n", idx);
-          for(int i = 0; i < n; i++)
             for(int j = 0; j < n; j++)
-                    printf("%c%c", table[i][j], j = n - 1 ? '\n' : ' ');
+                if('.' == table[i][j])
+                    table[i][j] = char_find(i, j);
+            
+        printf("Case %d:\n", idx);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++)
+                    printf("%c", table[i][j]);
+            printf("\n");
+        }
     }
     return 0;
 }
