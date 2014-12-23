@@ -68,7 +68,7 @@ int main(void){
     freopen("./out", "w", stdout);
 #endif
     scanf("%d", &cases);
-    while(cases--){
+    for(int idx = 1; idx <= cases; idx++){
         CLR(record);
         scanf("%d", n);
         for(int i = 0; i < n; i++)
@@ -86,7 +86,10 @@ int main(void){
                 table[i][j] = ch;   
                 update_neighbour(i, j);
             }
-        /*TODO out*/
+         printf("Case %d:\n", idx);
+          for(int i = 0; i < n; i++)
+            for(int j = 0; j < n; j++)
+                    printf("%c%c", table[i][j], j = n - 1 ? '\n' : ' ');
     }
     return 0;
 }
