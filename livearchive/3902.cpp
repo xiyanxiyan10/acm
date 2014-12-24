@@ -2,8 +2,8 @@
  * @brief live archive 3902
  * @file 3902.cpp
  * @author mianma
- * @created 2014/12/24 11:40
- * @edited  2014/12/24 11:40
+ * @created 2014/12/24 15:03
+ * @edited  2014/12/24 15:03
  * @type dfs 
  * @note
  */
@@ -58,7 +58,7 @@ void pre_dfs(int curr, int prev, int dep){
 
 /*dep start from zero*/
 void update_dfs(int curr, int prev, int dep, int maxdep){
-    if(dep == maxdep)
+    if(dep > maxdep)
         return;
     if(1 == gr[curr].size()){       /*leaf*/
             visited[curr] = 1;  
@@ -73,39 +73,48 @@ void update_dfs(int curr, int prev, int dep, int maxdep){
     }
 }
 
+/*init case*/
+void init_case(void){
+    for(int i = 0; i <= n; i++){
+            leaf[i].clear();
+            gr[i].clear();
+    }
+    CLR(fa);
+    CLR(visited);
+    ans = 0;
+}
+
 int main(void){
     ios_base::sync_with_stdio(0);
 #ifdef DEBUG
-    CIN.open("./in",  ios::in);
-    COUT.open("./out",  ios::out);
+    CIN.open("./in",   ios::in);
+    COUT.open("./out", ios::out);
 #endif
     CIN >> cases;
+
     while(cases--){
         CIN >> n;
         CIN >> s >> k;
-
-        for(int i = 1; i <= n; i++){
-                leaf[i].clear();
-                gr[i].clear();
-        }
-        CLR(fa);
-        CLR(visited);
-        ++ans;
+        init_case();
 
         for(int i = 0; i < n - 1 ; i++){
            CIN >> lft >> rht;
             gr[lft].push_back(rht);
             gr[rht].push_back(lft);
         }
+
         pre_dfs(s, s, 0);
+        update_dfs(s, s, 0, k);
+
         for(int i = n; i >= 1; i--){
             for(int j = 0; j < leaf[i].size(); j++){
                 int idx = leaf[i][j];
                 if(visited[idx])
                     continue;
-                for(int dep = 0; dep < k; k++)
+                for(int dep = 0; dep < k && fa[idx] != idx ; dep++)
                     idx = fa[idx];
                 update_dfs(idx, idx, 0, k);
+                ++ans;
             }
         }
         COUT << ans << "\n";
