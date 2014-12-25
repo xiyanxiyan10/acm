@@ -4,8 +4,9 @@
  * @author mianma
  * @created 2014/12/25 11:46
  * @edited  2014/12/25 11:46
- * @type game
+ * @type game binary_search
  * @note
+ * @TODO wr
  */
 #include <fstream>
 #include <iostream>
@@ -32,24 +33,27 @@ ofstream out;
 
 #define MAXN        100010
 #define MAXV        100010
-int n;
 
+int n;
 int table[MAXN], lft[MAXN], rht[MAXN];
 
 /*check if it is possible*/
 bool check(int v){
     int l, r;
     l = table[1], r = v - l; 
-    lft[1] = v, rht[1] = 0;
+    lft[1] = l, rht[1] = 0;
     for(int i = 2; i <= n; i++){
+        if(v - table[i] < lft[i - 1] + rht[i - 1])
+            return false;
         if(i&0x1){
-            
+            rht[i] = min(table[i], r - rht[i - 1]);     
+            lft[i] = table[i] - rht[i];
         }else{
-              
-        
+            lft[i] = min(table[i], l - lft[i - 1]);
+            rht[i] = table[i] - lft[i];
         }
     }
-    return lft[n] == 0;
+    return 0 == lft[n];
 }
 
 int main(void){
@@ -60,12 +64,13 @@ int main(void){
 #endif
     int ans;
     int l, r;
-    while(CIN >> n){
-        for(int i = 1; i < n; i++)
+    while(CIN >> n && n){
+        for(int i = 1; i <= n; i++)
             CIN >> table[i];
         table[n + 1] = table[1];
+        l = r = 0;
         for(int i = 1; i <= n; i++){
-            l = max(l, table[i] + table[i+1]);
+            l = max(l, table[i] + table[i + 1]);
             r = max(r, table[i]*3);
         }
         if(n & 0x1){
@@ -77,7 +82,7 @@ int main(void){
                 else
                     l = m + 1;
             }
-            ans = m;
+            ans = r;
         }else{
             ans = l;
         }
