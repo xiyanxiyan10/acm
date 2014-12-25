@@ -1,18 +1,18 @@
 /**
- * @brief live archive 3177
+ * @brief uva 3177
  * @file 3177.cpp
  * @author mianma
- * @created 2014/12/25 11:46
- * @edited  2014/12/25 11:46
+ * @created 2014/12/25 15:20
+ * @edited  2014/12/25 15:20
  * @type game binary_search
  * @note
- * @TODO wr
  */
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <cstring>
+#include <cctype>
 
 using namespace std;
 
@@ -39,54 +39,51 @@ int table[MAXN], lft[MAXN], rht[MAXN];
 
 /*check if it is possible*/
 bool check(int v){
-    int l, r;
-    l = table[1], r = v - l; 
-    lft[1] = l, rht[1] = 0;
-    for(int i = 2; i <= n; i++){
-        if(v - table[i] < lft[i - 1] + rht[i - 1])
-            return false;
-        if(i&0x1){
-            rht[i] = min(table[i], r - rht[i - 1]);     
-            lft[i] = table[i] - rht[i];
-        }else{
-            lft[i] = min(table[i], l - lft[i - 1]);
+    int r1 = table[0];
+    lft[0] = r1;
+    rht[0] = 0;
+    for(int i = 1; i < n; i++){
+        if(i & 1){     
+            lft[i] = min(table[i], r1 - lft[i - 1]);
             rht[i] = table[i] - lft[i];
+        }else{  
+            rht[i] = min(table[i], v - r1 - rht[i - 1]);     
+            lft[i] = table[i] - rht[i];
         }
     }
-    return 0 == lft[n];
+    return (0 == lft[n - 1]);
 }
 
 int main(void){
-    ios_base::sync_with_stdio(0);
+    //ios_base::sync_with_stdio(0);
 #ifdef DEBUG
     CIN.open("./in",  ios::in);
     COUT.open("./out",  ios::out);
 #endif
-    int ans;
     int l, r;
     while(CIN >> n && n){
-        for(int i = 1; i <= n; i++)
+        for(int i = 0; i < n; ++i)
             CIN >> table[i];
-        table[n + 1] = table[1];
-        l = r = 0;
-        for(int i = 1; i <= n; i++){
-            l = max(l, table[i] + table[i + 1]);
-            r = max(r, table[i]*3);
+        if(1 == n){
+            COUT << table[0] << "\n";
+            continue;
         }
-        if(n & 0x1){
-            int m;
+        table[n] = table[0];
+        l = 0,  r = 0;
+        for(int i = 0; i < n; i++)
+            l = max(l, table[i] + table[i + 1]);
+        if(n & 1){
+            for(int i = 0; i < n; i++)
+                r = max(r, table[i]*3);
             while(l < r){
-                m = (r - l)/2 + l;
+              int m = (r + l)/2;
                 if(check(m))
                     r = m;
                 else
                     l = m + 1;
             }
-            ans = r;
-        }else{
-            ans = l;
         }
-        COUT << ans << endl;
+        COUT << l << "\n";
     }
     return 0;
 }
