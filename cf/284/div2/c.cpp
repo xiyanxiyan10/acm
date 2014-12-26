@@ -2,9 +2,9 @@
  * @brief Codeforces Round #284 (Div. 2) c
  * @file c.cpp
  * @author mianma
- * @created 2014/12/26 11:51
- * @edited  2014/12/18 11:51
- * @type brute
+ * @created 2014/12/26 14:43
+ * @edited  2014/12/26 14:43
+ * @type geometry
  * @note
  */
 #include <fstream>

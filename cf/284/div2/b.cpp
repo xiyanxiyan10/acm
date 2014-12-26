@@ -3,7 +3,7 @@
  * @file b.cpp
  * @author mianma
  * @created 2014/12/26 11:51
- * @edited  2014/12/18 11:51
+ * @edited  2014/12/26 11:51
  * @type brute
  * @note
  */
