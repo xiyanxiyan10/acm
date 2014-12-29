@@ -67,8 +67,12 @@ int  main(void)
         for(int i = 1; i <= n; i++)
             for(int j = 1; j <= i; j++){
                 if(record[i]){
-                    for(int k = j + 1; k <= i; k++)
-                        dp[1][i][j] += dp[0][i - 1][k];
+                    tmp = 0;
+                    for(int k = j + 1; k <= i - 1; k++){
+                        tmp+= dp[0][i - 1][k];
+                        check_mod(tmp);
+                    }
+                    dp[1][i][j] = tmp;
                     tmp = 0;
                     for(int k = 1;  k <= j - 1; k++){
                         tmp += dp[0][i - 1][k] + dp[1][i - 1][k];
