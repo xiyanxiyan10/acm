@@ -7,7 +7,6 @@
 #include <cstdlib>
 #include <algorithm>
 
-
 using namespace std;
 
 #ifdef DEBUG
@@ -23,45 +22,22 @@ ofstream out;
 #define COUT cout
 #endif
 
-#define MAXN 	100
+#define MAXN 	105
 #define MOD	1000000007
+#define CLR(vec) memset(vec, 0, sizeof(vec))
+
 typedef long long int ll;
 
-int table[MAXN + 10];
-int record[MAXN + 10];
-
 int n;
-ll ans;
+int record[MAXN];
 
-void inline  check_num(ll &num){
-	if(num > MOD)
-		num = num%MOD;
+/*0: sit after the prev one , 1 sit before prev one*/
+int dp[2][MAXN][MAXN];
+
+static inline void check_mod(ll &num){
+    if(num > MOD)
+        num %= MOD;
 }
-
-void brute(int idx, int lft, ll cnt){
-	if(idx > n){
-		ans += cnt;
-		check_num(ans);
-		return;
-	}
-	if(idx == 1){
-		cnt = lft;
-		brute(idx + 1, lft - 1, cnt);
-		return;
-	}
-	if(0 == record[idx]){
-		cnt *= lft;
-		check_num(cnt);
-		brute(idx + 1, lft - 1, cnt);
-	}else{
-		brute(idx + 1, lft, cnt);
-		cnt *= lft;
-		check_num(cnt);
-		brute(idx + 1, lft - 1, cnt);
-	}
-}
-
-
 
 int  main(void)
 {
@@ -75,17 +51,44 @@ int  main(void)
       CIN.close();
       CIN.open("in", ios::in);
 #endif
-     while(CIN >> n){
-     	ans = 0;
-     	for(int i = 1; i <= n; i++)
-    		CIN >> table[i];
-	
-	memset(record, 0, sizeof(record));
-     	for(int i = 2; i < n; i++)
-    		if(table[i - 1] != table[i + 1])
-			record[i] = 1;
-	brute(1, n, 0);
-     	COUT << ans << endl;
+    while(CIN >> n){
+        CLR(dp);
+        int pp, p, curr;
+        ll tmp;
+        for(int i = 1; i <= n; i++){
+            pp = p;
+            p = curr;
+            CIN >> curr;
+            if(i >= 3 && pp != curr)
+                    record[i] = 1;
+        }
+
+        for(int i = 1; i <= n; i++)
+            for(int j = 1; j <= i; j++){
+                if(record[i]){
+                    for(int k = j + 1; k <= i; k++)
+                        dp[1][i][j] += dp[0][i - 1][k];
+                    tmp = 0;
+                    for(int k = 1;  k <= j - 1; k++){
+                        tmp += dp[0][i - 1][k] + dp[1][i - 1][k];
+                        check_mod(tmp);
+                    }
+                    dp[0][i][j] = tmp;
+                }else{
+                    tmp = 0;
+                    for(int k = 1; k <= i - 1; k++){
+                        tmp += dp[0][i - 1][k] + dp[1][i - 1][k];
+                        check_mod(tmp);
+                    }
+                    dp[0][i][j] = dp[1][i][j] = tmp;
+                }
+           }
+           ll ans = 0;       
+           for(int i = 1; i <= n; i++){
+                ans += dp[0][n][i] + dp[1][n][i];
+                check_mod(ans);
+           }
+           COUT << ans << "\n";
     }   
     return 0;
 }
