@@ -53,6 +53,7 @@ int  main(void)
 #endif
     while(CIN >> n){
         CLR(dp);
+        CLR(record);
         int pp, p, curr;
         ll tmp;
         for(int i = 1; i <= n; i++){
