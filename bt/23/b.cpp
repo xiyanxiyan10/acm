@@ -69,7 +69,7 @@ int  main(void)
             for(int j = 1; j <= i; j++){
                 if(record[i]){
                     tmp = 0;
-                    for(int k = j + 1; k <= i - 1; k++){
+                    for(int k = j; k <= i - 1; k++){
                         tmp+= dp[1][i - 1][k];
                         check_mod(tmp);
                     }
@@ -82,11 +82,17 @@ int  main(void)
                     dp[0][i][j] = tmp;
                 }else{
                     tmp = 0;
-                    for(int k = 1; k <= i - 1; k++){
+                    for(int k = j; k <= i - 1 ; k++){
                         tmp += dp[0][i - 1][k] + dp[1][i - 1][k];
                         check_mod(tmp);
                     }
-                    dp[0][i][j] = dp[1][i][j] = tmp;
+                    dp[1][i][j] = tmp;
+                    tmp = 0;
+                    for(int k = 1; k <= j - 1; k++){
+                        tmp += dp[0][i - 1][k] + dp[1][i - 1][k];
+                        check_mod(tmp);
+                    }
+                    dp[0][i][j] = tmp;
                 }
            }
            ll ans = 0;       
