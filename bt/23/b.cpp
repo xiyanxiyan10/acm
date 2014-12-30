@@ -1,3 +1,13 @@
+/**
+ * @brief BestCoder Round #24 b
+ * @file b.cpp
+ * @author mianma
+ * @created 2014/12/30 17:07
+ * @edited  2014/12/30 17:07
+ * @type math
+ * @note
+ */
+
 #include <iostream>
 #include <fstream>
 #include <vector>
