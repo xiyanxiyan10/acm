@@ -49,7 +49,7 @@ struct event{
 
 void update(int x, int v, int w, double &lft, double &rht){
     if(v == 0){
-        if(x <= 0 && x >= 0)
+        if(x <= 0 && x >= w)
             rht = lft - 1;
     }else if(v > 0){
         lft = max(lft, -(double)x/v);
@@ -73,7 +73,7 @@ int main(void){
         CIN >> n;
         for(int i = 0; i < n; i++){
             CIN >> x >> y >> a >> b;
-            double lft = 0.0;
+            double lft = 0;
             double rht = 1e9;
             update(x, a, w, lft, rht);
             update(y, b, h, lft, rht);

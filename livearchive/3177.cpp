@@ -1,5 +1,5 @@
 /**
- * @brief uva 3177
+ * @brief live archive 3177
  * @file 3177.cpp
  * @author mianma
  * @created 2014/12/25 15:20
