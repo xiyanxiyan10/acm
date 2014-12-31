@@ -40,7 +40,7 @@ int x, y, a, b;
 struct event{
 #define LFT_EVENT 0
 #define RHT_EVENT 1
-    bool operator < (const struct event &ev){
+    bool operator < (const struct event &ev) const {
         return (pos < ev.pos || (pos == ev.pos && type > ev.type));
     }
     int type;
