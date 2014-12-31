@@ -2,8 +2,8 @@
  * @brief live archive 3905
  * @file 3905.cpp
  * @author mianma
- * @created 2014/12/24 15:03
- * @edited  2014/12/24 15:03
+ * @created 2014/12/24 17:37
+ * @edited  2014/12/24 17:37
  * @type 
  * @note
  */
@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <algorithm>
 
 using namespace std;
 
@@ -39,6 +40,9 @@ int x, y, a, b;
 struct event{
 #define LFT_EVENT 0
 #define RHT_EVENT 1
+    bool operator < (const struct event &ev){
+        return (pos < ev.pos || (pos == ev.pos && type > ev.type));
+    }
     int type;
     double pos;
 };
@@ -63,11 +67,38 @@ int main(void){
     COUT.open("./out", ios::out);
 #endif
     CIN >> cases;
+    vector<struct event> store;
     while(cases--){
+        store.clear();
         CIN >> n;
         for(int i = 0; i < n; i++){
             CIN >> x >> y >> a >> b;
+            double lft = 0.0;
+            double rht = 1e9;
+            update(x, a, w, lft, rht);
+            update(y, b, h, lft, rht);
+            if(lft >= rht)
+                continue;
+            struct event ev;
+            ev.pos = lft; 
+            ev.type = 0;
+            store.push_back(ev);
+            ev.pos = lft; 
+            ev.type = 1;
+            store.push_back(ev);
         }
+        sort(store.begin(), store.end());
+        int ans = -1;
+        int cnt = 0;
+        for(int i = 0; i < store.size(); i++){
+            if(0 == store[i].type){
+                    ++cnt;
+            }else{
+                    --cnt;
+            }
+            ans = max(cnt, ans);
+        }
+        COUT << ans << "\n";
     }
     return 0;
 }
