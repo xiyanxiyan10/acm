@@ -83,7 +83,7 @@ int main(void){
             ev.pos = lft; 
             ev.type = 0;
             store.push_back(ev);
-            ev.pos = lft; 
+            ev.pos = rht; 
             ev.type = 1;
             store.push_back(ev);
         }
