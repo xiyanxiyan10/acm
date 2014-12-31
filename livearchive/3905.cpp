@@ -34,6 +34,8 @@ int w, h, cases;
 int n;
 int x, y, a, b;
 
+#define INF (1e9)
+
 struct event{
 #define LFT_EVENT 0
 #define RHT_EVENT 1
@@ -41,17 +43,18 @@ struct event{
     double pos;
 };
 
-class meteor{
-public:
-    vector<struct event> vec;
-    void clean(){
-        vec.clear();
+void update(int x, int v, int w, double &lft, double &rht){
+    if(v == 0){
+        if(x <= 0 && x >= 0)
+            rht = lft - 1;
+    }else if(v > 0){
+        lft = max(lft, -(double)x/v);
+        rht = min(rht, (double)(w - x)/v);
+    }else{
+        lft = max(lft, (double)(x - w)/v);
+        rht = min(rht, (double)x/v);
     }
-    int insert(int &x, int &y, int &a, int &b){
-    }
-};
-
-#define INF (1e-9)
+}
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -59,13 +62,11 @@ int main(void){
     CIN.open("./in",   ios::in);
     COUT.open("./out", ios::out);
 #endif
-    meteor solve;
     CIN >> cases;
     while(cases--){
         CIN >> n;
         for(int i = 0; i < n; i++){
             CIN >> x >> y >> a >> b;
-            solve.insert(x, y, a, b);
         }
     }
     return 0;
