@@ -40,6 +40,10 @@ int x, y, a, b;
 struct event{
 #define LFT_EVENT 0
 #define RHT_EVENT 1
+    event(const int &type_in, const double &pos_in){
+        type = type_in;
+        pos = pos_in;
+    }
     bool operator < (const struct event &ev) const {
         return (pos < ev.pos || (pos == ev.pos && type > ev.type));
     }
@@ -49,12 +53,13 @@ struct event{
 
 void update(int x, int v, int w, double &lft, double &rht){
     if(v == 0){
-        if(x <= 0 && x >= w)
+        if(x <= 0 || x >= w)
             rht = lft - 1;
     }else if(v > 0){
         lft = max(lft, -(double)x/v);
         rht = min(rht, (double)(w - x)/v);
     }else{
+        v = abs(v);
         lft = max(lft, (double)(x - w)/v);
         rht = min(rht, (double)x/v);
     }
@@ -69,8 +74,9 @@ int main(void){
     CIN >> cases;
     vector<struct event> store;
     while(cases--){
-        store.clear();
+        CIN >> w >> h;
         CIN >> n;
+        store.clear();
         for(int i = 0; i < n; i++){
             CIN >> x >> y >> a >> b;
             double lft = 0;
@@ -79,13 +85,10 @@ int main(void){
             update(y, b, h, lft, rht);
             if(lft >= rht)
                 continue;
-            struct event ev;
-            ev.pos = lft; 
-            ev.type = 0;
-            store.push_back(ev);
-            ev.pos = rht; 
-            ev.type = 1;
-            store.push_back(ev);
+            struct event ev_lft(0, lft);
+            store.push_back(ev_lft);
+            struct event ev_rht(1, rht);
+            store.push_back(ev_rht);
         }
         sort(store.begin(), store.end());
         int ans = -1;
