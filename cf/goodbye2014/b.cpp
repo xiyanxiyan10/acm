@@ -2,9 +2,9 @@
  * @brief good bye 2014 b
  * @file b.cpp
  * @author mianma
- * @created 2014/01/05 16:54
- * @edited  2014/01/05 16:54
- * @type 
+ * @created 2014/01/05  23:41
+ * @edited  2014/01/05  23:41
+ * @type dfs greedy 
  * @note
  */
 #include <fstream>
@@ -13,6 +13,7 @@
 #include <vector>
 #include <set>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
 
@@ -36,23 +37,24 @@ ofstream out;
 int n, tmp;
 int table[MAXN];
 int visit[MAXN];
-int radix[MAXN];
+vector<int> store;
 vector<int> record[MAXN];
 
-set<int> dfs(int curr){
+set<int> dfs(int root){
+    int pos = root;
     set<int> ret;
-    if(visit[curr])
+    if(visit[pos])
         return ret;
     stack<int> st;
-    st.push(curr);
+    st.push(pos);
     while(!st.empty()){
         int pos = st.top();
         ret.insert(pos);
         visit[pos] = 1;
-        for(int i = 0; i < record[curr].size(); i++){
-            if(visit[record[curr][i]])
+        for(int i = 0; i < record[pos].size(); i++){
+            if(visit[record[pos][i]])
                 continue;
-            st.push(record[curr][i]);
+            st.push(record[pos][i]);
         }
         st.pop();
     }
@@ -75,15 +77,17 @@ int main(void){
                 record[i].push_back(j);
         }
     for(int i = 1; i <= n; i++){
+	store.clear();
         set<int> st = dfs(i);
-        CLR(radix);
+	if(st.empty())
+		continue;
         for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++){
-                    ++radix[table[*iter]];
+                    store.push_back(table[*iter]);
         }
+	sort(store.begin(), store.end());
         set<int>::iterator iter = st.begin();
-        for(int i = 1; i <= n; i++){
-            if(radix[i])
-                table[*iter++] = i;
+        for(int i = 0; i <= store.size(); i++){
+                table[*iter++] = store[i];
         }
     }
     for(int i = 1; i <=n; i++)
