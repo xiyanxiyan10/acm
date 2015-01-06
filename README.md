@@ -29,7 +29,6 @@ record ans for acm
 	-	277   div2 e
 	-	277.5 div2 e
 	-	277.5 div2 f
-	-       goodbye2014 c
 
 ##License
 GPL

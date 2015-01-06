@@ -2,11 +2,10 @@
  * @brief good bye 2014 c
  * @file c.cpp
  * @author mianma
- * @created 2014/01/06  11:35
- * @edited  2014/01/06  11:35
- * @type dfs greedy 
+ * @created 2014/01/06  16:42
+ * @edited  2014/01/06  16:42
+ * @type game
  * @note 
- * @TODO WR
  */
 #include <fstream>
 #include <iostream>
@@ -33,7 +32,7 @@ ofstream out;
 #define COUT cout
 #endif
 
-#define MAXN 510
+#define MAXN 1010
 
 typedef long long int ll;
 
@@ -41,7 +40,7 @@ int table[MAXN];    /*value table*/
 int mv[MAXN];       /*move table*/
 int vec[MAXN];      /*build stack*/
 int cnt;
-ll ans;
+int ans;
 
 int main(void){
     int n, m, tmp;
@@ -67,16 +66,20 @@ int main(void){
             vec[cnt++] = tmp;
     }
     for(int i = 1; i <= m; i++){
-        int j;
         int idx = mv[i];
-        for(j = 0; j < cnt; j++){
-                if(vec[j] == idx)
-                    break;
-            ans += table[vec[j]];
+        for(int j = 0; j < cnt; j++){
+                if(vec[j] == idx){
+
+                        for(int k = j - 1; k >= 0; k--){
+
+                            ans += table[vec[k]];
+
+                            vec[k + 1] = vec[k];
+                        }
+                        vec[0] = idx;
+                        break;
+                }
         }
-        tmp = vec[j];
-        memmove(vec + 1, vec, j * sizeof(int));
-        vec[0] = tmp;
     }
     COUT << ans << "\n";
     return 0;
