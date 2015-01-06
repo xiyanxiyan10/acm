@@ -1,26 +1,25 @@
 #ACM 
 
 ##WAHT IS IT?
-记录ACM以解决问题和未解决问题
+record ans for acm
 
 ##FUN
--	主要是uva, codeforces， topcoder， bestcoder题目解答
+-	record answer for review
 
 ##INSTRUCTION
--	template目录用来存放acm算法模板
--	其余目录代表与目录名称对应的OJ平台
+-	template dirs store template files
+-	other dirs store code for oj
 
-#HISTORY
--	初始工程 - 2014/09/27
--	完善文档 - 2014/10/02
--	blog上的模板搬家完成 - 2014/10/03
+##HISTORY
+-	init project - 2014/09/27
+-	better readme - 2014/10/02
+-	copy template files from blog - 2014/10/03
+-       rebuild readme for this project   
 
-#MORE
--	将正在进行的题目刷完
--	追加白书上读到的优秀模板
--	补充题目
+##MORE
+-       More ac  
 
-###正在进行
+##UNSOLVED
 -	hdu
 	-	5060
 	-	5061
@@ -30,6 +29,7 @@
 	-	277   div2 e
 	-	277.5 div2 e
 	-	277.5 div2 f
+	-       goodbye2014 c
 
-#License
+##License
 GPL

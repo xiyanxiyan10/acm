@@ -5,7 +5,8 @@
  * @created 2014/01/06  11:35
  * @edited  2014/01/06  11:35
  * @type dfs greedy 
- * @note
+ * @note 
+ * @TODO WR
  */
 #include <fstream>
 #include <iostream>
@@ -34,11 +35,13 @@ ofstream out;
 
 #define MAXN 510
 
+typedef long long int ll;
+
 int table[MAXN];    /*value table*/
 int mv[MAXN];       /*move table*/
-int vec[MAXN];     /*build stack*/
+int vec[MAXN];      /*build stack*/
 int cnt;
-int ans;
+ll ans;
 
 int main(void){
     int n, m, tmp;
@@ -69,7 +72,7 @@ int main(void){
         for(j = 0; j < cnt; j++){
                 if(vec[j] == idx)
                     break;
-            ans += table[j];
+            ans += table[vec[j]];
         }
         tmp = vec[j];
         memmove(vec + 1, vec, j * sizeof(int));
