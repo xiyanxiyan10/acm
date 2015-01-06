@@ -2,8 +2,8 @@
  * @brief good bye 2014 b
  * @file b.cpp
  * @author mianma
- * @created 2014/01/05  23:41
- * @edited  2014/01/05  23:41
+ * @created 2014/01/06  10:20
+ * @edited  2014/01/06  10:20
  * @type dfs greedy 
  * @note
  */
@@ -50,8 +50,7 @@ set<int> dfs(int root){
     while(!st.empty()){
         int pos = st.top();
         st.pop();
-	if(pos != root)
-        	ret.insert(pos);
+        ret.insert(pos);
         visit[pos] = 1;
         for(int i = 0; i < record[pos].size(); i++){
             if(visit[record[pos][i]])
@@ -76,35 +75,20 @@ int main(void){
     for(int i = 1; i <= n; i++)
         for(int j = 1; j <= n; j++){
             CIN >> ch;
-            if(ch == '1')
+            if('1' == ch)
                 record[i].push_back(j);
         }
-#ifdef DEBUG1
-    for(int i = 0; i < record[3].size(); i++)
-	    cout << record[3][i];
-    cout << endl;
-    return 0;
-#endif
     for(int i = 1; i <= n; i++){
 	store.clear();
         set<int> st = dfs(i);
 	if(st.empty())
 		continue;
-#ifdef DEBUG
-	COUT << "idx:" << i << endl;
-        for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++){
-        	COUT << *iter << " ";
-	}
-	COUT << endl;
-#endif
-        for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++){
+        for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++)
                     store.push_back(table[*iter]);
-        }
 	sort(store.begin(), store.end());
         set<int>::iterator iter = st.begin();
-        for(int i = 0; i <= store.size(); i++){
-                table[*iter++] = store[i];
-        }
+        for(int i = 0; i < store.size(); i++, iter++)
+                table[*iter] = store[i];
     }
     for(int i = 1; i <=n; i++)
         COUT << table[i] << (i == n ? "\n": " ");
