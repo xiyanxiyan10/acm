@@ -34,7 +34,7 @@ ofstream out;
 
 #define MAXN 320
 
-int n, tmp;
+int n;
 int table[MAXN];
 int visit[MAXN];
 vector<int> store;
@@ -49,14 +49,15 @@ set<int> dfs(int root){
     st.push(pos);
     while(!st.empty()){
         int pos = st.top();
-        ret.insert(pos);
+        st.pop();
+	if(pos != root)
+        	ret.insert(pos);
         visit[pos] = 1;
         for(int i = 0; i < record[pos].size(); i++){
             if(visit[record[pos][i]])
                 continue;
             st.push(record[pos][i]);
         }
-        st.pop();
     }
     return ret;
 }
@@ -70,17 +71,32 @@ int main(void){
     CIN >> n;
     for(int i = 1; i <= n; i++)
         CIN >> table[i];
+	
+    char ch;
     for(int i = 1; i <= n; i++)
-        for(int j = 1; i <= n; j++){
-            CIN >> tmp;
-            if(tmp)
+        for(int j = 1; j <= n; j++){
+            CIN >> ch;
+            if(ch == '1')
                 record[i].push_back(j);
         }
+#ifdef DEBUG1
+    for(int i = 0; i < record[3].size(); i++)
+	    cout << record[3][i];
+    cout << endl;
+    return 0;
+#endif
     for(int i = 1; i <= n; i++){
 	store.clear();
         set<int> st = dfs(i);
 	if(st.empty())
 		continue;
+#ifdef DEBUG
+	COUT << "idx:" << i << endl;
+        for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++){
+        	COUT << *iter << " ";
+	}
+	COUT << endl;
+#endif
         for(set<int>::iterator iter = st.begin(); iter != st.end(); iter++){
                     store.push_back(table[*iter]);
         }
@@ -91,7 +107,7 @@ int main(void){
         }
     }
     for(int i = 1; i <=n; i++)
-        COUT << table[i] << (i == n ? "\n", " ");
+        COUT << table[i] << (i == n ? "\n": " ");
         return 0;
 }
 
