@@ -57,8 +57,16 @@ int visit[MAXN];                    /*mark all pos visited*/
 
 ll cuts[MAXN];                      /*tot network cross this cut*/
 
-double expected;                    /*expected val*/
+double expected = 0.0;              /*expected val*/
 int n, q;
+
+void dfs(int root){
+    int pos_cnt = 0;                    /*record the tot pos visited*/
+    int pos = root;
+    stack<int> st;
+    visit[pos] = 1;
+    st.push(pos);
+}
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -86,9 +94,9 @@ int main(void){
         changes.push_back(con);
     }
     /*dfs*/
+    dfs(a);     /*we choose one pos ans the root*/
 
     /*output*/
-
     return 0;
 }
 
