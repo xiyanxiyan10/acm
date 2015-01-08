@@ -2,8 +2,8 @@
  * @brief live archive 3695
  * @file 3695.cpp
  * @author mianma
- * @created 2014/01/08 15:03
- * @edited  2014/01/08 15:03
+ * @created 2014/01/08 18:14
+ * @edited  2014/01/08 18:14
  * @type comprehensive
  * @note
  */
@@ -54,10 +54,10 @@ int solve(void){
 			int cnt = 0;
 			for(int k = 0; k < n; k++){
 				if( 0 == k || table[k - 1].x != table[k].x){
-					on[k] = on2[k] = 0;
+					on[k] = on2[cnt] = 0;
 					if(0 != k)
-						lft[k] = lft[k - 1] + on2[k - 1] - on[k - 1];
-					++k;
+						lft[cnt] = lft[cnt - 1] + on2[cnt - 1] - on[cnt - 1];
+					++cnt;
 				}
 				int miny = y[i];
 				int maxy = y[j];
@@ -65,7 +65,7 @@ int solve(void){
 				if(table[k],y <= maxy && table[k].y >= miny) ++on2[k];
 			}
 			int m = 0;
-			for(int k = 0; k < n; k++){
+			for(int k = 0; k < cnt; k++){
 				ans = max(on2[k] + lft[k] + m);
 				m = max(on[k] - lft[k], m);
 			}
