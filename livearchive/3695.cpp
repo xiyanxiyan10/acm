@@ -35,12 +35,12 @@ ofstream out;
 
 struct pos{
 	int x, y;
-	bool operator < (const struct &pos &p) const{
+	bool operator < (const struct pos &p) const{
 		return x < p.x;
 	}
 }table[MAXN];
 
-int on[MAXN], lft[MAXN], on2[MAXN];
+int lft[MAXN], on[MAXN], on2[MAXN];
 int y[MAXN];
 
 int solve(void){
@@ -62,7 +62,7 @@ int solve(void){
 				int miny = y[i];
 				int maxy = y[j];
 				if(table[k].y < maxy && table[k].y > miny) ++on[k];
-				if(table[k],y <= maxy && table[k].y >= miny) ++on2[k];
+				if(table[k].y <= maxy && table[k].y >= miny) ++on2[k];
 			}
 			int m = 0;
 			for(int k = 0; k < cnt; k++){
@@ -85,7 +85,7 @@ int main(void){
 		CIN >> table[i].x >> table[i].y;
 		y[i] = table[i].y;
 	}
-	COUT << "Case " << kcase << ": " << solve() << "\n";
+	COUT << "Case " << kcase++ << ": " << solve() << "\n";
     }
     return 0;
 }
