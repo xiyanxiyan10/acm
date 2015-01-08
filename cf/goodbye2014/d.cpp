@@ -5,7 +5,7 @@
  * @created 2014/01/07  15:42
  * @edited  2014/01/07  15:42
  * @type dfs tree 
- * @note 
+ * @note fail
  */
 #include <fstream>
 #include <iostream>
@@ -55,17 +55,44 @@ vector<int> dp;                     /*record all tot weight to pos visited*/
 
 int visit[MAXN];                    /*mark all pos visited*/
 
-ll cuts[MAXN];                      /*tot network cross this cut*/
+int cuts[MAXN];                     /*pos one the lft of this   cuts*/
 
 double expected = 0.0;              /*expected val*/
 int n, q;
 
 void dfs(int root){
-    int pos_cnt = 0;                    /*record the tot pos visited*/
-    int pos = root;
-    stack<int> st;
-    visit[pos] = 1;
-    st.push(pos);
+    struct edge eg;                 /*edge this pos from*/
+    int pos_cnt = 0;                /*record the tot pos visited*/
+    int curr, next;
+    eg.to =   root;
+    eg.from = -1;
+    eg.idx = -1;
+    stack<struct edge> st;
+    st.push(eg);
+    visit[root] = 1;
+    while(!st.empty()){
+            eg       = st.top();
+            st.pop();
+            curr      = eg.to;
+            if(eg.from >= 0){                       /*ignore root pos*/
+                double tot_added    = 0.0;
+                                                    /*calculate ans*/
+                
+
+                cuts[eg.idx] = pos_cnt;             /*update cuts*/
+                for(int i = 0; i < dp.size(); i++)  /*update weight*/
+                    dp[i] += weight[eg.idx];         
+                dp.push_back(weight[eg.idx]);
+            }
+            ++pos_cnt;                              /*update pos cnt*/
+            for(int i = 0; i <= tree[curr].size(); i++){
+                    eg = tree[curr][i];
+                    curr  = eg.to;
+                    if(visit[curr])                 /*ignore node visited*/
+                        continue;
+                    st.push(eg);
+            } 
+    }
 }
 
 int main(void){
