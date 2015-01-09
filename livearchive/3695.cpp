@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
-#include <unique>
+#include <algorithm>
 
 using namespace std;
 
@@ -40,33 +40,34 @@ struct pos{
 	}
 }table[MAXN];
 
-int lft[MAXN], on[MAXN], on2[MAXN];
-int y[MAXN];
+int lft[MAXN], on[MAXN], on2[MAXN];     /*counter*/
+int y[MAXN];                            /*used for brute*/
+int n;                                  /*tot pos*/
 
 int solve(void){
+	int ans = -1;
+	sort(y, y + n);
 	int m = unique(y, y + n) - y;
 	if(m <= 2)
 		return n;
 	sort(table, table + n);
-	int ans = -1;
 	for(int i = 0; i < m; i++)
 		for(int j = i + 1; j < m; j++){
-			int cnt = 0;
+			int cnt = 0;                    /*tot perpendiculars*/
+			int miny = y[i];
+			int maxy = y[j];
 			for(int k = 0; k < n; k++){
 				if( 0 == k || table[k - 1].x != table[k].x){
-					on[k] = on2[cnt] = 0;
-					if(0 != k)
-						lft[cnt] = lft[cnt - 1] + on2[cnt - 1] - on[cnt - 1];
 					++cnt;
+					on[cnt] = on2[cnt] = 0;
+					lft[cnt] = 0 == k ? 0 : (lft[cnt - 1] + on2[cnt - 1] - on[cnt - 1]);
 				}
-				int miny = y[i];
-				int maxy = y[j];
-				if(table[k].y < maxy && table[k].y > miny) ++on[k];
-				if(table[k].y <= maxy && table[k].y >= miny) ++on2[k];
+				if(table[k].y < maxy && table[k].y > miny) ++on[cnt];
+				if(table[k].y <= maxy && table[k].y >= miny) ++on2[cnt];
 			}
 			int m = 0;
-			for(int k = 0; k < cnt; k++){
-				ans = max(on2[k] + lft[k] + m);
+			for(int k = 1; k <=cnt; k++){
+				ans = max(on2[k] + lft[k] + m, ans);
 				m = max(on[k] - lft[k], m);
 			}
 		}
@@ -81,7 +82,7 @@ int main(void){
 #endif
     int kcase = 1;
     while(CIN >> n && n){
-    	for(int i = 0, i < n; i++){
+    	for(int i = 0; i < n; i++){
 		CIN >> table[i].x >> table[i].y;
 		y[i] = table[i].y;
 	}
