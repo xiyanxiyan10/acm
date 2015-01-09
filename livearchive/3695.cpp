@@ -2,8 +2,8 @@
  * @brief live archive 3695
  * @file 3695.cpp
  * @author mianma
- * @created 2014/01/08 18:14
- * @edited  2014/01/08 18:14
+ * @created 2014/01/09 10:44
+ * @edited  2014/01/09 10:44
  * @type comprehensive
  * @note
  */
