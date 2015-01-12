@@ -1,5 +1,5 @@
 /**
- * @brief Codeforces Round #284 (Div. 2) b
+ * @brief Codeforces Round #285 (Div. 2) b
  * @file b.cpp
  * @author mianma
  * @created 2014/12/26 11:51
