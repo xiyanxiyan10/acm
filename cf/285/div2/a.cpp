@@ -2,8 +2,8 @@
  * @brief Codeforces Round #285 (Div. 2) a
  * @file a.cpp
  * @author mianma
- * @created 2014/12/26 11:51
- * @edited  2014/12/26 11:51
+ * @created 2015/01/12 11:51
+ * @edited  2014/01/12 11:51
  * @type 
  * @note
  */
