@@ -42,7 +42,7 @@ int main(void){
 #endif
     CIN >> p1 >> p2 >> t1 >> t2;
     tot1 = max(3*p1/10, p1 - (p1/250)*t1);
-    tot2 = max(3*p2/10, p2 - (p2/250)*t1);
+    tot2 = max(3*p2/10, p2 - (p2/250)*t2);
     if(tot1 == tot2){
         COUT << "Tie\n"; 
     }else if(tot1 > tot2){
