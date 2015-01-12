@@ -2,8 +2,8 @@
  * @brief good bye 2014 d
  * @file d.cpp
  * @author mianma
- * @created 2014/01/07  15:42
- * @edited  2014/01/07  15:42
+ * @created 2014/01/12  15:42
+ * @edited  2014/01/12  15:42
  * @type dfs tree 
  * @note fail
  */
@@ -14,6 +14,8 @@
 #include <set>
 #include <stack>
 #include <algorithm>
+#include <utility>
+#include <iomanip>
 
 using namespace std;
 
@@ -36,63 +38,30 @@ ofstream out;
 
 typedef long long int ll;
 
-int weight[MAXN];                   /*store all the weight for all path*/
+int weight[MAXN];                       /*store all the weight for all path*/
+ll  cuts[MAXN];                         /*tot edge cross all cuts*/                 
+vector<pair<int, int>> tree[MAXN];      /*store tree for all pos*/
+double e;                               /*expected val*/
+double m;                                                                
+int n, q;          
 
-struct edge{
-    int idx;                        /*idx of the path*/
-    int from;                       /*the src for the edge*/
-    int to;                         /*the dst for the edge*/
-};
-vector<struct edge> tree[MAXN];     /*store tree for all pos*/
-
-struct convert{
-    int idx;                        /*idx for the edge*/
-    int weight;                     /*new weight for this edge*/              
-};
-vector<struct convert> changes;     /*store all changes*/   
-
-vector<int> dp;                     /*record all tot weight to pos visited*/
-
-int visit[MAXN];                    /*mark all pos visited*/
-
-int cuts[MAXN];                     /*pos one the lft of this   cuts*/
-
-double expected = 0.0;              /*expected val*/
-int n, q;
-
-void dfs(int root){
-    struct edge eg;                 /*edge this pos from*/
-    int pos_cnt = 0;                /*record the tot pos visited*/
-    int curr, next;
-    eg.to =   root;
-    eg.from = -1;
-    eg.idx = -1;
-    stack<struct edge> st;
-    st.push(eg);
-    visit[root] = 1;
-    while(!st.empty()){
-            eg       = st.top();
-            st.pop();
-            curr      = eg.to;
-            if(eg.from >= 0){                       /*ignore root pos*/
-                double tot_added    = 0.0;
-                                                    /*calculate ans*/
-                
-
-                cuts[eg.idx] = pos_cnt;             /*update cuts*/
-                for(int i = 0; i < dp.size(); i++)  /*update weight*/
-                    dp[i] += weight[eg.idx];         
-                dp.push_back(weight[eg.idx]);
-            }
-            ++pos_cnt;                              /*update pos cnt*/
-            for(int i = 0; i <= tree[curr].size(); i++){
-                    eg = tree[curr][i];
-                    curr  = eg.to;
-                    if(visit[curr])                 /*ignore node visited*/
-                        continue;
-                    st.push(eg);
-            } 
+ll dfs(int prev, int curr){
+    ll cnt = 1;
+    for(int i = 0; i < tree[curr].size(); i++){
+        int next = tree[curr][i].first;
+        if(tree[curr][i].first == prev)
+            continue;
+            cnt += dfs(curr, next);
+            ll lft = cnt;
+            ll rht = n - cnt; 
+            ll tot = 0;              /*count edge*/
+            if(1 != rht)             /*lft choose 1, rht choose 2*/
+                tot += lft*((rht * (rht - 1))/2);                      
+            if(1 != lft)             /*lft choose 2, rht choose*/
+                tot += rht*((lft * (lft - 1))/2);  
+            cuts[tree[curr][i].second] = tot;
     }
+    return cnt;
 }
 
 int main(void){
@@ -103,27 +72,24 @@ int main(void){
 #endif
     CIN >> n;
     int a, b;
-    struct edge eg;
-    for(int i = 0; i < n; i++){
-        CIN >>  a >> b >> weight[i];
-        eg.from = a;
-        eg.to   = b;
-        eg.idx  = i;
-        tree[a].push_back(eg);
-        eg.from = b;
-        eg.to   = a;
-        tree[b].push_back(eg);
+    m = n*(n - 1)*(n - 2)/6.0;
+    for(int i = 1; i <= n - 1; i++){
+        CIN >> a >> b >> weight[i];
+        tree[a].push_back(make_pair(b, i));
+        tree[b].push_back(make_pair(a, i));
     }
+    dfs(0, a);
+    e = 0.0;
+    for(int i = 1; i <= n; i++)
+        e += cuts[i] * 2 * weight[i];
     CIN >> q;
-    struct convert con;
-    for(int i = 0; i < q; i++){
-        CIN  >> con.idx >> con.weight;
-        changes.push_back(con);
+    COUT  << fixed << setprecision(24);
+    int r, w;
+    for(int i = 1; i <= q; i++){
+        CIN >> r >> w;
+        e -= cuts[r] * 2 * (weight[r] - w);
+        COUT << e/m << "\n";
     }
-    /*dfs*/
-    dfs(a);     /*we choose one pos ans the root*/
-
-    /*output*/
     return 0;
 }
 
