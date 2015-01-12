@@ -39,29 +39,34 @@ ofstream out;
 typedef long long int ll;
 
 int weight[MAXN];                       /*store all the weight for all path*/
-ll  cuts[MAXN];                         /*tot edge cross all cuts*/                 
-vector<pair<int, int>> tree[MAXN];      /*store tree for all pos*/
-double e;                               /*expected val*/
+ll  cuts[MAXN];                         /*tot edge cross all cuts*/   
+ll  counter[MAXN];                      /*counter all node in this subtree*/
+vector< pair<int, int> > tree[MAXN];    /*store tree for all pos*/
+long double e;                               /*expected val*/
 double m;                                                                
 int n, q;          
 
-ll dfs(int prev, int curr){
-    ll cnt = 1;
+void dfs(int prev, int curr){
+    counter[curr] = 1;
     for(int i = 0; i < tree[curr].size(); i++){
         int next = tree[curr][i].first;
-        if(tree[curr][i].first == prev)
+        int edge = tree[curr][i].second;
+        if(prev == next)
             continue;
-            cnt += dfs(curr, next);
-            ll lft = cnt;
-            ll rht = n - cnt; 
-            ll tot = 0;              /*count edge*/
-            if(1 != rht)             /*lft choose 1, rht choose 2*/
-                tot += lft*((rht * (rht - 1))/2);                      
-            if(1 != lft)             /*lft choose 2, rht choose*/
-                tot += rht*((lft * (lft - 1))/2);  
-            cuts[tree[curr][i].second] = tot;
+        dfs(curr, next);
+        counter[curr] += counter[next];
+        ll lft = counter[next];
+        ll rht = n - lft; 
+        ll tot = 0;              /*count edge*/
+        if(1 != rht)             /*lft choose 1, rht choose 2*/
+            tot += lft*((rht * (rht - 1))/2);                      
+        if(1 != lft)             /*lft choose 2, rht choose 1*/
+            tot += rht*((lft * (lft - 1))/2);  
+        cuts[edge] = tot;
     }
-    return cnt;
+#ifdef DEBUG
+    COUT << curr << "->" << counter[curr] << endl;
+#endif
 }
 
 int main(void){
@@ -80,14 +85,15 @@ int main(void){
     }
     dfs(0, a);
     e = 0.0;
-    for(int i = 1; i <= n; i++)
-        e += cuts[i] * 2 * weight[i];
+    for(int i = 1; i <= n - 1; i++)
+        e += cuts[i] * 2.0 * weight[i];
     CIN >> q;
-    COUT  << fixed << setprecision(24);
+    COUT  << fixed << setprecision(10);
     int r, w;
     for(int i = 1; i <= q; i++){
         CIN >> r >> w;
-        e -= cuts[r] * 2 * (weight[r] - w);
+        e -= cuts[r] * 2.0 * (weight[r] - w);
+        weight[r] = w;
         COUT << e/m << "\n";
     }
     return 0;
