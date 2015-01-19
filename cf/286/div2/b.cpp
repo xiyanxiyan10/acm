@@ -100,6 +100,8 @@ int main(void){
         vector<int> *gf = g[i];
         for(int j = 1; j <= n; j++){
             /*dfs all vec*/
+            if(0 == gf[j].size())
+                continue;
             dfs(gf, j);     
         }
     }
