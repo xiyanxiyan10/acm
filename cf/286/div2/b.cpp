@@ -4,8 +4,9 @@
  * @author mianma
  * @created 2014/01/19 15:02
  * @edited  2014/01/19 15:02
- * @type brute
+ * @type dfs
  * @note
+ * @TODO WR
  */
 #include <fstream>
 #include <iostream>
@@ -40,7 +41,7 @@ int visited[MAXN];
 vector<int> color_vec;
 vector<int> g[MAXN][MAXN];
 
-/*add color into map ad return the id for the color*/
+/*add color into map and return the id for the color*/
 int color_to_id(int color){
     for(int i = 0; i < color_vec.size(); i++){
         if(color_vec[i] == color)
@@ -52,6 +53,7 @@ int color_to_id(int color){
 
 /*wether the edge added in map ?*/
 int find_edge(vector<int> *gf, int from, int to){
+    /*if edge added, the reverse must added too*/
     for(int i = 0; i < gf[from].size(); i++)
         if(gf[from][i] == to)
                 return 0;
@@ -61,8 +63,10 @@ int find_edge(vector<int> *gf, int from, int to){
 void dfs(vector<int> *gf, int root){
         stack<int> st;
         st.push(root);
+        CLR(visited);
         while(!st.empty()){
-            int curr = root;
+            int curr = st.top();
+            st.pop();
             ++ans[root][curr];
             visited[curr] = 1;
             for(int i = 0; i < gf[curr].size(); i++){
@@ -95,7 +99,6 @@ int main(void){
     for(int i = 0; i < color_vec.size(); i++){
         vector<int> *gf = g[i];
         for(int j = 1; j <= n; j++){
-            CLR(visited);
             /*dfs all vec*/
             dfs(gf, j);     
         }
