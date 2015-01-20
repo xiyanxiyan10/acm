@@ -4,7 +4,7 @@
  * @author mianma
  * @created 2014/01/20 14:16
  * @edited  2014/01/20 14:16
- * @type binary search
+ * @type 
  * @note
  */
 #include <fstream>
