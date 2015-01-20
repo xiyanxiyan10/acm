@@ -30,7 +30,7 @@ const string p = "%20";
 
 int main()
 {
-    ios_base::sync_with_stdio(0);
+    //ios_base::sync_with_stdio(0);
 #ifdef DEBUG
     CIN.open("./in", ios::in);
     COUT.open("./out", ios::out);
