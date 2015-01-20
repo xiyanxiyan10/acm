@@ -1,6 +1,6 @@
 /**
- * @brief jiu du 1384
- * @file 1384.cpp
+ * @brief jiu du 1385
+ * @file 1385.cpp
  * @author mianma
  * @created 2014/01/20 14:16
  * @edited  2014/01/20 14:16
@@ -43,7 +43,7 @@ struct node{
     }
 }; 
 
-struct node *head;
+struct node *root;
 
 int n;
 
@@ -96,8 +96,16 @@ struct node *build_tree(const int *pre, const int *mid, const int size, int &sta
 
 void visit_tree(struct node *n, int *ans){
     if(!n)  return;
-    
+    visit_tree(n, ans++);
+    visit_tree(n, ans++);
+    *(ans++) = n->val;
+}
 
+void destory_tree(struct node *n){
+    if(!n) return;
+    destory_tree(n->lft);
+    destory_tree(n->rht);
+    delete n;
 }
 
 int main()
@@ -112,7 +120,16 @@ int main()
             CIN >> pre_table[i];
         for(int i = 0; i < n; i++)
             CIN >> mid_table[i];
-    
+        int status = 1;
+        root = build_tree(pre_table, mid_table, n, status);
+        visit_tree(root, next_table);
+        if(status){
+            for(int i = 0; i < n; i++)
+                COUT << next_table[i] << (i == n - 1 ? "\n" : " ");
+        }else{
+                COUT << "No\n";
+        }
+        destory_tree(root);
     }
     return 0;
 }
