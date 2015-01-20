@@ -28,7 +28,10 @@ record ans for acm
 -	codeforce 
 	-	277   div2 e
 	-	277.5 div2 e
-	-	277.5 div2 f
+        -	277.5 div2 f
+        -       286   div2 b
+-       jiudu
+        -       1510
 
 ##License
 GPL
