@@ -94,11 +94,11 @@ struct node *build_tree(const int *pre, const int *mid, const int size, int &sta
     return ret;
 }
 
-void visit_tree(struct node *n, int *ans){
+void visit_tree(struct node *n, int *ans, int &pos){
     if(!n)  return;
-    visit_tree(n, ans++);
-    visit_tree(n, ans++);
-    *(ans++) = n->val;
+    visit_tree(n, ans, pos);
+    visit_tree(n, ans, pos);
+    ans[pos++] = n->val;
 }
 
 void destory_tree(struct node *n){
@@ -121,8 +121,9 @@ int main()
         for(int i = 0; i < n; i++)
             CIN >> mid_table[i];
         int status = 1;
+        int pos = 0;
         root = build_tree(pre_table, mid_table, n, status);
-        visit_tree(root, next_table);
+        visit_tree(root, next_table, pos);
         if(status){
             for(int i = 0; i < n; i++)
                 COUT << next_table[i] << (i == n - 1 ? "\n" : " ");
