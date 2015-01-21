@@ -3,13 +3,14 @@
  * @file 1385.cpp
  * @author mianma
  * @created 2014/01/20 14:16
- * @edited  2014/01/20 14:16
- * @type 
+ * @edited  2014/01/21 14:11
+ * @type tree
  * @note
  */
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 using namespace std;
 
@@ -29,9 +30,12 @@ ofstream out;
 #endif
 
 #define MAXN 1100
+
 int pre_table[MAXN];
 int mid_table[MAXN];
 int next_table[MAXN];
+int lft_table[MAXN];     /*check the num*/
+int rht_table[MAXN];     /*check the num*/
 struct node{
     struct node *lft;
     struct node *rht;
@@ -54,6 +58,23 @@ int search_pos(const int *vec, const int &size, const int &val){
     return -1;
 }
 
+int check_valid(const int *pre, const int *mid, const int &size){
+    CLR(lft_table);
+    CLR(rht_table);
+    for(int i = 0; i < size; i++){
+        ++lft_table[pre[i]];
+        ++rht_table[mid[i]];
+    }
+    for(int i = 0; i < MAXN; i++){
+        if(lft_table[i] > 1 || rht_table[i] > 1)
+                return -1;
+        if(lft_table[i] != rht_table[i]){
+                return -1;
+        }
+    }
+    return 0;
+}
+
 /*status mark wether build tree fail, go into with status == 1*/
 struct node *build_tree(const int *pre, const int *mid, const int size, int &status){
     struct node *lft, *rht, *ret; 
@@ -62,6 +83,14 @@ struct node *build_tree(const int *pre, const int *mid, const int size, int &sta
     if(0 == size){
         return NULL;
     }
+#ifdef DEBUG1
+    COUT << "pre:\n";
+    for(int i = 0; i < size; i++)
+            COUT << pre[i] << (i == size - 1 ? "\n" : " ");
+    COUT << "mid:\n";
+    for(int i = 0; i < size; i++)
+            COUT << mid[i] << (i == size - 1 ? "\n" : " ");
+#endif
     if(1 == size){
         /*we check leaf conflict here*/
         if(pre[0] != mid[0]){   
@@ -81,13 +110,13 @@ struct node *build_tree(const int *pre, const int *mid, const int size, int &sta
     int lft_size = pos;
     int rht_size = size - pos - 1;
     lft = build_tree(pre + 1, mid, lft_size, status);
-    rht = build_tree(pre + 2 + lft_size, mid + 1 + lft_size, rht_size, status);
+    rht = build_tree(pre + 1 + lft_size, mid + 1 + lft_size, rht_size, status);
     if(0 == status)
         return NULL;
-    if( (!lft && lft->val >= val) || (!rht && rht->val <= val)){
-        status = 0;
-        return NULL;
-    }
+    //if( (lft && lft->val <= val) || (rht && rht->val <= val)){
+    //    status = 0;
+    //    return NULL;
+    //}
     ret = new  node(val);
     ret->lft = lft;
     ret->rht = rht;
@@ -96,8 +125,8 @@ struct node *build_tree(const int *pre, const int *mid, const int size, int &sta
 
 void visit_tree(struct node *n, int *ans, int &pos){
     if(!n)  return;
-    visit_tree(n, ans, pos);
-    visit_tree(n, ans, pos);
+    visit_tree(n->lft, ans, pos);
+    visit_tree(n->rht, ans, pos);
     ans[pos++] = n->val;
 }
 
@@ -120,13 +149,20 @@ int main()
             CIN >> pre_table[i];
         for(int i = 0; i < n; i++)
             CIN >> mid_table[i];
+        
+        if(check_valid(pre_table, mid_table, n) < 0){
+            COUT << "No\n";
+            continue;
+        }
+
         int status = 1;
         int pos = 0;
         root = build_tree(pre_table, mid_table, n, status);
         visit_tree(root, next_table, pos);
         if(status){
             for(int i = 0; i < n; i++)
-                COUT << next_table[i] << (i == n - 1 ? "\n" : " ");
+                COUT << next_table[i] << " ";
+            COUT << "\n";
         }else{
                 COUT << "No\n";
         }
