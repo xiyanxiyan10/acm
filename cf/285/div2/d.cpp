@@ -65,6 +65,8 @@ static inline void update_bit(int *bit, int size, int i, int val){
     
 }
 
+/* O(lgn) search, O(lgn) update , O(n) memory cost*/
+
 #define MAXN 200010
 
 int n;
@@ -99,8 +101,11 @@ int main(void){
     }
     CLR(bit);
     for(int i = 1; i <= n; i++){
-        /*TODO */
+        update_bit(bit, n, p[i], p[i]);
+        q[i] = p[i] - sum_bit(bit, p[i]);
     }
+    for(int i = 1; i <= n; i++)
+        COUT << q[i] << (i == n ? "\n" : " ");
     return 0;
 }
 
