@@ -2,8 +2,8 @@
  * @brief Codeforces Round #285 (Div. 2) d
  * @file d.cpp
  * @author mianma
- * @created 2015/01/22 17:22
- * @edited  2015/01/22 17:22
+ * @created 2015/01/27 18:18
+ * @edited  2015/01/27 18:18
  * @type math tree
  * @notea
  * @TODO take a reset 
@@ -42,7 +42,6 @@ static inline int low_bit(int i){
     return ( i & ( - i));
 }
 
-/*
 static inline void build_bit(int *vec, int *bit, int size){
     for(int i = 1; i <= size; i++){
             bit[i] = vec[i];
@@ -50,7 +49,6 @@ static inline void build_bit(int *vec, int *bit, int size){
                 bit[i] += bit[j];
     }
 }
-*/
 
 static inline int sum_bit(int *bit, int k){
     int ans = 0;
@@ -80,34 +78,56 @@ int main(void){
     CIN.open("./in",  ios::in);
     COUT.open("./out",  ios::out);
 #endif
+
+    /* Cantor expansion */
     CIN >> n;
     int tmp;
     CLR(bit);
     for(int i = 1; i <= n; i++){
         CIN >> tmp;
-        update_bit(bit, n, tmp, tmp);
+        update_bit(bit, n, tmp, 1);
         p[i] = tmp - sum_bit(bit, tmp);
     }
+
     CLR(bit);
     for(int i = 1; i <= n; i++){
         CIN >> tmp;
-        update_bit(bit, n, tmp, tmp);
+        update_bit(bit, n, tmp, 1);
         q[i] = tmp - sum_bit(bit, tmp);
     }
-    for(int i = n - 1; i >= 1; i--){
+
+    for(int i = n; i >= 1; i--){
         p[i] += q[i];
-        p[i - 1] += p[i]/(n - i);
-        p[i] = p[i]%(n - i);
+        if(n != i){
+            p[i - 1] += p[i]/(n - i);
+            p[i] = p[i]%(n - i);
+        }
     }
+
     CLR(bit);
+    for(int i = 1; i <= n; i++)
+        update_bit(bit, n, i, 1);
+
     for(int i = 1; i <= n; i++){
-        update_bit(bit, n, p[i], p[i]);
-        q[i] = p[i] - sum_bit(bit, p[i]);
+        int val = p[i] + 1;
+        int lft = val;
+        int rht = n;
+
+        /*binary search*/
+        while(lft < rht){
+            int mid = ( (rht - lft + 1)>> 1) + lft;
+            int top = sum_bit(bit, mid);
+            if(top < p[i]){
+                lft = mid + 1;   
+            }else{
+                rht = mid;
+            }
+        }
+        update_bit(bit, n, lft, -1);
     }
+
     for(int i = 1; i <= n; i++)
         COUT << q[i] << (i == n ? "\n" : " ");
     return 0;
 }
-
-
 
