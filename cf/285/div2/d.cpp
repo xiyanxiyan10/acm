@@ -65,6 +65,12 @@ static inline void update_bit(int *bit, int size, int i, int val){
 
 /* O(lgn) search, O(lgn) update , O(n) memory cost*/
 
+static inline void debug_bit(int *bit, int size){
+    for(int i = 1; i <= size; i++)
+        COUT << bit[i] << " ";
+    COUT << "\n";
+}
+
 #define MAXN 200010
 
 int n;
@@ -89,12 +95,19 @@ int main(void){
         p[i] = tmp - sum_bit(bit, tmp);
     }
 
+    COUT << "bit for p\n";
+    debug_bit(bit, n);
+
     CLR(bit);
     for(int i = 1; i <= n; i++){
         CIN >> tmp;
         update_bit(bit, n, tmp, 1);
         q[i] = tmp - sum_bit(bit, tmp);
     }
+
+    COUT << "bit for q\n";
+    debug_bit(bit, n);
+
 
     for(int i = n; i >= 1; i--){
         p[i] += q[i];
@@ -104,6 +117,10 @@ int main(void){
         }
     }
 
+    COUT << "bit for p + q\n";
+    debug_bit(bit, n);
+    
+    /*record nums not used*/
     CLR(bit);
     for(int i = 1; i <= n; i++)
         update_bit(bit, n, i, 1);
