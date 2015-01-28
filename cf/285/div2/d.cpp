@@ -65,9 +65,9 @@ static inline void update_bit(int *bit, int size, int i, int val){
 
 /* O(lgn) search, O(lgn) update , O(n) memory cost*/
 
-static inline void debug_bit(int *bit, int size){
-    for(int i = 1; i <= size; i++)
-        COUT << bit[i] << " ";
+static inline void debug_vec(int *vec, int size){
+    for(int i = 0; i < size; i++)
+        COUT << vec[i] << " ";
     COUT << "\n";
 }
 
@@ -91,40 +91,47 @@ int main(void){
     CLR(bit);
     for(int i = 1; i <= n; i++){
         CIN >> tmp;
+        tmp++;
         update_bit(bit, n, tmp, 1);
         p[i] = tmp - sum_bit(bit, tmp);
     }
 
-    COUT << "bit for p\n";
-    debug_bit(bit, n);
+#ifdef DEBUG
+    COUT << "vec for p\n";
+    debug_vec(p + 1, n);
+#endif
 
     CLR(bit);
     for(int i = 1; i <= n; i++){
         CIN >> tmp;
+        tmp++;
         update_bit(bit, n, tmp, 1);
         q[i] = tmp - sum_bit(bit, tmp);
     }
 
-    COUT << "bit for q\n";
-    debug_bit(bit, n);
-
+#ifdef DEBUG
+    COUT << "vec for q\n";
+    debug_vec(q + 1, n);
+#endif
 
     for(int i = n; i >= 1; i--){
         p[i] += q[i];
-        if(n != i){
-            p[i - 1] += p[i]/(n - i);
-            p[i] = p[i]%(n - i);
-        }
+        p[i - 1] += p[i]/(n - i + 1);
+        p[i] = p[i]%(n - i + 1);
     }
-
-    COUT << "bit for p + q\n";
-    debug_bit(bit, n);
     
+#ifdef DEBUG
+    COUT << "vec for p + q\n";
+    debug_vec(p + 1, n);
+#endif
+    
+
     /*record nums not used*/
     CLR(bit);
     for(int i = 1; i <= n; i++)
         update_bit(bit, n, i, 1);
 
+    /* reverse Cantor expansion */
     for(int i = 1; i <= n; i++){
         int val = p[i] + 1;
         int lft = val;
@@ -132,7 +139,10 @@ int main(void){
 
         /*binary search*/
         while(lft < rht){
-            int mid = ( (rht - lft + 1)>> 1) + lft;
+            int mid = ( (rht - lft)>> 1) + lft;
+#ifdef DEBUG
+            COUT << lft << " " << mid << " " << rht << endl;
+#endif
             int top = sum_bit(bit, mid);
             if(top < p[i]){
                 lft = mid + 1;   
@@ -140,11 +150,12 @@ int main(void){
                 rht = mid;
             }
         }
+        q[i] = lft;
         update_bit(bit, n, lft, -1);
     }
 
     for(int i = 1; i <= n; i++)
-        COUT << q[i] << (i == n ? "\n" : " ");
+        COUT << q[i] - 1 << (i == n ? "\n" : " ");
     return 0;
 }
 
