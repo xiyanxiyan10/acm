@@ -1,6 +1,6 @@
 #ACM 
 
-##WAHT IS IT?
+##WHAT IS IT?
 record ans for acm
 
 ##FUN
