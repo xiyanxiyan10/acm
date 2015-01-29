@@ -123,6 +123,7 @@ int main(void){
 #ifdef DEBUG
     COUT << "vec for p + q\n";
     debug_vec(p + 1, n);
+    COUT << endl;
 #endif
     
 
@@ -140,11 +141,8 @@ int main(void){
         /*binary search*/
         while(lft < rht){
             int mid = ( (rht - lft)>> 1) + lft;
-#ifdef DEBUG
-            COUT << lft << " " << mid << " " << rht << endl;
-#endif
             int top = sum_bit(bit, mid);
-            if(top < p[i]){
+            if(top < val){
                 lft = mid + 1;   
             }else{
                 rht = mid;
