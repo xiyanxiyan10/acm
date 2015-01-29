@@ -3,10 +3,8 @@
  * @file d.cpp
  * @author mianma
  * @created 2015/01/27 18:18
- * @edited  2015/01/27 18:18
+ * @edited  2015/01/29 22:45
  * @type math tree
- * @notea
- * @TODO take a reset 
  */
 #include <fstream>
 #include <iostream>
