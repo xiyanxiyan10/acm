@@ -30,7 +30,6 @@ record ans for acm
 	-	277.5 div2 e
         -	277.5 div2 f
         -       286   div2 b
-        -       285   div  d
 -       jiudu
 
 
