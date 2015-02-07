@@ -67,11 +67,12 @@ void dfs(vector<int> *gf, int root){
         while(!st.empty()){
             int curr = st.top();
             st.pop();
-            ++ans[root][curr];
             visited[curr] = 1;
+            /*update answer*/
+            ++ans[root][curr];
             for(int i = 0; i < gf[curr].size(); i++){
                 int next = gf[curr][i];
-                    if( visited[next])
+                    if(visited[next])
                         continue;
                 st.push(next);
             }
@@ -95,16 +96,19 @@ int main(void){
                 gf[to].push_back(from);
         }
     }
+
     /*browser all color*/
     for(int i = 0; i < color_vec.size(); i++){
         vector<int> *gf = g[i];
         for(int j = 1; j <= n; j++){
-            /*dfs all vec*/
-            if(0 == gf[j].size())
-                continue;
             dfs(gf, j);     
         }
     }
+        
+    /*to self without color*/
+    for(int i = 0; i < MAXN; i++)
+                ans[i][i] = 0;
+
     CIN >> q;
     for(int i = 0; i < q; i++){
         CIN >> from >> to;
