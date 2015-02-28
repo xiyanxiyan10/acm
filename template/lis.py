@@ -28,10 +28,8 @@ def lis_cnt(s):
         else:
             pos = binary_search(vec, lencnt, s[i]);
             vec[pos] = s[i];
-        print vec;  
-        print lencnt;
 
-    print "lis len of string %s is %d" %(s, lencnt);
+    return lencnt;
 
 def lis_str(s):
     """find the lis len, O(n^2) algorithm"""
@@ -43,15 +41,15 @@ def lis_str(s):
             if s[i] >= s[j]:
                 vec[i] = max(vec[i], vec[j] + 1);
                 lencnt = max(lencnt, vec[i]);
+    return lencnt;
 
-    print "lis len of string %s is %d" %(s, lencnt);
 
 if __name__ == "__main__":
     if( len(sys.argv) < 2):
         print "argc = %d" %(len(sys.argv));
     else:
         print "s = %s" %(sys.argv[1]);
-        lis_cnt(sys.argv[1]);
-        lis_str(sys.argv[1]);
+        print "lis len of string %s is %d" %(sys.argv[1],  lis_cnt(sys.argv[1]) );
+        print "lis len of string %s is %d" %(sys.argv[1],  lis_str(sys.argv[1]) );
 
 
