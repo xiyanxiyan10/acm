@@ -4,7 +4,7 @@
  * @author mianma
  * @created 2015/02/28 21:34
  * @edited  2015/02/28 21:34
- * @type brute
+ * @type
  * @note
  */
 #include <fstream>
@@ -47,13 +47,13 @@ int main(void){
     table['q'] = 9;
     table['r'] = 5;
     table['b'] = 3;
-    table['k'] = 3;
+    table['n'] = 3;
     table['p'] = 1;
 
     table['Q'] = 9;
     table['R'] = 5;
     table['B'] = 3;
-    table['K'] = 3;
+    table['N'] = 3;
     table['P'] = 1;
 
     int white = 0;
