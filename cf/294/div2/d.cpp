@@ -1,10 +1,10 @@
 /**
- * @brief Codeforces Round #294 (Div. 2) c
- * @file c.cpp
+ * @brief Codeforces Round #294 (Div. 2) d
+ * @file d.cpp
  * @author mianma
- * @created 2015/02/28 15:17
- * @edited  2015/02/28 15:17
- * @type greedy
+ * @created 2015/03/02 11:56
+ * @edited  2015/03/02 11:56
+ * @type dp
  * @note
  */
 #include <fstream>
@@ -12,6 +12,7 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -20,9 +21,7 @@ using namespace std;
 #define abs(a)     ((a) >  0  ? (a) : (0 - (a)))
 #define CLR(vec)   memset(vec, 0, sizeof(vec))
 
-
 //#define DEBUG 1
-
 
 #ifdef DEBUG
 ifstream in;
@@ -34,20 +33,15 @@ ofstream out;
 #define COUT cout
 #endif
 
-
 #define MAXN 100010
 #define MAXC 26
 
 typedef long long int ll;
 
-ll totval;
+ll char_val[MAXC];          /*record the val of each char*/
+map<ll, ll> dp[MAXC];
 
-struct num{
-    int val;
-    int start;
-    int last;
-    ll totval;
-}record[MAXC];
+string str;
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -55,25 +49,22 @@ int main(void){
     CIN.open("./in.txt",  ios::in);
     COUT.open("./out.txt",  ios::out);
 #endif
-    CIN >> n;
-    for(int i= 0; i < 26; i++){
-        CIN >> record[i].val;
-        record[i].start = record[i].last = -1;
-    }
+    for(int i= 0; i < 26; i++)
+        CIN >> char_val[i];
+
     CIN >> str;
+    
+    ll curr_val = 0, ans = 0;
+
     for(int i = 0; i < str.size(); i++){
-        int ch = str[i] - 'a';
-        totval += num[ch].val;
+            int ch = (unsigned char)str[i] - 'a';
+            
+            ans += dp[ch][curr_val];
 
-        if(!record[ch].val)
-            continue;
-        if(record[ch].start < 0){
-                record[ch].start == record[ch].last = i;
-        }else{
-
-        }
-
+            curr_val += char_val[ch];
+            dp[ch][curr_val]++;
     }
+    COUT << ans << endl;
     return 0;
 }
 
