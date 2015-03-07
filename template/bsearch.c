@@ -11,11 +11,7 @@
  * @param[in] a 数组
  * @param[in] x start pos
  * @param[in] y end   pos
- * @note 
- *      1.  查找递增数组从左到右第一个大于或等于v的元素的位置,数组有效范围[x,y)
- *      2.  所有数都大于V， 返回x
- *      3.  所有数都小于v， 返回y
- *      4.  找到所需的数，返回该元素的坐标
+ * @note 查找递增数组从左到右第一个大于或等于v的元素的位置,数组有效范围[x,y)
  */
 int bsearch(int *a, int x, int y, int v)
 {
@@ -39,37 +35,4 @@ int main(){
         printf("%d\n", bsearch(c, 0, 5, 2));
         return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
