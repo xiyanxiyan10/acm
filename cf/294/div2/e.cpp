@@ -13,7 +13,8 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
-#include <map>
+#include <vector>
+
 
 using namespace std;
 
@@ -37,26 +38,30 @@ ofstream out;
 #define MAXN 100010
 
 int n, q;
-vector<int> g[MAXN];
-
-int visit[MAXN];
-int dep[2*MAXN];
-int dep_cnt;
-int pos[MAXN];
-int sp[MAXN][6];
+vector<int> g[MAXN]; //store the graph
+int visit[MAXN];     //mark node visisted for dfs
+int dep[2*MAXN];     //record dep of nodes visited
+int node[2*MAXN];    //recors which in this dep vec
+int pos[MAXN];       //first time this node visited
+int sp[2*MAXN][20];   //spare table for rmq
+int dep_cnt;         //tot element in dep and node
 
 void dfs(int curr, int h){
     ++h;
-    pos[curr] = dep_cnt;
-    dep[dep_cnt++] = h;
+    pos[curr] = dep_cnt; //first vistit this pos
+    dep[dep_cnt] = h;
+    node[dep_cnt] = curr;
+    ++dep_cnt;
     visit[curr] = 1;
     for(int i = 0; i < g[curr].size();i++){
             int next = g[curr][i];
             if(visit[next])
                 continue;
             dfs(next, h + 1);
+            dep[dep_cnt] = h;
+            node[dep_cnt] = curr;
+            ++dep_cnt;
     }
-    dep[dep_cnt++] = h;
 }
 
 int rmq_log(int n){
@@ -67,21 +72,24 @@ int rmq_log(int n){
 
 void rmq_init()
 {
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < dep_cnt; i++)
         sp[i][0] = i;
-    for(int j = 1; 1<< j <= n; j++)
-        for(int i = 0; (1 << i) + j - 1 < n; i++)
-                sp[i][j] = dep[sp[i][j - 1]] < dep[sp[ (1 << (j - 1)) + i][j -1] ? sp[i][j - 1] : sp[ (1 << (j - 1)) + i][j - 1];
-
+    for(int j = 1; 1<< j <= dep_cnt; j++)
+        for(int i = 0; (1 << j) + i - 1 < dep_cnt; i++){
+            int a = sp[i][j - 1];
+            int b = sp[ (1 << (j - 1)) + i][j - 1];
+            sp[i][j] = dep[a] < dep[b] ? a : b;
+        }
 }
 
 int rmq_search(int i, int j)
 {
     if(i == j)
         return i;
-    int k = rmq_log( j - i + 1);
-    return( dep[sp[i][k - 1]] < dep[sp[ (1 << (k - 1)) + i][j -1] ? sp[i][k - 1] : sp[ (1 << (k - 1)) + i][k - 1]);
-
+    int k = rmq_log(j - i + 1);
+    int a = sp[i][k];
+    int b = sp[j - (1 << k) + 1][k];
+    return (node[dep[a] < dep[b] ? a: b]);
 }
 
 
@@ -93,7 +101,7 @@ int main(void){
 #endif
     CIN >> n;
     int x, y;
-    for(int i = 0; i < n - 1; i++){
+    for(int i = 0; i < n; i++){
         CIN >> x >> y;
         x--;y--;
         g[x].push_back(y);
@@ -106,7 +114,7 @@ int main(void){
     for(int i = 0; i < q; i++){
         CIN >> x >> y;
         x--;y--;
-        COUT << rmq_search(x, y) << endl;
+        COUT << rmq_search(pos[x], pos[y]) << endl;
     }
     return 0;
 }
