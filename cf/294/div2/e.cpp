@@ -38,60 +38,68 @@ ofstream out;
 #define MAXN 100010
 
 int n, q;
+int ans;
 vector<int> g[MAXN]; //store the graph
-int visit[MAXN];     //mark node visisted for dfs
-int dep[2*MAXN];     //record dep of nodes visited
-int node[2*MAXN];    //recors which in this dep vec
-int pos[MAXN];       //first time this node visited
-int sp[2*MAXN][20];   //spare table for rmq
-int dep_cnt;         //tot element in dep and node
+int fa[MAXN];        //father of each node
+int dep[MAXN];       //record dep of nodes visited
+int num[MAXN];       //nums of nodes in this subtree
+int sp[MAXN][20];    //spare table for rmq
 
-void dfs(int curr, int h){
+#define DEG    20   //max father
+
+static inline void swap1(int &x, int &y){
+    int tmp = x;
+    x = y;
+    y = tmp;
+}
+
+void dfs(int curr, int prev, int h){
     ++h;
-    pos[curr] = dep_cnt; //first vistit this pos
-    dep[dep_cnt] = h;
-    node[dep_cnt] = curr;
-    ++dep_cnt;
-    visit[curr] = 1;
+    num[curr] = 1;
+    fa[curr] = prev;
+    dep[curr] = h;
     for(int i = 0; i < g[curr].size();i++){
             int next = g[curr][i];
-            if(visit[next])
+            if(next == prev)
                 continue;
-            dfs(next, h + 1);
-            dep[dep_cnt] = h;
-            node[dep_cnt] = curr;
-            ++dep_cnt;
+            dfs(next, curr, h + 1);
+            num[curr] += num[next];
     }
 }
 
-int rmq_log(int n){
-    int i;
-    for(i = 0; 1<< i <= n; i++);
-    return (i - 1);
-}
-
-void rmq_init()
+void lca_init()
 {
-    for(int i = 0; i < dep_cnt; i++)
-        sp[i][0] = i;
-    for(int j = 1; 1<< j <= dep_cnt; j++)
-        for(int i = 0; (1 << j) + i - 1 < dep_cnt; i++){
-            int a = sp[i][j - 1];
-            int b = sp[ (1 << (j - 1)) + i][j - 1];
-            sp[i][j] = dep[a] < dep[b] ? a : b;
+    for(int i = 1; i <= n ; i++)
+        sp[i][0] = fa[i];
+
+    for(int j = 1; 1<< j < n; j++)
+        for(int i = 1; i <= n; i++){
+            if(sp[i][j - 1])
+                sp[i][j] = sp[sp[i][j - 1]][j - 1];
         }
 }
 
-int rmq_search(int i, int j)
-{
-    if(i == j)
-        return i;
-    int k = rmq_log(j - i + 1);
-    int a = sp[i][k];
-    int b = sp[j - (1 << k) + 1][k];
-    return (node[dep[a] < dep[b] ? a: b]);
+/*find the cnt' father of this pos*/
+int lca_up(int x, int cnt){
+    for(int i = 0, j = cnt; j; j>>= 1, i++)
+        if(j&0x1)
+            x = sp[x][i];
+        return x;
 }
 
+/*find the lca for two node*/
+int lca_find(int x, int y)
+{
+    if(dep[x] < dep[y]) swap1[x][y];
+    lca_up(x, dep[x] - dep[y]);
+    if(x == y) return x;
+    for(int i = DEG; i >= 0; i--)
+        if(sp[x][i] && sp[y][i] && sp[x][i] != sp[y][i]){
+                x = sp[x][i];
+                y = sp[y][i];
+        }
+    return fa[x];
+}
 
 int main(void){
     ios_base::sync_with_stdio(0);
@@ -101,20 +109,29 @@ int main(void){
 #endif
     CIN >> n;
     int x, y;
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < n - 1; i++){
         CIN >> x >> y;
-        x--;y--;
         g[x].push_back(y);
         g[y].push_back(x);
     }
-    dfs(x, 0);
-    rmq_init();
-
+    dfs(x, x, 0);
+    lca_init();
     CIN >> q;
     for(int i = 0; i < q; i++){
         CIN >> x >> y;
-        x--;y--;
-        COUT << rmq_search(pos[x], pos[y]) << endl;
+        int lca = lca_find(x, y);
+        int lft = dep[lca] - dep[x];
+        int rht = dep[lca] - dep[y];
+        int mid = (lft + rht)/2;
+        if( (lft + rht) &0x1)
+                ans = 0;
+        else if(lft == rht)
+                ans = n - num[lca_up(x, dep[x] - dep[lca] - 1)] - num[lca_up(y, dep[y]- dep[lca] - 1)];
+        else if(lft > rht)
+                ans = n - num[lca_up(x, mid)] - num[lca_up(x, mid - 1)];
+        else
+                ans = n - num[lca_up(y, mid)] - num[lca_up(y, mid - 1)];
+        COUT << ans << "\n";
     }
     return 0;
 }
