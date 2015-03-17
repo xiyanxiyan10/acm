@@ -5,7 +5,7 @@
  * @created 2015/03/02 13:24
  * @edited  2015/03/02 13:24
  * @type lca
- * @todo debug
+ * @todo ac fail
  * @note
  */
 #include <fstream>
@@ -39,25 +39,29 @@ ofstream out;
 
 int n, q;
 int ans;
-vector<int> g[MAXN]; //store the graph
-int fa[MAXN];        //father of each node
-int dep[MAXN];       //record dep of nodes visited
-int num[MAXN];       //nums of nodes in this subtree
-int sp[MAXN][20];    //spare table for rmq
+vector<int> g[MAXN];  //store the graph
+int fa[MAXN];         //father of each node
+int height[MAXN];     //record height of nodes visited
+int num[MAXN];        //nums of nodes in this subtree
+int sp[MAXN][20];     //spare table for rmq
 
-#define DEG    20   //max father
+int deg;              //init the max deg 
 
-static inline void swap1(int &x, int &y){
+/*exchange two value*/
+void swap1(int &x, int &y){
     int tmp = x;
     x = y;
     y = tmp;
 }
 
+/*deep first search, record the fa and the height*/
 void dfs(int curr, int prev, int h){
-    ++h;
+#ifdef DEBUG
+    COUT << curr << " -> "<< h << "\n";
+#endif
     num[curr] = 1;
     fa[curr] = prev;
-    dep[curr] = h;
+    height[curr] = h;
     for(int i = 0; i < g[curr].size();i++){
             int next = g[curr][i];
             if(next == prev)
@@ -67,6 +71,14 @@ void dfs(int curr, int prev, int h){
     }
 }
 
+/*init the limit*/
+void deg_init()
+{
+    for(deg = 0; 1 << deg < n; deg++);
+    deg--;
+}
+
+/*init the sparse table*/
 void lca_init()
 {
     for(int i = 1; i <= n ; i++)
@@ -79,22 +91,27 @@ void lca_init()
         }
 }
 
-/*find the cnt' father of this pos*/
+/*find the cnt's father of this pos*/
 int lca_up(int x, int cnt){
-    for(int i = 0, j = cnt; j; j>>= 1, i++)
+    for(int i = 0, j = cnt; j; j>>= 1, i++){
         if(j&0x1)
             x = sp[x][i];
-        return x;
+    }
+    return x;
 }
 
 /*find the lca for two node*/
 int lca_find(int x, int y)
 {
-    if(dep[x] < dep[y]) swap1[x][y];
-    lca_up(x, dep[x] - dep[y]);
+    if(height[x] < height[y]) 
+        swap1(x, y);
+    /*move the node x up to the y's dep*/
+    lca_up(x, height[x] - height[y]);
+    /*if x == y, we get the node*/
     if(x == y) return x;
-    for(int i = DEG; i >= 0; i--)
+    for(int i = deg; i >= 0; i--)
         if(sp[x][i] && sp[y][i] && sp[x][i] != sp[y][i]){
+            /*we move two node more and more close to each other*/
                 x = sp[x][i];
                 y = sp[y][i];
         }
@@ -109,28 +126,38 @@ int main(void){
 #endif
     CIN >> n;
     int x, y;
+    /*build the map*/
     for(int i = 0; i < n - 1; i++){
         CIN >> x >> y;
         g[x].push_back(y);
         g[y].push_back(x);
     }
-    dfs(x, x, 0);
+    deg_init();
+    /*dfs the graph and collect info*/
+    dfs(1, 1, 0);
+    /*init sparse table*/
     lca_init();
     CIN >> q;
     for(int i = 0; i < q; i++){
         CIN >> x >> y;
-        int lca = lca_find(x, y);
-        int lft = dep[lca] - dep[x];
-        int rht = dep[lca] - dep[y];
-        int mid = (lft + rht)/2;
-        if( (lft + rht) &0x1)
+        int lca = lca_find(x, y);               /*find the lca of two node*/
+        int lft = height[x] - height[lca];      /*get the lft height*/
+        int rht = height[y] - height[lca];      /*get the rht height*/
+        int mid = (lft + rht)/2;                /*get the dist*/
+#ifdef DEBUG
+        COUT << "lca = " << lca << ",lft = " << lft << ",rht = " << rht << endl;
+#endif
+        if( (lft + rht) &0x1)                   /*odd dist*/
                 ans = 0;
         else if(lft == rht)
-                ans = n - num[lca_up(x, dep[x] - dep[lca] - 1)] - num[lca_up(y, dep[y]- dep[lca] - 1)];
-        else if(lft > rht)
-                ans = n - num[lca_up(x, mid)] - num[lca_up(x, mid - 1)];
-        else
-                ans = n - num[lca_up(y, mid)] - num[lca_up(y, mid - 1)];
+                ans = n - num[lca_up(x, height[x] - height[lca] - 1)] - num[lca_up(y, height[y]- height[lca] - 1)];
+        else if(lft > rht){
+                int pos = lca_up(x, mid - 1);
+                ans = num[fa[pos]] - num[pos];
+        }else{
+                int pos = lca_up(y, mid - 1);
+                ans = num[fa[pos]] - num[pos];
+        }
         COUT << ans << "\n";
     }
     return 0;
