@@ -1,25 +1,29 @@
-#ACM 
+# ACM 
 
-##WHAT IS IT?
+## WHAT IS IT?
 record ans for acm
 
-##FUN
+## FUN
 -	record answer for review
 
-##INSTRUCTION
+## INSTRUCTION
+
 -	template dirs store template files
 -	other dirs store code for oj
 
-##HISTORY
+## HISTORY
+
 -	init project - 2014/09/27
 -	better readme - 2014/10/02
 -	copy template files from blog - 2014/10/03
 -       rebuild readme for this project  -2015/01/28 
 
-##MORE
+## MORE
+
 -       More ac  
 
-##UNSOLVED
+## UNSOLVED
+
 -	hdu
 	-	5060
 	-	5061
@@ -34,5 +38,6 @@ record ans for acm
 -       jiudu
 
 
-##License
+## License
+
 GPL
